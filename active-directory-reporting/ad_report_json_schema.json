@@ -1062,8 +1062,8 @@
                                 "Groups that are direct members of specified group",
                                 "Groups that are not protected from deletion ",
                                 "Groups that are protected from deletion",
-                                "Groups that do not contains specified member  (window to enter the member name which needs to be searched)",
-                                "Groups with specified member (window to enter the member name which needs to be searched)",
+                                "Groups that do not contains specified member",
+                                "Groups with specified member",
                                 "Groups with no members"
                             ],
                             "default": "1",

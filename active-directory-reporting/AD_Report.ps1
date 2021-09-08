@@ -801,6 +801,65 @@ function getCmpEnabled {
 <# computer sub routines end #>
 
 <# will define all the user sub routines here #>
+
+function getUsrAllUsers {
+    # ytd
+}
+function getUsrDeleted {
+    # ytd
+}
+function getUsrEnabled {
+    # ytd
+}
+function getUsrDisabled {
+    # ytd
+}
+function getUsrWithEmployeeID {
+    # ytd
+}
+function getUsrWithGUID {
+    # ytd
+}
+function getUsrWithName {
+    # ytd
+}
+function getUsrWithSID {
+    # ytd
+}
+function getUsrCreatedInXdays {
+    # ytd
+}
+function getUsrModifiedInXdays {
+    # ytd
+}
+function getUsrDirectMembership {
+    # ytd
+}
+function getUsrDirectInidrectMembership {
+    # ytd
+}
+function getUsrCantChangePwd {
+    # ytd
+}
+function getUsrNotLoggedInXdays {
+    # ytd
+}
+function getUsrExpireInXdays {
+    # ytd
+}
+function getUsrLockedOutAcnts {
+    # ytd
+}
+function getUsrPwdNvrExpires {
+    # ytd
+}
+function getUsrWithNoLogonScript {
+    # ytd
+}
+function getUsrWithLogonScript {
+    # ytd
+}
+
 <# user sub routines end #>
 
 <# will define all the group sub routines here #>
@@ -928,7 +987,6 @@ function GetUserSelectAttributes {
             ValueFromPipeline = $true)]
         $InputObject
     )
-
 
 }
 
@@ -1089,25 +1147,142 @@ function Get-ADCustomUserReport {
         [Parameter(Mandatory = $true)]
         $userOption
     )
-    begin{
+    begin {
         $userOption = [int]$userOption
     }
-    process{
+    process {
 
-        try{
+        try {
 
             switch ($userOption) {
-                condition {  }
-                Default {}
+
+                1 {
+
+                    getUsrAll                     
+                    break;
+                }
+                
+                2 {
+
+                    getUsrDeleted 
+                    break;
+                }
+                
+                3 {
+
+                    getUsrEnabled 
+                    break;
+                }
+                
+                4 {
+
+                    getUsrDisabled 
+                    break;
+                }
+                
+                5 {
+
+                    getUsrWithEmployeeID 
+                    break;
+                }
+                
+                6 {
+
+                    getUsrWithGUID 
+                    break;
+                }   
+                
+                7 {
+
+                    getUsrWithName 
+                    break;
+                }
+                
+                8 {
+
+                    getUsrWithSID 
+                    break;
+                }
+                
+                9 {
+
+                    getUsrCreatedInXdays 
+                    break;
+                }
+                
+                10 {
+
+                    getUsrModifiedInXdays    
+                    break;
+                }
+
+                11 {
+
+                    getUsrDirectMembership 
+                    break;
+                }
+                
+                12 {
+
+                    getUsrDirectInidrectMembership    
+                    break;
+                }
+                13 {
+
+                    getUsrCantChangePwd 
+                    break;
+                }
+                
+                14 {
+
+                    getUsrNotLoggedInXdays 
+                    break;
+                }
+                15 {
+
+                    getUsrExpireInXdays 
+                    break;
+                }
+                
+                16 {
+
+                    getUsrLockedOutAcnts    
+                    break;
+                }
+                17 {
+
+                    getUsrPwdNvrExpires 
+                    break;
+                }
+                
+                18 {
+
+                    getUsrWithNoLogonScript 
+                    break;
+                }
+                    
+                
+                19 {
+
+                    getUsrWithLogonScript 
+                    break;
+
+                }
+                 
+                Default {
+                    LogMessage "user choice invalid option reveived."
+                    break;
+                }
             }
 
         }
-        catch{
+        catch {
             LogMessage "[ERROR]:: $($_.Exception.Message)"
         }
 
     }
-    end{
+
+    end {
 
     }
 
@@ -1120,6 +1295,42 @@ function Get-ADCustomGroupReport {
         $groupOption
     )
 
+    begin{
+        $groupOption = [int]$groupOption
+    }
+    process{
+        try{
+            switch ($groupOption) {
+                condition { 
+                    getGrpAll
+                    getGrpDomainLocal
+                    getGrpGlobal
+                    getGrpSecurity
+                    getGrpUniversal
+                    getGrpWithGUID
+                    getGrpWithName
+                    getGrpWithSID
+                    getGrpCreatedInXdays
+                    getGrpDeletedInXdays
+                    getGrpModifiedInXdays
+                    getGrpDirectMembership
+                    getGrpNotProtectedDeletion
+                    getGrpDoNotContainMember
+                    getGrpContainMember
+                    getGrpWithNoMembers
+
+                 }
+                Default {}
+            }
+        }
+        catch{
+            LogMessage "[ERROR]:: $($_.Exception.Message)"
+        }
+    }
+    end{
+
+    }
+
 }
 
 function Get-ADCustomGPOReport {
@@ -1128,7 +1339,6 @@ function Get-ADCustomGPOReport {
         [Parameter(Mandatory = $true)]
         $gpoOption
     )
-    
 }
 
 function Get-ADCustomReport {
