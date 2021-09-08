@@ -760,7 +760,7 @@ function getCmpNvrLoggedinXdays {
     param($days)
     try {
         $date = (Get-Date).AddDays(- $days)
-        $allComputers = Get-ADComputer -filter "LastLogonDate -gt '$date'" -properties "*" -ErrorAction Stop
+        $allComputers = Get-ADComputer -filter {LastLogonDate -lt $date -or LastLogonDate -notlike '*'} -properties "*" -ErrorAction Stop
     }
     catch {
         # YTD
@@ -802,62 +802,177 @@ function getCmpEnabled {
 
 <# will define all the user sub routines here #>
 
-function getUsrAllUsers {
+function getUsrAll {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
+
 function getUsrDeleted {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrEnabled {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrDisabled {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrWithEmployeeID {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrWithGUID {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrWithName {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrWithSID {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrCreatedInXdays {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrModifiedInXdays {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrDirectMembership {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrDirectInidrectMembership {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrCantChangePwd {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrNotLoggedInXdays {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrExpireInXdays {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrLockedOutAcnts {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrPwdNvrExpires {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrWithNoLogonScript {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 function getUsrWithLogonScript {
     # ytd
+    try{
+
+    }
+    catch{
+
+    }
 }
 
 <# user sub routines end #>
