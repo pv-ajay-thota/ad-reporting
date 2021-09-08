@@ -545,7 +545,181 @@ function NetLogonShareCheck {
 
 }
 
+# Process Custom Report Attributes and queries
+
+<# section: filter out selected attributes. utility functions #>
+
+function GetComputerSelectAttributes {
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $InputObject
+    )
+    
+    if ($null -eq $optionType) {
+        $optionType = 'selectAll'
+    }
+
+    if ($optionType -eq 'selectAll') {
+
+        $cmpCreationDate = $true # whenCreated
+        $cmpDNShostName = $true # DNSHostName
+        $cmpName = $true # Name
+        $cmpOS = $true # OperatingSystem
+        $cmpParentContainer = $true # Select-Object @{n='ParentContainer';e={$_.distinguishedname -replace '^.+?,(CN|OU.+)','$1'}}
+        $cmpServicePack = $true # OperatingSystemServicePack
+        $cmpPwdAge = $true # 
+        $cmpPwdLastCh = $true
+        $cmpLstLgnDt = $true
+        $cmpLstLgnDC = $true
+        $cmpGrpMemberShip = $true
+        $cmpDistinguishedName = $true
+        $cmpGUID = $true
+        $cmpSID = $true
+        $cmpAccidentalDeletionProtection = $true
+    
+    }
+
+    $Attributes = @( )
+
+    if ($cmpName) {
+        $Attributes += "Name"
+    }
+    
+    if ($cmpCreationDate) {
+        $Attributes += "whenCreated"
+    }
+
+    if ($cmpDNShostName) {
+        $Attributes += "DNSHostName"
+    }
+
+    if ($cmpOS) {
+        $Attributes += "OperatingSystem"
+    }
+
+    if ($cmpParentContainer) {
+        $Attributes += "ParentContainer"
+    }
+
+    if ($cmpServicePack) {
+        $Attributes += "OperatingSystemServicePack"
+    }
+
+    if ($cmpPwdAge) {
+        $Attributes += "PasswordLastSet" # to be modified.
+    }
+
+    if ($cmpPwdLastCh) {
+        $Attributes += "PasswordLastSet1"
+    }
+
+    if ($cmpLstLgnDt) {
+        $Attributes += "LastLogonDate"
+    }
+
+    if ($cmpLstLgnDC) {
+        $Attributes += "LastLogonDate1"
+    }
+
+    if ($cmpGrpMemberShip) {
+        $Attributes += "MemberOf"
+    }
+
+    if ($cmpDistinguishedName) {
+        $Attributes += "DistinguishedName"
+    }
+
+    if ($cmpGUID) {
+        $Attributes += "ObjectGUID"
+    }
+
+    if ($cmpSID) {
+        $Attributes += "objectSid"
+    }
+
+    if ($cmpAccidentalDeletionProtection) {
+        $Attributes += "ProtectedFromAccidentalDeletion"
+    }
+
+    if ($Attributes.Count -eq 0) {
+        $Attributes += "Name"
+    }
+
+    try {
+        $computerObj = $InputObject | Select-Object $Attributes -ErrorAction Stop
+        return $computerObj
+    }
+    catch {
+        Write-Error $($_.Exception.Message)
+    }
+
+}
+
+function GetUserSelectAttributes {
+    <# get selected attributes for user ad object type #>
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true,
+            ValueFromPipeline = $true)]
+        $InputObject
+    )
+
+}
+
+function GetGroupSelectAttributes {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true,
+            ValueFromPipeline = $true)]
+        $InputObject
+    )
+}
+
+function GetGPOSelectAttributes {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $InputObject
+    )
+
+
+}
+
+function GetSelectedAttributes {  
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $InputObject,
+        [switch]$Computer,
+        [switch]$User,
+        [switch]$Group,
+        [switch]$GPO
+    )
+
+    if ($Computer) {
+        return $(GetComputerSelectAttributes -InputObject $InputObject)
+    }
+
+    if ($User) {
+        return $(GetUserSelectAttributes -InputObject $InputObject)
+    }
+
+    if ($Group) {
+        return $(GetGroupSelectAttributes -InputObject $InputObject)
+    }
+
+    if ($GPO) {
+        return $(GetGPOSelectAttributes -InputObject $InputObject)
+    }
+
+}
+
+<# section: filter out selected attributes #>
+
 <# will define all the computer sub routines here #>
+
 # 1. all computers
 
 function GetCmpAllComputers {
@@ -811,7 +985,6 @@ function getUsrAll {
 
     }
 }
-
 function getUsrDeleted {
     # ytd
     try{
@@ -1057,178 +1230,6 @@ function GetGPOUsrSettingsDisabled {
 
 <# GPO sub routines end #>
 
-<# section: filter out selected attributes. utility functions #> 
-
-function GetComputerSelectAttributes {
-
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true)]
-        $InputObject
-    )
-    
-    if ($null -eq $optionType) {
-        $optionType = 'selectAll'
-    }
-
-    if ($optionType -eq 'selectAll') {
-
-        $cmpCreationDate = $true # whenCreated
-        $cmpDNShostName = $true # DNSHostName
-        $cmpName = $true # Name
-        $cmpOS = $true # OperatingSystem
-        $cmpParentContainer = $true # Select-Object @{n='ParentContainer';e={$_.distinguishedname -replace '^.+?,(CN|OU.+)','$1'}}
-        $cmpServicePack = $true # OperatingSystemServicePack
-        $cmpPwdAge = $true # 
-        $cmpPwdLastCh = $true
-        $cmpLstLgnDt = $true
-        $cmpLstLgnDC = $true
-        $cmpGrpMemberShip = $true
-        $cmpDistinguishedName = $true
-        $cmpGUID = $true
-        $cmpSID = $true
-        $cmpAccidentalDeletionProtection = $true
-    
-    }
-
-    $Attributes = @( )
-
-    if ($cmpName) {
-        $Attributes += "Name"
-    }
-    
-    if ($cmpCreationDate) {
-        $Attributes += "whenCreated"
-
-    }
-
-    if ($cmpDNShostName) {
-        $Attributes += "DNSHostName"
-    }
-
-    if ($cmpOS) {
-        $Attributes += "OperatingSystem"
-    }
-
-    if ($cmpParentContainer) {
-        $Attributes += "ParentContainer"
-    }
-
-    if ($cmpServicePack) {
-        $Attributes += "OperatingSystemServicePack"
-    }
-
-    if ($cmpPwdAge) {
-        $Attributes += "PasswordLastSet" # to be modified.
-    }
-
-    if ($cmpPwdLastCh) {
-        $Attributes += "PasswordLastSet1"
-    }
-
-    if ($cmpLstLgnDt) {
-        $Attributes += "LastLogonDate"
-    }
-
-    if ($cmpLstLgnDC) {
-        $Attributes += "LastLogonDate1"
-    }
-
-    if ($cmpGrpMemberShip) {
-        $Attributes += "MemberOf"
-    }
-
-    if ($cmpDistinguishedName) {
-        $Attributes += "DistinguishedName"
-    }
-
-    if ($cmpGUID) {
-        $Attributes += "ObjectGUID"
-    }
-
-    if ($cmpSID) {
-        $Attributes += "objectSid"
-    }
-
-    if ($cmpAccidentalDeletionProtection) {
-        $Attributes += "ProtectedFromAccidentalDeletion"
-    }
-
-    if ($Attributes.Count -eq 0) {
-        $Attributes += "Name"
-    }
-
-    try {
-        $computerObj = $InputObject | Select-Object $Attributes -ErrorAction Stop
-        return $computerObj
-    }
-    catch {
-        Write-Error $($_.Exception.Message)
-    }
-
-}
-
-function GetUserSelectAttributes {
-    <# get selected attributes for user ad object type #>
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true,
-            ValueFromPipeline = $true)]
-        $InputObject
-    )
-
-}
-
-function GetGroupSelectAttributes {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true,
-            ValueFromPipeline = $true)]
-        $InputObject
-    )
-}
-
-function GetGPOSelectAttributes {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true)]
-        $InputObject
-    )
-
-
-}
-
-function GetSelectedAttributes {  
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true)]
-        $InputObject,
-        [switch]$Computer,
-        [switch]$User,
-        [switch]$Group,
-        [switch]$GPO
-    )
-
-    if ($Computer) {
-        return $(GetComputerSelectAttributes -InputObject $InputObject)
-    }
-
-    if ($User) {
-        return $(GetUserSelectAttributes -InputObject $InputObject)
-    }
-
-    if ($Group) {
-        return $(GetGroupSelectAttributes -InputObject $InputObject)
-    }
-
-    if ($GPO) {
-        return $(GetGPOSelectAttributes -InputObject $InputObject)
-    }
-
-}
-
-
-<# section: filter out selected attributes #>
 function Get-ADCustomComputerReport {
     [CmdletBinding()]
     param (
@@ -1249,72 +1250,84 @@ function Get-ADCustomComputerReport {
                 # 1. All Computers
                 1 {
                     GetCmpAllComputers -ErrorAction Stop
-                    break
+                    break;
                 }
     
                 # 2. "Computer with specified GUID"
                 2 {
                     getCmpwithGUID -ErrorAction Stop
+                    break;
                 }
     
                 # 3. "Computer with specified name"
                 3 {
                     getCmpWithName -ErrorAction Stop
+                    break;
                 }
     
                 # 4. "Computer created in last 30 days"
                 4 {
                     getCmpCreatedinLastXdays -ErrorAction Stop
+                    break;
                 }
     
                 # 5. computers deleted in last 30 days
                 5 {
                     getCmpDeletedinLastXdays -ErrorAction Stop
+                    break;
                 }
     
                 # 6. computers that are direct members of specified groups
                 6 {
                     getCmpDirectMemberShip -ErrorAction Stop
+                    break;
                 }
                 
                 # 7. computers that are direct and indirect members of specified groups
                 7 {
                     getCmpDirectIndirectMembership -ErrorAction Stop
+                    break;
                 }
     
                 # 8. computers running specific operating system
                 8 {
                     getCmpRunningSpecificOS -ErrorAction Stop
+                    break;
                 }
     
                 # 9. computers that are not protected from deletion
                 9 {
                     getCmpNotProtectedFromDeletion -ErrorAction Stop
+                    break;
                 }
     
                 # 10. computers that are protected from deletion.
                 10 {
                     getCmpProtectedFromDeletion -ErrorAction Stop
+                    break;
                 }
     
                 # 11. computers that are never logged on for 60 days
                 11 {
                     getCmpNvrLoggedinXdays -ErrorAction Stop
+                    break;
                 }
     
                 # 12. disabled computers
                 12 {
                     getCmpDisabled -ErrorAction Stop
+                    break;
                 }
     
                 # 13. enabled computers
                 13 {
                     getCmpEnabled -ErrorAction Stop
+                    break;
                 }
     
                 Default {
-                    LogMessage "invalid computer option selected."
-                    break
+                    LogMessage "computer Option: invalid input received."
+                    break;
                 }
             }
         }
@@ -1324,7 +1337,7 @@ function Get-ADCustomComputerReport {
 
     }
     end {
-
+        
     }
 
 
@@ -1347,113 +1360,113 @@ function Get-ADCustomUserReport {
 
                 1 {
 
-                    getUsrAll                     
+                    $ResultObj = getUsrAll                     
                     break;
                 }
                 
                 2 {
 
-                    getUsrDeleted 
+                    $ResultObj = getUsrDeleted 
                     break;
                 }
                 
                 3 {
 
-                    getUsrEnabled 
+                    $ResultObj = getUsrEnabled 
                     break;
                 }
                 
                 4 {
 
-                    getUsrDisabled 
+                    $ResultObj = getUsrDisabled 
                     break;
                 }
                 
                 5 {
 
-                    getUsrWithEmployeeID 
+                    $ResultObj = getUsrWithEmployeeID 
                     break;
                 }
                 
                 6 {
 
-                    getUsrWithGUID 
+                    $ResultObj = getUsrWithGUID 
                     break;
                 }   
                 
                 7 {
 
-                    getUsrWithName 
+                    $ResultObj = getUsrWithName 
                     break;
                 }
                 
                 8 {
 
-                    getUsrWithSID 
+                    $ResultObj = getUsrWithSID 
                     break;
                 }
                 
                 9 {
 
-                    getUsrCreatedInXdays 
+                    $ResultObj = getUsrCreatedInXdays 
                     break;
                 }
                 
                 10 {
 
-                    getUsrModifiedInXdays    
+                    $ResultObj = getUsrModifiedInXdays    
                     break;
                 }
 
                 11 {
 
-                    getUsrDirectMembership 
+                    $ResultObj = getUsrDirectMembership 
                     break;
                 }
                 
                 12 {
 
-                    getUsrDirectInidrectMembership    
+                    $ResultObj = getUsrDirectInidrectMembership    
                     break;
                 }
                 13 {
 
-                    getUsrCantChangePwd 
+                    $ResultObj = getUsrCantChangePwd 
                     break;
                 }
                 
                 14 {
 
-                    getUsrNotLoggedInXdays 
+                    $ResultObj = getUsrNotLoggedInXdays 
                     break;
                 }
                 15 {
 
-                    getUsrExpireInXdays 
+                    $ResultObj = getUsrExpireInXdays 
                     break;
                 }
                 
                 16 {
 
-                    getUsrLockedOutAcnts    
+                    $ResultObj = getUsrLockedOutAcnts    
                     break;
                 }
                 17 {
 
-                    getUsrPwdNvrExpires 
+                    $ResultObj = getUsrPwdNvrExpires 
                     break;
                 }
                 
                 18 {
 
-                    getUsrWithNoLogonScript 
+                    $ResultObj = getUsrWithNoLogonScript 
                     break;
                 }
                     
                 
                 19 {
 
-                    getUsrWithLogonScript 
+                    $ResultObj = getUsrWithLogonScript 
                     break;
 
                 }
@@ -1471,6 +1484,13 @@ function Get-ADCustomUserReport {
     }
     end {
 
+        if($ResultObj){
+            GetSelectedAttributes -InputObject $ResultObj -User
+        }
+        else{
+            LogMessage "Users Report: Nothing to Export."
+        }
+        
     }
 
 }
