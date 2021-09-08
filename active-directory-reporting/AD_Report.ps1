@@ -583,69 +583,74 @@ function GetComputerSelectAttributes {
 
     $Attributes = @( )
 
-    if ($cmpName) {
-        $Attributes += "Name"
-    }
-    
-    if ($cmpCreationDate) {
-        $Attributes += "whenCreated"
-    }
+    $InputObject | Select-Object @(
 
-    if ($cmpDNShostName) {
-        $Attributes += "DNSHostName"
-    }
+        $(    if ($cmpName) {
+                @{n = "Name"; e = {} }
+            }
+        ),  
 
-    if ($cmpOS) {
-        $Attributes += "OperatingSystem"
-    }
+        $(if ($cmpCreationDate) {
+                @{n = "whenCreated"; e = {} }
+            }),
 
-    if ($cmpParentContainer) {
-        $Attributes += "ParentContainer"
-    }
+        $(if ($cmpDNShostName) {
+                @{n = "DNSHostName"; e = {} }
+            }),
 
-    if ($cmpServicePack) {
-        $Attributes += "OperatingSystemServicePack"
-    }
+        $(if ($cmpOS) {
+                @{n = "OperatingSystem"; e = {} }
+            }),
 
-    if ($cmpPwdAge) {
-        $Attributes += "PasswordLastSet" # to be modified.
-    }
+        $(if ($cmpParentContainer) {
+                @{n = "ParentContainer"; e = {} }
+            }),
 
-    if ($cmpPwdLastCh) {
-        $Attributes += "PasswordLastSet1"
-    }
+        $(if ($cmpServicePack) {
+                @{n = "OperatingSystemServicePack"; e = {} }
+            }),
 
-    if ($cmpLstLgnDt) {
-        $Attributes += "LastLogonDate"
-    }
+        $(if ($cmpPwdAge) {
+                @{n = "PasswordLastSet"; e = {} }
+            }),
 
-    if ($cmpLstLgnDC) {
-        $Attributes += "LastLogonDate1"
-    }
+        $(if ($cmpPwdLastCh) {
+                @{n = "PasswordLastSet1"; e = {} }
+            }),
 
-    if ($cmpGrpMemberShip) {
-        $Attributes += "MemberOf"
-    }
+        $(if ($cmpLstLgnDt) {
+                @{n = "LastLogonDate"; e = {} }
+            }),
 
-    if ($cmpDistinguishedName) {
-        $Attributes += "DistinguishedName"
-    }
+        $(if ($cmpLstLgnDC) {
+                @{n = "LastLogonDate1"; e = {} }
+            }),
 
-    if ($cmpGUID) {
-        $Attributes += "ObjectGUID"
-    }
+        $(if ($cmpGrpMemberShip) {
+                @{n = "MemberOf"; e = {} }
+            }),
 
-    if ($cmpSID) {
-        $Attributes += "objectSid"
-    }
+        $(if ($cmpDistinguishedName) {
+                @{n = "DistinguishedName"; e = {} }
+            }),
 
-    if ($cmpAccidentalDeletionProtection) {
-        $Attributes += "ProtectedFromAccidentalDeletion"
-    }
+        $(if ($cmpGUID) {
+                @{n = "ObjectGUID"; e = {} }
+            }),
 
-    if ($Attributes.Count -eq 0) {
-        $Attributes += "Name"
-    }
+        $(if ($cmpSID) {
+                @{n = "objectSid"; e = {} }
+            }),
+
+        $(if ($cmpAccidentalDeletionProtection) {
+                @{n = "ProtectedFromAccidentalDeletion"; e = {} }
+            }),
+
+        $(if ($Attributes.Count -eq 0) {
+                @{n = "Name"; e = {} }
+            })
+    )
+
 
     try {
         $computerObj = $InputObject | Select-Object $Attributes -ErrorAction Stop
@@ -665,6 +670,111 @@ function GetUserSelectAttributes {
             ValueFromPipeline = $true)]
         $InputObject
     )
+
+    if ($null -eq $optionType) {
+        $optionType = 'selectAll'
+    }
+
+    if ($optionType -eq 'selectAll') {
+
+        $userCreationDate = `
+            $userDisplayName = `
+            $userEmailAddress = `
+            $userEmployeeID = `
+            $userFirstName = `
+            $userLastName = `
+            $userIsAccountLocked = `
+            $userIsAccountDisabled = `
+            $userExpirationDate = `
+            $userPwdChNxtLgn = `
+            $userPassWordAge = `
+            $userPwdExpDate = `
+            $userPwdLstCh = `
+            $userPwdNvrExp = `
+            $userCntChPwd = `
+            $userNm = $true
+
+    }
+
+    try {
+        $InputObject | Select-Object @(
+
+            $(if ($userNm) {
+                    @{n = "Name"; e = { $_.Name } } 
+                }),
+
+            $(if ($userCreationDate) {
+                    @{n = "whenCreated"; e = { $_.whenCreated } } 
+                }),
+
+            $(if ($userDisplayName) {
+                    @{n = "DisplayName"; e = { $_.DisplayName } } 
+                }),
+
+            $(if ($userEmailAddress) {
+                    @{n = "EmailAddress"; e = { $_.EmailAddress } } 
+                }),
+
+            $(if ($userEmployeeID) {
+                    @{n = "EmployeeID"; e = { $_.EmployeeID } } 
+                }),
+
+            $(if ($userFirstName) {
+                    @{n = "Surname"; e = { $_.Surname } } 
+                }),
+
+            $(if ($userLastName) {
+                    @{n = "LastName"; e = { $_.Name } } 
+                }),
+
+            $(if ($userIsAccountLocked) {
+                    @{n = "LockedOut"; e = { $_.LockedOut } } 
+                }),
+
+            $(if ($userIsAccountDisabled) {
+                    @{n = "Disabled"; e = { -not $_.Enabled } } 
+                }),
+
+            $(if ($userExpirationDate) {
+                    @{n = "AccountExpirationDate"; e = { $_.AccountExpirationDate } } 
+                }),
+
+            $(if ($userPwdChNxtLgn) {
+                    @{n = "pwd_changeNextLogin"; e = { if ($_.PasswordLastSet -eq 0) { $true }else { $false } } } 
+                }),
+
+            $(if ($userPassWordAge) {
+                    @{n = "PasswordAge"; e = { if ($_.PasswordLastSet -ne 0) { "$(([timespan]( (Get-Date) - ([datetime]($_.PasswordLastSet)) )).TotalDays) Ago" } } } 
+                }),
+
+            $(if ($userPwdExpDate) {
+                    @{n = "PasswordExpiresOn"; e = { 
+
+                            if ($_.Enabled -eq $true -and $_.PasswordNeverExpires -eq $False) {
+                                [datetime]::FromFileTime($_."msDS-UserPasswordExpiryTimeComputed")
+                            }
+
+                        } 
+                    } 
+                }),
+
+            $(if ($userPwdLstCh) {
+                    @{n = "PasswordLastSet"; e = {} } 
+                }),
+
+            $(if ($userPwdNvrExp) {
+                    @{n = "PasswordNeverExpires"; e = {} } 
+                }),
+
+            $(if ($userCntChPwd) {
+                    @{n = "CannotChangePassword"; e = {} } 
+                })
+
+        ) -ErrorAction Stop
+    }
+    catch {
+        LogMessage "[ERROR]:: $($_.Exception.Message)"
+    }
 
 }
 
@@ -934,7 +1044,7 @@ function getCmpNvrLoggedinXdays {
     param($days)
     try {
         $date = (Get-Date).AddDays(- $days)
-        $allComputers = Get-ADComputer -filter {LastLogonDate -lt $date -or LastLogonDate -notlike '*'} -properties "*" -ErrorAction Stop
+        $allComputers = Get-ADComputer -filter { LastLogonDate -lt $date -or LastLogonDate -notlike '*' } -properties "*" -ErrorAction Stop
     }
     catch {
         # YTD
@@ -977,173 +1087,173 @@ function getCmpEnabled {
 <# will define all the user sub routines here #>
 
 function getUsrAll {
-    # ytd
-    try{
-
+    try {
+        Get-ADUser -Filter * -Properties * -ErrorAction Stop
     }
-    catch{
+    catch {
+        # ytd
 
     }
 }
 function getUsrDeleted {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrEnabled {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrDisabled {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrWithEmployeeID {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrWithGUID {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrWithName {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrWithSID {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrCreatedInXdays {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrModifiedInXdays {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrDirectMembership {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrDirectInidrectMembership {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrCantChangePwd {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrNotLoggedInXdays {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrExpireInXdays {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrLockedOutAcnts {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrPwdNvrExpires {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrWithNoLogonScript {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
 function getUsrWithLogonScript {
     # ytd
-    try{
+    try {
 
     }
-    catch{
+    catch {
 
     }
 }
@@ -1484,13 +1594,13 @@ function Get-ADCustomUserReport {
     }
     end {
 
-        if($ResultObj){
+        if ($ResultObj) {
             GetSelectedAttributes -InputObject $ResultObj -User
         }
-        else{
+        else {
             LogMessage "Users Report: Nothing to Export."
         }
-        
+
     }
 
 }
