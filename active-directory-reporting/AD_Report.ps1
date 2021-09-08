@@ -1320,7 +1320,6 @@ function getUsrLockedOutAcnts {
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
-
     }
 }
 function getUsrPwdNvrExpires {
@@ -1355,7 +1354,6 @@ function getUsrWithNoLogonScript {
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
-
     }
 }
 
@@ -1363,7 +1361,7 @@ function getUsrWithNoLogonScript {
 
 <# will define all the group sub routines here #>
 function getGrpAll {
-    # YTD
+    Get-ADGroup -Filter * -Properties * -ErrorAction Stop
 }
 function getGrpDomainLocal {
     # YTD
