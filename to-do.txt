@@ -1,0 +1,41 @@
+1/08/2021
+---------
+
+=>> handle service check status if set to Manual or disabled.
+=>> add parts in GUI that for service to enable and start if stopped.
+
+
+
+Notes: 
+last login DC ?? computers section. 
+
+
+20/08/2021
+----------
+
+1) define all computer subroutines
+
+GetCmpAllComputers --done
+getCmpwithGUID     --done
+getCmpWithName     --done
+getCmpCreatedinLastXdays 
+
+
+
+26/08/2021
+----------
+
+2) define all user subroutines 
+3) define all group subroutines
+
+
+
+
+
+
+
+
+
+
+
+

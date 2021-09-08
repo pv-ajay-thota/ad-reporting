@@ -1,0 +1,641 @@
+{
+    "startADsvc" : {
+        "classNames": "col-sm-7"
+    },
+    "reportType": {
+        "classNames": "col-sm-7"
+    },
+    "computerOption": {
+        "classNames": "col-sm-7"
+    },
+    "userOption": {
+        "classNames": "col-sm-7"
+    },
+    "groupOption": {
+        "classNames": "col-sm-7"
+    },
+    "gpoOption": {
+        "classNames": "col-sm-7"
+    },
+    "cmpSearchWithGuid": {
+        "classNames": "col-sm-7"
+    },
+    "cmpSearchWithName": {
+        "classNames": "col-sm-7"
+    },
+    "cmpCreatedNoOfDays": {
+        "classNames": "col-sm-7"
+    },
+    "cmpDeletedNoOfDays": {
+        "classNames": "col-sm-7"
+    },
+    "cmpSearchWithGroupName": {
+        "classNames": "col-sm-7"
+    },
+    "cmpWin10": {
+        "classNames": "col-sm-7"
+    },
+    "cmpWin2k8r2": {
+        "classNames": "col-sm-7"
+    },
+    "cmpWin2012r2": {
+        "classNames": "col-sm-7"
+    },
+    "cmpWin2016": {
+        "classNames": "col-sm-7"
+    },
+    "cmpWin2019": {
+        "classNames": "col-sm-7"
+    },
+    "cmpNvrLoggedOnDays": {
+        "classNames": "col-sm-7"
+    },
+    "userSearchWithEmployeeID": {
+        "ui:help" : "note: for multiple entries, enter the employee IDs seperated by comma(,)",
+        "classNames": "col-sm-7"
+    },
+    "userSearchWithGuid": {
+        "classNames": "col-sm-7"
+    },
+    "userSearchWithName": {
+        "classNames": "col-sm-7"
+    },
+    "userSearchWithSID": {
+        "classNames": "col-sm-7"
+    },
+    "userCreatedNoDays": {
+        "classNames": "col-sm-7"
+    },
+    "userDeletedNoDays": {
+        "classNames": "col-sm-7"
+    },
+    "userDirectGroupMemShip": {
+        "classNames": "col-sm-7"
+    },
+    "userInDirectGroupMemship": {
+        "classNames": "col-sm-7"
+    },
+    "userNotloggedonDays": {
+        "classNames": "col-sm-7"
+    },
+    "userExpiryOnDays": {
+        "classNames": "col-sm-7"
+    },
+    "userSearchwithLogonScriptName": {
+        "classNames": "col-sm-7"
+    },
+    "groupSearchWithGUID": {
+        "classNames": "col-sm-7"
+    },
+    "groupSearchWithName": {
+        "classNames": "col-sm-7"
+    },
+    "groupSearchWithSID": {
+        "classNames": "col-sm-7"
+    },
+    "groupCreatedDays": {
+        "classNames": "col-sm-7"
+    },
+    "groupDeletedDays": {
+        "classNames": "col-sm-7"
+    },
+    "groupModifiedDays": {
+        "classNames": "col-sm-7"
+    },
+    "groupDirectMemship": {
+        "classNames": "col-sm-7"
+    },
+    "groupSearchForMemberExclude": {
+        "classNames": "col-sm-7"
+    },
+    "groupSearchForMember": {
+        "classNames": "col-sm-7"
+    },
+    "gpoSearchWithUID": {
+        "classNames": "col-sm-7"
+    },
+    "optionType": {
+        "classNames": "col-sm-7"
+    },
+    "cmpCreationDate": {
+        "classNames": "col-sm-7"
+    },
+    "cmpDNShostName": {
+        "classNames": "col-sm-7"
+    },
+    "cmpName": {
+        "classNames": "col-sm-7"
+    },
+    "cmpOS": {
+        "classNames": "col-sm-7"
+    },
+    "cmpParentContainer": {
+        "classNames": "col-sm-7"
+    },
+    "cmpServicePack": {
+        "classNames": "col-sm-7"
+    },
+    "cmpPwdAge": {
+        "classNames": "col-sm-7"
+    },
+    "cmpPwdLastCh": {
+        "classNames": "col-sm-7"
+    },
+    "cmpLstLgnDt": {
+        "classNames": "col-sm-7"
+    },
+    "cmpLstLgnDC": {
+        "classNames": "col-sm-7"
+    },
+    "cmpGrpMemberShip": {
+        "classNames": "col-sm-7"
+    },
+    "cmpDistinguishedName": {
+        "classNames": "col-sm-7"
+    },
+    "cmpGUID": {
+        "classNames": "col-sm-7"
+    },
+    "cmpSID": {
+        "classNames": "col-sm-7"
+    },
+    "cmpAccidentalDeletionProtection": {
+        "classNames": "col-sm-7"
+    },
+    "cmpCreationDate1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpDNShostName1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpName1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpOS1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpParentContainer1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpServicePack1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpPwdAge1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpPwdLastCh1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpLstLgnDt1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpLstLgnDC1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpGrpMemberShip1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpDistinguishedName1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpGUID1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpSID1": {
+        "classNames": "col-sm-7"
+    },
+    "cmpAccidentalDeletionProtection1": {
+        "classNames": "col-sm-7"
+    },
+    "userCreationDate": {
+        "classNames": "col-sm-7"
+    },
+    "userDisplayName": {
+        "classNames": "col-sm-7"
+    },
+    "userEmailAddress": {
+        "classNames": "col-sm-7"
+    },
+    "userEmployeeID": {
+        "classNames": "col-sm-7"
+    },
+    "userFirstName": {
+        "classNames": "col-sm-7"
+    },
+    "userLastName": {
+        "classNames": "col-sm-7"
+    },
+    "userIsAccountLocked": {
+        "classNames": "col-sm-7"
+    },
+    "userIsAccountDisabled": {
+        "classNames": "col-sm-7"
+    },
+    "userExpirationDate": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdChNxtLgn": {
+        "classNames": "col-sm-7"
+    },
+    "userPassWordAge": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdExpDate": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdLstCh": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdNvrExp": {
+        "classNames": "col-sm-7"
+    },
+    "userCntChPwd": {
+        "classNames": "col-sm-7"
+    },
+    "userNm": {
+        "classNames": "col-sm-7"
+    },
+    "userCreationDate1": {
+        "classNames": "col-sm-7"
+    },
+    "userDisplayName1": {
+        "classNames": "col-sm-7"
+    },
+    "userEmailAddress1": {
+        "classNames": "col-sm-7"
+    },
+    "userEmployeeID1": {
+        "classNames": "col-sm-7"
+    },
+    "userFirstName1": {
+        "classNames": "col-sm-7"
+    },
+    "userLastName1": {
+        "classNames": "col-sm-7"
+    },
+    "userIsAccountLocked1": {
+        "classNames": "col-sm-7"
+    },
+    "userIsAccountDisabled1": {
+        "classNames": "col-sm-7"
+    },
+    "userExpirationDate1": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdChNxtLgn1": {
+        "classNames": "col-sm-7"
+    },
+    "userPassWordAge1": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdExpDate1": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdLstCh1": {
+        "classNames": "col-sm-7"
+    },
+    "userPwdNvrExp1": {
+        "classNames": "col-sm-7"
+    },
+    "userCntChPwd1": {
+        "classNames": "col-sm-7"
+    },
+    "userNm1": {
+        "classNames": "col-sm-7"
+    },
+    "groupCreationDate": {
+        "classNames": "col-sm-7"
+    },
+    "groupDisplayName": {
+        "classNames": "col-sm-7"
+    },
+    "groupScope": {
+        "classNames": "col-sm-7"
+    },
+    "groupType": {
+        "classNames": "col-sm-7"
+    },
+    "groupModificationDate": {
+        "classNames": "col-sm-7"
+    },
+    "groupParentContainer": {
+        "classNames": "col-sm-7"
+    },
+    "groupMembershipAll": {
+        "classNames": "col-sm-7"
+    },
+    "groupMemberShipDirect": {
+        "classNames": "col-sm-7"
+    },
+    "groupMembershipIndirect": {
+        "classNames": "col-sm-7"
+    },
+    "groupCntMemFrmExtDomain": {
+        "classNames": "col-sm-7"
+    },
+    "groupMemAll": {
+        "classNames": "col-sm-7"
+    },
+    "groupMemDirect": {
+        "classNames": "col-sm-7"
+    },
+    "groupCriticalSysObj": {
+        "classNames": "col-sm-7"
+    },
+    "groupIsDeleted": {
+        "classNames": "col-sm-7"
+    },
+    "groupDistinguishedName": {
+        "classNames": "col-sm-7"
+    },
+    "groupGUID": {
+        "classNames": "col-sm-7"
+    },
+    "groupLastKnownLocation": {
+        "classNames": "col-sm-7"
+    },
+    "groupAccidentalDeletionProtection": {
+        "classNames": "col-sm-7"
+    },
+    "groupSID": {
+        "classNames": "col-sm-7"
+    },
+    "groupCreationDate1": {
+        "classNames": "col-sm-7"
+    },
+    "groupDisplayName1": {
+        "classNames": "col-sm-7"
+    },
+    "groupScope1": {
+        "classNames": "col-sm-7"
+    },
+    "groupType1": {
+        "classNames": "col-sm-7"
+    },
+    "groupModificationDate1": {
+        "classNames": "col-sm-7"
+    },
+    "groupParentContainer1": {
+        "classNames": "col-sm-7"
+    },
+    "groupMembershipAll1": {
+        "classNames": "col-sm-7"
+    },
+    "groupMemberShipDirect1": {
+        "classNames": "col-sm-7"
+    },
+    "groupMembershipIndirect1": {
+        "classNames": "col-sm-7"
+    },
+    "groupCntMemFrmExtDomain1": {
+        "classNames": "col-sm-7"
+    },
+    "groupMemAll1": {
+        "classNames": "col-sm-7"
+    },
+    "groupMemDirect1": {
+        "classNames": "col-sm-7"
+    },
+    "groupCriticalSysObj1": {
+        "classNames": "col-sm-7"
+    },
+    "groupIsDeleted1": {
+        "classNames": "col-sm-7"
+    },
+    "groupDistinguishedName1": {
+        "classNames": "col-sm-7"
+    },
+    "groupGUID1": {
+        "classNames": "col-sm-7"
+    },
+    "groupLastKnownLocation1": {
+        "classNames": "col-sm-7"
+    },
+    "groupAccidentalDeletionProtection1": {
+        "classNames": "col-sm-7"
+    },
+    "groupSID1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoCreationDate": {
+        "classNames": "col-sm-7"
+    },
+    "gpoDisplayName": {
+        "classNames": "col-sm-7"
+    },
+    "gpoModificationDate": {
+        "classNames": "col-sm-7"
+    },
+    "gpoParentContainer": {
+        "classNames": "col-sm-7"
+    },
+    "gpoStatus": {
+        "classNames": "col-sm-7"
+    },
+    "gpoComputerVersion": {
+        "classNames": "col-sm-7"
+    },
+    "gpoUserVersion": {
+        "classNames": "col-sm-7"
+    },
+    "gpoDistinguishedName": {
+        "classNames": "col-sm-7"
+    },
+    "gpoGUID": {
+        "classNames": "col-sm-7"
+    },
+    "gpoSYSVOLFilePath": {
+        "classNames": "col-sm-7"
+    },
+    "gpoCreationDate1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoDisplayName1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoModificationDate1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoParentContainer1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoStatus1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoComputerVersion1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoUserVersion1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoDistinguishedName1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoGUID1": {
+        "classNames": "col-sm-7"
+    },
+    "gpoSYSVOLFilePath1": {
+        "classNames": "col-sm-7"
+    },
+    "ui:order": [
+        "startADsvc",
+        "reportType",
+        "computerOption",
+        "userOption",
+        "groupOption",
+        "gpoOption",
+        "cmpSearchWithGuid",
+        "cmpSearchWithName",
+        "cmpCreatedNoOfDays",
+        "cmpDeletedNoOfDays",
+        "cmpSearchWithGroupName",
+        "cmpWin10",
+        "cmpWin2k8r2",
+        "cmpWin2012r2",
+        "cmpWin2016",
+        "cmpWin2019",
+        "cmpNvrLoggedOnDays",
+        "userSearchWithEmployeeID",
+        "userSearchWithGuid",
+        "userSearchWithName",
+        "userSearchWithSID",
+        "userCreatedNoDays",
+        "userDeletedNoDays",
+        "userDirectGroupMemShip",
+        "userInDirectGroupMemship",
+        "userNotloggedonDays",
+        "userExpiryOnDays",
+        "userSearchwithLogonScriptName",
+        "groupSearchWithGUID",
+        "groupSearchWithName",
+        "groupSearchWithSID",
+        "groupCreatedDays",
+        "groupDeletedDays",
+        "groupModifiedDays",
+        "groupDirectMemship",
+        "groupSearchForMemberExclude",
+        "groupSearchForMember",
+        "gpoSearchWithUID",
+        "optionType",
+        "cmpCreationDate",
+        "cmpDNShostName",
+        "cmpName",
+        "cmpOS",
+        "cmpParentContainer",
+        "cmpServicePack",
+        "cmpPwdAge",
+        "cmpPwdLastCh",
+        "cmpLstLgnDt",
+        "cmpLstLgnDC",
+        "cmpGrpMemberShip",
+        "cmpDistinguishedName",
+        "cmpGUID",
+        "cmpSID",
+        "cmpAccidentalDeletionProtection",
+        "cmpCreationDate1",
+        "cmpDNShostName1",
+        "cmpName1",
+        "cmpOS1",
+        "cmpParentContainer1",
+        "cmpServicePack1",
+        "cmpPwdAge1",
+        "cmpPwdLastCh1",
+        "cmpLstLgnDt1",
+        "cmpLstLgnDC1",
+        "cmpGrpMemberShip1",
+        "cmpDistinguishedName1",
+        "cmpGUID1",
+        "cmpSID1",
+        "cmpAccidentalDeletionProtection1",
+        "userCreationDate",
+        "userDisplayName",
+        "userEmailAddress",
+        "userEmployeeID",
+        "userFirstName",
+        "userLastName",
+        "userIsAccountLocked",
+        "userIsAccountDisabled",
+        "userExpirationDate",
+        "userPwdChNxtLgn",
+        "userPassWordAge",
+        "userPwdExpDate",
+        "userPwdLstCh",
+        "userPwdNvrExp",
+        "userCntChPwd",
+        "userNm",
+        "userCreationDate1",
+        "userDisplayName1",
+        "userEmailAddress1",
+        "userEmployeeID1",
+        "userFirstName1",
+        "userLastName1",
+        "userIsAccountLocked1",
+        "userIsAccountDisabled1",
+        "userExpirationDate1",
+        "userPwdChNxtLgn1",
+        "userPassWordAge1",
+        "userPwdExpDate1",
+        "userPwdLstCh1",
+        "userPwdNvrExp1",
+        "userCntChPwd1",
+        "userNm1",
+        "groupCreationDate",
+        "groupDisplayName",
+        "groupScope",
+        "groupType",
+        "groupModificationDate",
+        "groupParentContainer",
+        "groupMembershipAll",
+        "groupMemberShipDirect",
+        "groupMembershipIndirect",
+        "groupCntMemFrmExtDomain",
+        "groupMemAll",
+        "groupMemDirect",
+        "groupCriticalSysObj",
+        "groupIsDeleted",
+        "groupDistinguishedName",
+        "groupGUID",
+        "groupLastKnownLocation",
+        "groupAccidentalDeletionProtection",
+        "groupSID",
+        "groupCreationDate1",
+        "groupDisplayName1",
+        "groupScope1",
+        "groupType1",
+        "groupModificationDate1",
+        "groupParentContainer1",
+        "groupMembershipAll1",
+        "groupMemberShipDirect1",
+        "groupMembershipIndirect1",
+        "groupCntMemFrmExtDomain1",
+        "groupMemAll1",
+        "groupMemDirect1",
+        "groupCriticalSysObj1",
+        "groupIsDeleted1",
+        "groupDistinguishedName1",
+        "groupGUID1",
+        "groupLastKnownLocation1",
+        "groupAccidentalDeletionProtection1",
+        "groupSID1",
+        "gpoCreationDate",
+        "gpoDisplayName",
+        "gpoModificationDate",
+        "gpoParentContainer",
+        "gpoStatus",
+        "gpoComputerVersion",
+        "gpoUserVersion",
+        "gpoDistinguishedName",
+        "gpoGUID",
+        "gpoSYSVOLFilePath",
+        "gpoCreationDate1",
+        "gpoDisplayName1",
+        "gpoModificationDate1",
+        "gpoParentContainer1",
+        "gpoStatus1",
+        "gpoComputerVersion1",
+        "gpoUserVersion1",
+        "gpoDistinguishedName1",
+        "gpoGUID1",
+        "gpoSYSVOLFilePath1"
+    ]
+}

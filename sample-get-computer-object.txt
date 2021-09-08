@@ -1,0 +1,104 @@
+
+AccountExpirationDate                : 
+accountExpires                       : 9223372036854775807
+AccountLockoutTime                   : 
+AccountNotDelegated                  : False
+AllowReversiblePasswordEncryption    : False
+AuthenticationPolicy                 : {}
+AuthenticationPolicySilo             : {}
+BadLogonCount                        : 0
+badPasswordTime                      : 132598618701689543
+badPwdCount                          : 0
+CannotChangePassword                 : False
+CanonicalName                        : Contoso.com/Domain Controllers/SARANG-SRV
+Certificates                         : {}
+CN                                   : SARANG-SRV
+codePage                             : 0
+CompoundIdentitySupported            : {False}
+countryCode                          : 0
+Created                              : 3/5/2021 2:03:51 AM
+createTimeStamp                      : 3/5/2021 2:03:51 AM
+Deleted                              : 
+Description                          : 
+DisplayName                          : 
+DistinguishedName                    : CN=SARANG-SRV,OU=Domain Controllers,DC=Contoso,DC=com
+DNSHostName                          : Sarang-SRV.Contoso.com
+DoesNotRequirePreAuth                : False
+dSCorePropagationData                : {3/5/2021 2:17:43 AM, 3/5/2021 2:04:11 AM, 12/31/1600 4:04:17 PM}
+Enabled                              : True
+HomedirRequired                      : False
+HomePage                             : 
+instanceType                         : 4
+IPv4Address                          : 10.2.131.39
+IPv6Address                          : 
+isCriticalSystemObject               : True
+isDeleted                            : 
+KerberosEncryptionType               : {RC4, AES128, AES256}
+LastBadPasswordAttempt               : 3/10/2021 6:57:50 AM
+LastKnownParent                      : 
+lastLogoff                           : 0
+lastLogon                            : 132736002854067037
+LastLogonDate                        : 8/12/2021 8:00:42 PM
+lastLogonTimestamp                   : 132732972422171824
+localPolicyFlags                     : 0
+Location                             : 
+LockedOut                            : False
+logonCount                           : 36
+ManagedBy                            : 
+MemberOf                             : {}
+MNSLogonAccount                      : False
+Modified                             : 8/14/2021 8:20:16 PM
+modifyTimeStamp                      : 8/14/2021 8:20:16 PM
+msDFSR-ComputerReferenceBL           : {CN=SARANG-SRV,CN=Topology,CN=Domain System 
+                                       Volume,CN=DFSR-GlobalSettings,CN=System,DC=Contoso,DC=com}
+msDS-SupportedEncryptionTypes        : 28
+msDS-User-Account-Control-Computed   : 0
+Name                                 : SARANG-SRV
+nTSecurityDescriptor                 : System.DirectoryServices.ActiveDirectorySecurity
+ObjectCategory                       : CN=Computer,CN=Schema,CN=Configuration,DC=Contoso,DC=com
+ObjectClass                          : computer
+ObjectGUID                           : d5a89626-388d-437d-a0e3-246068f68a62
+objectSid                            : S-1-5-21-105490012-4149236956-535263456-1104
+OperatingSystem                      : Windows Server 2012 R2 Standard
+OperatingSystemHotfix                : 
+OperatingSystemServicePack           : 
+OperatingSystemVersion               : 6.3 (9600)
+PasswordExpired                      : False
+PasswordLastSet                      : 8/14/2021 8:20:16 PM
+PasswordNeverExpires                 : False
+PasswordNotRequired                  : False
+PrimaryGroup                         : CN=Domain Controllers,CN=Users,DC=Contoso,DC=com
+primaryGroupID                       : 516
+PrincipalsAllowedToDelegateToAccount : {}
+ProtectedFromAccidentalDeletion      : False
+pwdLastSet                           : 132734712162584897
+rIDSetReferences                     : {CN=RID Set,CN=SARANG-SRV,OU=Domain Controllers,DC=Contoso,DC=com}
+SamAccountName                       : SARANG-SRV$
+sAMAccountType                       : 805306369
+sDRightsEffective                    : 15
+serverReferenceBL                    : {CN=SARANG-SRV,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Con
+                                       figuration,DC=Contoso,DC=com}
+ServiceAccount                       : {}
+servicePrincipalName                 : {DNS/Sarang-SRV.Contoso.com, 
+                                       ldap/Sarang-SRV.Contoso.com/ForestDnsZones.Contoso.com, 
+                                       ldap/Sarang-SRV.Contoso.com/DomainDnsZones.Contoso.com, 
+                                       ldap/Sarang-SRV.Contoso.com/Contoso.com...}
+ServicePrincipalNames                : {DNS/Sarang-SRV.Contoso.com, 
+                                       ldap/Sarang-SRV.Contoso.com/ForestDnsZones.Contoso.com, 
+                                       ldap/Sarang-SRV.Contoso.com/DomainDnsZones.Contoso.com, 
+                                       ldap/Sarang-SRV.Contoso.com/Contoso.com...}
+SID                                  : S-1-5-21-105490012-4149236956-535263456-1104
+SIDHistory                           : {}
+TrustedForDelegation                 : True
+TrustedToAuthForDelegation           : False
+UseDESKeyOnly                        : False
+userAccountControl                   : 532480
+userCertificate                      : {}
+UserPrincipalName                    : 
+uSNChanged                           : 861416
+uSNCreated                           : 12780
+whenChanged                          : 8/14/2021 8:20:16 PM
+whenCreated                          : 3/5/2021 2:03:51 AM
+
+
+

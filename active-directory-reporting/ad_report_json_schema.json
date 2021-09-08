@@ -1,0 +1,1831 @@
+{
+    "title": "AD Reporting",
+    "description": "This Automation Task can be used to create report on AD Objects such as Users, Computers etc based on predefined criteria. ex. In order to Generate report of users created in last 30 days You need to first select Users then select the category 'users created in last X days' then specify the days as 30 and select the attributes custom or select all.",
+    "type": "object",
+    "required": [
+        "reportType"
+    ],
+    "properties": {
+        "startADsvc":{
+            "description":"===========================================",
+            "title": "Start 'ADWS' and 'NTDS' Services, if stopped and their start mode is Automatic",
+            "type" : "boolean",
+            "default": false
+        },
+        "reportType": {
+            "enum": [
+                "computer",
+                "user",
+                "group",
+                "gpo"
+            ],
+            "enumNames": [
+                "Computers",
+                "Users",
+                "Groups",
+                "Group Policy Objects"
+            ],
+            "title": "Please select the AD object type",
+            "type": "string",
+            "default": "computer"
+        }
+    },
+    "additionalproperties": false,
+    "dependencies": {
+        "reportType": {
+            "oneOf": [
+                {
+                    "required": [
+                        "computerOption",
+                        "optionType"
+                    ],
+                    "properties": {
+                        "reportType": {
+                            "enum": [
+                                "computer"
+                            ]
+                        },
+                        "computerOption": {
+                            "enum": [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8",
+                                "9",
+                                "10",
+                                "11",
+                                "12",
+                                "13"
+                            ],
+                            "enumNames": [
+                                "All Computers",
+                                "Computer with specified GUID",
+                                "Computer with specified Name",
+                                "Computers created in last X days.",
+                                "Computers deleted in last X days.",
+                                "Computers that are direct members of specified groups",
+                                "Computers that are direct or indirect members of specified groups",
+                                "Computers running specific operating system",
+                                "Computers that are protected from deletion",
+                                "Computers that are not protected from deletion",
+                                "Computers that have never logged on for X days",
+                                "Disabled computers",
+                                "Enabled computers"
+                            ],
+                            "default": "1",
+                            "title" : "Please select the category from the drop down"
+                        },
+                        "optionType": {
+                            "enum": [
+                                "selectAll",
+                                "customFields"
+                            ],
+                            "enumNames": [
+                                "Select All Attributes",
+                                "Select Custom Attributes"
+                            ],
+                            "title": "Select Attributes"
+                        }
+                    },
+                    "additionalproperties": false,
+                    "dependencies": {
+                        "optionType": {
+                            "oneOf": [
+                                {
+                                    "required": [],
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "selectAll"
+                                            ]
+                                        },
+                                        "cmpCreationDate1": {
+                                            "title": "Creation Date",
+                                            "description": "-- General --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpDNShostName1": {
+                                            "title": "DNS Hostname",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpName1": {
+                                            "title": "Name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpOS1": {
+                                            "title": "Operating System",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpParentContainer1": {
+                                            "title": "Parent Container",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpServicePack1": {
+                                            "title": "Service Pack",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpPwdAge1": {
+                                            "title": "Password Age(Days)",
+                                            "description": "-- Account --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpPwdLastCh1": {
+                                            "title": "Password Last Changed",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpLstLgnDt1": {
+                                            "title": "Last Logon Date",
+                                            "description": "-- Non - Replicated --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpLstLgnDC1": {
+                                            "title": "Last Logon DC",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpGrpMemberShip1": {
+                                            "title": "Group membership (All)",
+                                            "description": "-- Group membership --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpDistinguishedName1": {
+                                            "title": "Distinguished Name",
+                                            "description": "-- Domain --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpGUID1": {
+                                            "title": "GUID",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpSID1": {
+                                            "title": "SID",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "cmpAccidentalDeletionProtection1": {
+                                            "title": "Protected from accidental deletion",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "customFields"
+                                            ]
+                                        },
+                                        "cmpCreationDate": {
+                                            "title": "Creation Date",
+                                            "description": "-- General --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpDNShostName": {
+                                            "title": "DNS Hostname",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpName": {
+                                            "title": "Name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpOS": {
+                                            "title": "Operating System",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpParentContainer": {
+                                            "title": "Parent Container",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpServicePack": {
+                                            "title": "Service Pack",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpPwdAge": {
+                                            "title": "Password Age(Days)",
+                                            "description": "-- Account --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpPwdLastCh": {
+                                            "title": "Password Last Changed",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpLstLgnDt": {
+                                            "title": "Last Logon Date",
+                                            "description": "-- Non - Replicated --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpLstLgnDC": {
+                                            "title": "Last Logon DC",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpGrpMemberShip": {
+                                            "title": "Group membership (All)",
+                                            "description": "-- Group membership --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpDistinguishedName": {
+                                            "title": "Distinguished Name",
+                                            "description": "-- Domain --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpGUID": {
+                                            "title": "GUID",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpSID": {
+                                            "title": "SID",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "cmpAccidentalDeletionProtection": {
+                                            "title": "Protected from accidental deletion",
+                                            "type": "boolean",
+                                            "default": false
+                                        }
+                                    },
+                                    "required": []
+                                }
+                            ]
+                        },
+                        "computerOption": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "1"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "cmpSearchWithGuid"
+                                    ],
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "2"
+                                            ]
+                                        },
+                                        "cmpSearchWithGuid": {
+                                            "title": "computer guid",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "cmpSearchWithName"
+                                    ],
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "3"
+                                            ]
+                                        },
+                                        "cmpSearchWithName": {
+                                            "title": "enter the name of the computer",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "cmpCreatedNoOfDays"
+                                    ],
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "4"
+                                            ]
+                                        },
+                                        "cmpCreatedNoOfDays": {
+                                            "title": "enter the number of days",
+                                            "type": "number",
+                                            "minimum": 1,
+                                            "default": "30"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "5"
+                                            ]
+                                        },
+                                        "cmpDeletedNoOfDays": {
+                                            "title": "enter the number of days",
+                                            "type": "number",
+                                            "minimum": 1,
+                                            "default": "30"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "6"
+                                            ]
+                                        },
+                                        "cmpSearchWithGroupName": {
+                                            "title": "enter the group name",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "7"
+                                            ]
+                                        },
+                                        "cmpSearchWithGroupName": {
+                                            "title": "enter the group name",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "8"
+                                            ]
+                                        },
+                                        "cmpWin10": {
+                                            "title": "Windows 10",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "description": "note: if no checkbox is selected, report will fetch 'Windows 10' machines by default."
+                                        },
+                                        "cmpWin2k8r2": {
+                                            "title": "Windows server 2008 R2",
+                                            "default": false,
+                                            "type": "boolean"
+                                        },
+                                        "cmpWin2012r2": {
+                                            "title": "Windows server 2012 R2",
+                                            "default": false,
+                                            "type": "boolean"
+                                        },
+                                        "cmpWin2016": {
+                                            "title": "Windows server 2016",
+                                            "default": false,
+                                            "type": "boolean"
+                                        },
+                                        "cmpWin2019": {
+                                            "title": "Windows server 2019",
+                                            "default": false,
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "9"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "10"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "cmpNvrLoggedOnDays"
+                                    ],
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "11"
+                                            ]
+                                        },
+                                        "cmpNvrLoggedOnDays": {
+                                            "title": "enter the number of days",
+                                            "minimum": 1,
+                                            "type": "number",
+                                            "default": 30
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "12"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "computerOption": {
+                                            "enum": [
+                                                "13"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "reportType": {
+                            "enum": [
+                                "user"
+                            ]
+                        },
+                        "userOption": {
+                            "enum": [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8",
+                                "9",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "14",
+                                "15",
+                                "16",
+                                "17",
+                                "18",
+                                "19"
+                            ],
+                            "enumNames": [
+                                "All users",
+                                "Deleted users",
+                                "Enabled users",
+                                "Disabled users",
+                                "User with specified employee ID",
+                                "User with specified GUID",
+                                "User with specified name",
+                                "User with specified SID",
+                                "User created in the last X days",
+                                "User modified in last X days",
+                                "Users that are direct members of specified group",
+                                "Users that are directly and indirectly members of specified group",
+                                "Users that cannot change their passwords",
+                                "Users that have not logged on for X days",
+                                "Users accounts that will expire in next X days",
+                                "Users with locked out accounts",
+                                "Users with passwords that never expire",
+                                "Users with no logon script",
+                                "Users with specified logon script"
+                            ],
+                            "default": "1",
+                            "title" : "Please select the category from the drop down"
+                        },
+                        "optionType": {
+                            "enum": [
+                                "selectAll",
+                                "customFields"
+                            ],
+                            "enumNames": [
+                                "Select All Attributes",
+                                "Select Custom Attributes"
+                            ],
+                            "title": "Select Attributes"
+                        }
+                    },
+                    "required": [
+                        "userOption"
+                    ],
+                    "additionalproperties": false,
+                    "dependencies": {
+                        "optionType": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "selectAll"
+                                            ]
+                                        },
+                                        "userCreationDate1": {
+                                            "title": "Creation date",
+                                            "description": "-- General --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userDisplayName1": {
+                                            "title": "Display name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userEmailAddress1": {
+                                            "title": "Email address",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userEmployeeID1": {
+                                            "title": "Employee ID",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userFirstName1": {
+                                            "title": "First name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userLastName1": {
+                                            "title": "Last name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userIsAccountLocked1": {
+                                            "title": "Account is locked out",
+                                            "description": "-- Account --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userIsAccountDisabled1": {
+                                            "title": "Disabled",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userExpirationDate1": {
+                                            "title": "Expiration date",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userPwdChNxtLgn1": {
+                                            "title": "Must change password at next logon",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userPassWordAge1": {
+                                            "title": "Password age",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userPwdExpDate1": {
+                                            "title": "Password expiration date",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userPwdLstCh1": {
+                                            "title": "Password last changed",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userPwdNvrExp1": {
+                                            "title": "Password never expires",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userCntChPwd1": {
+                                            "title": "User cannot change password",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "userNm1": {
+                                            "title": "Username",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        }
+                                    },
+                                    "required": []
+                                },
+                                {
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "customFields"
+                                            ]
+                                        },
+                                        "userCreationDate": {
+                                            "title": "Creation date",
+                                            "description": "-- General --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userDisplayName": {
+                                            "title": "Display name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userEmailAddress": {
+                                            "title": "Email address",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userEmployeeID": {
+                                            "title": "Employee ID",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userFirstName": {
+                                            "title": "First name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userLastName": {
+                                            "title": "Last name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userIsAccountLocked": {
+                                            "title": "Account is locked out",
+                                            "description": "-- Account --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userIsAccountDisabled": {
+                                            "title": "Disabled",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userExpirationDate": {
+                                            "title": "Expiration date",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userPwdChNxtLgn": {
+                                            "title": "Must change password at next logon",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userPassWordAge": {
+                                            "title": "Password age",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userPwdExpDate": {
+                                            "title": "Password expiration date",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userPwdLstCh": {
+                                            "title": "Password last changed",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userPwdNvrExp": {
+                                            "title": "Password never expires",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userCntChPwd": {
+                                            "title": "User cannot change password",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "userNm": {
+                                            "title": "Username",
+                                            "type": "boolean",
+                                            "default": false
+                                        }
+                                    },
+                                    "required": []
+                                }
+                            ]
+                        },
+                        "userOption": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "1"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "2"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "3"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "4"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userSearchWithEmployeeID"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "5"
+                                            ]
+                                        },
+                                        "userSearchWithEmployeeID": {
+                                            "type": "string",
+                                            "title": "enter the employee ID of user."
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userSearchWithGuid"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "6"
+                                            ]
+                                        },
+                                        "userSearchWithGuid": {
+                                            "type": "string",
+                                            "title": "enter the GUID of user."
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userSearchWithName"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "7"
+                                            ]
+                                        },
+                                        "userSearchWithName": {
+                                            "type": "string",
+                                            "title": "enter the name of user"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userSearchWithSID"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "8"
+                                            ]
+                                        },
+                                        "userSearchWithSID": {
+                                            "type": "string",
+                                            "title": "enter the SID of user"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userCreatedNoDays"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "9"
+                                            ]
+                                        },
+                                        "userCreatedNoDays": {
+                                            "type": "number",
+                                            "title": "enter the number of days",
+                                            "minimum": 1
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userDeletedNoDays"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "10"
+                                            ]
+                                        },
+                                        "userDeletedNoDays": {
+                                            "type": "number",
+                                            "minimum": 1,
+                                            "title": "enter the number of days"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userDirectGroupMemShip"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "11"
+                                            ]
+                                        },
+                                        "userDirectGroupMemShip": {
+                                            "title": "enter the group name",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userInDirectGroupMemship"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "12"
+                                            ]
+                                        },
+                                        "userInDirectGroupMemship": {
+                                            "title": "enter the group name",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "13"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userNotloggedonDays"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "14"
+                                            ]
+                                        },
+                                        "userNotloggedonDays": {
+                                            "title": "Enter the number of days",
+                                            "type": "number",
+                                            "minimum": 1,
+                                            "default": 60
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userExpiryOnDays"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "15"
+                                            ]
+                                        },
+                                        "userExpiryOnDays": {
+                                            "title": "Enter the number of days",
+                                            "type": "number",
+                                            "default": 30
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "16"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "17"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "18"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "userSearchwithLogonScriptName"
+                                    ],
+                                    "properties": {
+                                        "userOption": {
+                                            "enum": [
+                                                "19"
+                                            ]
+                                        },
+                                        "userSearchwithLogonScriptName": {
+                                            "title": "Enter the Name of the script",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "reportType": {
+                            "enum": [
+                                "group"
+                            ]
+                        },
+                        "groupOption": {
+                            "enum": [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8",
+                                "9",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "14",
+                                "15",
+                                "16",
+                                "17"
+                            ],
+                            "enumNames": [
+                                "All Groups",
+                                "Domain Local Groups",
+                                "Global Groups",
+                                "Security groups",
+                                "Universal groups",
+                                "Group with specified GUID",
+                                "Group with specified name",
+                                "Group with specified SID",
+                                "Group created in last X days",
+                                "Groups deleted in last X days",
+                                "Groups modified in last X days",
+                                "Groups that are direct members of specified group",
+                                "Groups that are not protected from deletion ",
+                                "Groups that are protected from deletion",
+                                "Groups that do not contains specified member  (window to enter the member name which needs to be searched)",
+                                "Groups with specified member (window to enter the member name which needs to be searched)",
+                                "Groups with no members"
+                            ],
+                            "default": "1",
+                            "title" : "Please select the category from the drop down"
+                        },
+                        "optionType": {
+                            "enum": [
+                                "selectAll",
+                                "customFields"
+                            ],
+                            "enumNames": [
+                                "Select All Attributes",
+                                "Select Custom Attributes"
+                            ],
+                            "title": "Select Attributes"
+                        }
+                    },
+                    "required": [
+                        "groupOption"
+                    ],
+                    "additionalproperties": false,
+                    "dependencies": {
+                        "optionType": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "selectAll"
+                                            ]
+                                        },
+                                        "groupCreationDate1": {
+                                            "title": "Creation date",
+                                            "description": "-- General --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupDisplayName1": {
+                                            "title": "Display name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupScope1": {
+                                            "title": "Group Scope",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupType1": {
+                                            "title": "Group Type",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupModificationDate1": {
+                                            "title": "Modification Date",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupParentContainer1": {
+                                            "title": "Parent Container",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupMembershipAll1": {
+                                            "title": "Group Membership (All)",
+                                            "description": "-- Group Membership --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupMemberShipDirect1": {
+                                            "title": "Group Membership (Direct)",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupMembershipIndirect1": {
+                                            "title": "Group Membership (Indirect/Nested)",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupCntMemFrmExtDomain1": {
+                                            "title": "Contains members from external domain",
+                                            "description": "-- Group Members --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupMemAll1": {
+                                            "title": "Group Members all",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupMemDirect1": {
+                                            "title": "Group Members direct",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupCriticalSysObj1": {
+                                            "title": "Critical system object",
+                                            "description": "-- System --",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupIsDeleted1": {
+                                            "title": "Deleted",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupDistinguishedName1": {
+                                            "title": "Distinguished name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupGUID1": {
+                                            "title": "GUID",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupLastKnownLocation1": {
+                                            "title": "Last Known location",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupAccidentalDeletionProtection1": {
+                                            "title": "Protected from accidental deletion",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "groupSID1": {
+                                            "title": "SID",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        }
+                                    },
+                                    "required": []
+                                },
+                                {
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "customFields"
+                                            ]
+                                        },
+                                        "groupCreationDate": {
+                                            "title": "Creation date",
+                                            "description": "-- General --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupDisplayName": {
+                                            "title": "Display name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupScope": {
+                                            "title": "Group Scope",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupType": {
+                                            "title": "Group Type",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupModificationDate": {
+                                            "title": "Modification Date",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupParentContainer": {
+                                            "title": "Parent Container",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupMembershipAll": {
+                                            "title": "Group Membership (All)",
+                                            "description": "-- Group Membership --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupMemberShipDirect": {
+                                            "title": "Group Membership (Direct)",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupMembershipIndirect": {
+                                            "title": "Group Membership (Indirect/Nested)",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupCntMemFrmExtDomain": {
+                                            "title": "Contains members from external domain",
+                                            "description": "-- Group Members --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupMemAll": {
+                                            "title": "Group Members all",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupMemDirect": {
+                                            "title": "Group Members direct",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupCriticalSysObj": {
+                                            "title": "Critical system object",
+                                            "description": "-- System --",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupIsDeleted": {
+                                            "title": "Deleted",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupDistinguishedName": {
+                                            "title": "Distinguished name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupGUID": {
+                                            "title": "GUID",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupLastKnownLocation": {
+                                            "title": "Last Known location",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupAccidentalDeletionProtection": {
+                                            "title": "Protected from accidental deletion",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "groupSID": {
+                                            "title": "SID",
+                                            "type": "boolean",
+                                            "default": false
+                                        }
+                                    },
+                                    "required": []
+                                }
+                            ]
+                        },
+                        "groupOption": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "1"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "2"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "3"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "4"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "5"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupSearchWithGUID"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "6"
+                                            ]
+                                        },
+                                        "groupSearchWithGUID": {
+                                            "title": "enter the GUID of group",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupSearchWithName"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "7"
+                                            ]
+                                        },
+                                        "groupSearchWithName": {
+                                            "title": "enter the group name",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupSearchWithSID"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "8"
+                                            ]
+                                        },
+                                        "groupSearchWithGUID": {
+                                            "title": "enter the SID of group",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupCreatedDays"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "9"
+                                            ]
+                                        },
+                                        "groupCreatedDays": {
+                                            "title": "Enter the number of days",
+                                            "minimum": 1,
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupDeletedDays"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "10"
+                                            ]
+                                        },
+                                        "groupDeletedDays": {
+                                            "title": "Enter the number of days",
+                                            "minimum": 1,
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupModifiedDays"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "11"
+                                            ]
+                                        },
+                                        "groupModifiedDays": {
+                                            "title": "Enter the number of days",
+                                            "minimum": 1,
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupDirectMemship"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "12"
+                                            ]
+                                        },
+                                        "groupDirectMemship": {
+                                            "title": "enter the group name",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "13"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "14"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupSearchForMemberExclude"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "15"
+                                            ]
+                                        },
+                                        "groupSearchForMemberExclude": {
+                                            "title": "enter the name of the member",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "required": [
+                                        "groupSearchForMember"
+                                    ],
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "16"
+                                            ]
+                                        },
+                                        "groupSearchForMember": {
+                                            "title": "enter the name of the member",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "groupOption": {
+                                            "enum": [
+                                                "17"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "required": [
+                        "gpoOption"
+                    ],
+                    "properties": {
+                        "reportType": {
+                            "enum": [
+                                "gpo"
+                            ]
+                        },
+                        "gpoOption": {
+                            "enum": [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8"
+                            ],
+                            "enumNames": [
+                                "All GPOs",
+                                "GPO with specified Unique ID (window to enter the Unique ID which needs to be searched)",
+                                "GPOs created in last 30 days",
+                                "GPOs modified in last 30 days",
+                                "GPOs with all settings disabled",
+                                "GPOs with all settings enabled",
+                                "GPOs with computer settings disabled",
+                                "GPOs with user settings disabled"
+                            ],
+                            "default": "1",
+                            "title" : "Please select the category from the drop down"
+                        },
+                        "optionType": {
+                            "enum": [
+                                "selectAll",
+                                "customFields"
+                            ],
+                            "enumNames": [
+                                "Select All Attributes",
+                                "Select Custom Attributes"
+                            ],
+                            "title": "Select Attributes",
+                            "type": "string"
+                        }
+                    },
+                    "additionalproperties": false,
+                    "dependencies": {
+                        "optionType": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "selectAll"
+                                            ]
+                                        },
+                                        "gpoCreationDate1": {
+                                            "title": "Creation date",
+                                            "type": "boolean",
+                                            "description": "-- General --",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoDisplayName1": {
+                                            "title": "Display name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoModificationDate1": {
+                                            "title": "Modification date",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoParentContainer1": {
+                                            "title": "Parent container",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoStatus1": {
+                                            "title": "Status",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoComputerVersion1": {
+                                            "title": "Computer version",
+                                            "type": "boolean",
+                                            "description": "-- System --",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoUserVersion1": {
+                                            "title": "User version",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoDistinguishedName1": {
+                                            "title": "Distinguished name",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoGUID1": {
+                                            "title": "GUID",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        },
+                                        "gpoSYSVOLFilePath1": {
+                                            "title": "SYSVOL file path",
+                                            "type": "boolean",
+                                            "default": true,
+                                            "readOnly": true
+                                        }
+                                    },
+                                    "required": []
+                                },
+                                {
+                                    "properties": {
+                                        "optionType": {
+                                            "enum": [
+                                                "customFields"
+                                            ]
+                                        },
+                                        "gpoCreationDate": {
+                                            "title": "Creation date",
+                                            "type": "boolean",
+                                            "description": "-- General --",
+                                            "default": false
+                                        },
+                                        "gpoDisplayName": {
+                                            "title": "Display name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "gpoModificationDate": {
+                                            "title": "Modification date",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "gpoParentContainer": {
+                                            "title": "Parent container",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "gpoStatus": {
+                                            "title": "Status",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "gpoComputerVersion": {
+                                            "title": "Computer version",
+                                            "type": "boolean",
+                                            "description": "-- System --",
+                                            "default": false
+                                        },
+                                        "gpoUserVersion": {
+                                            "title": "User version",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "gpoDistinguishedName": {
+                                            "title": "Distinguished name",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "gpoGUID": {
+                                            "title": "GUID",
+                                            "type": "boolean",
+                                            "default": false
+                                        },
+                                        "gpoSYSVOLFilePath": {
+                                            "title": "SYSVOL file path",
+                                            "type": "boolean",
+                                            "default": false
+                                        }
+                                    },
+                                    "required": []
+                                }
+                            ]
+                        },
+                        "gpoOption": {
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "1"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "required":[
+                                        "gpoSearchWithUID"
+                                    ],
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "2"
+                                            ]
+                                        },
+
+                                        "gpoSearchWithUID" : {
+                                            "title": "enter Unique ID of GPO",
+                                            "type":"string"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "3"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "4"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "5"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "6"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "7"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "gpoOption": {
+                                            "enum": [
+                                                "8"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

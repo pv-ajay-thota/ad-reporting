@@ -1,0 +1,11 @@
+10.2.131.29  - PDC
+
+10.2.131.39  -  ADC
+
+Username - Administrator
+
+Password - Grt@2021
+
+Domain - Contoso.com
+
+Netbios - Contoso1

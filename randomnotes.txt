@@ -1,0 +1,120 @@
+"All GPOs",
+"GPO with specified Unique ID (window to enter the Unique ID which needs to be searched)",
+"GPOs created in last 30 days",
+"GPOs modified in last 30 days",
+"GPOs with all settings disabled",
+"GPOs with all settings enabled",
+"GPOs with computer settings disabled",
+"GPOs with user settings disabled"
+
+
+
+
+
+"All Groups",
+"Domain Local Groups",
+"Global Groups",
+"Security groups",
+"Universal groups",
+"Group with specified GUID (window to enter the Group GUID which needs to be searched)",
+"Group with specified name (window to enter the Group name which needs to be searched)",
+"Group with specified SID  (window to enter the Group SID which needs to be searched)",
+"Group created in last 30 days",
+"Groups deleted in last 30 days",
+"Groups modified in last 30 days",
+"Groups that are direct members of specified group (window to enter the Group name which needs to be searched)",
+"Groups that are not protected from deletion ",
+"Groups that are protected from deletion",
+"Groups that do not contains specified member  (window to enter the member name which needs to be searched)",
+"Groups with specified member (window to enter the member name which needs to be searched)",
+"Groups with no members"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"All users",
+"Deleted users",
+"Enabled users",
+"Disabled users",
+"User with specified employee ID  ### (window to enter the Employee ID which needs to be searched)",
+"User with specified GUID (window to enter the GUID which needs to be searched) ",
+"User with specified name (window to enter the name which needs to be searched)",
+"User with specified SID (window to enter the SID which needs to be searched)",
+"User created in the last 30 days",
+"User modified in last 30 days",
+"Users that are direct members of specified group (window to enter the Group which needs to be searched)",
+"Users that are directly and indirectly members of specified group (window to enter the Group which needs to be searched) ",
+"Users that cannot change their passwords",
+"Users that have not logged on for X days",
+"Users that will expire in next X days",
+"Users with locked out accounts",
+"Users with passwords that never expire",
+"Users with no logon script",
+"Users with specified logon script (window to enter the logon script name which needs to be searched)"
+
+
+--removed-- lines 
+"Users that have never logged on",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"All Computers",
+"Computer with specified GUID  (window to enter the GUID which needs to be searched)",
+"Computer with specified name  (window to enter the computer name which needs to be searched)",
+"Computers created in last 30 days.",
+"Computers deleted in last 30 days.",
+"Computers that are direct members of specified groups (window to enter the group which needs to be searched)",
+"Computers that are direct / indirect members of specified groups  (window to enter the group which needs to be searched)",
+"Computers running specific Operating System",
+"Computers that are not protected from deletion",
+"Computers that are protected from deletion",
+"Computers that have never logged on for X days",
+"Disabled computers",
+"Enabled computers"
+
+
+
+
+
+                                "Computers running windows server 2008 R2",
+                                "Computers running windows server 2012 R2",
+                                "Computers running windows server 2016",
+                                "Computers running windows server 2019",
+
+computers that are protected deletion.
+* "Computers that are not protected from deletion",
+* "Computers that are protected from deletion",

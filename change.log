@@ -1,0 +1,35 @@
+Computers with Specific Operating System
+
+change 'choose custom fields' to 'choose custom attributes'
+
+change 'computers that have never logged on for x number of days'
+
+
+
+users:
+
+User with specified employee ID -- window
+
+users that will expire in next .. 
+etc.. many changes ..
+
+27/07/2021
+
+=>> Users Created in last X days should not come with 0 or negative numbers
+
+=>> enter the employee ID of user.* should accept only Alpha numeric and no symbol
+
+
+28/07/2021
+
+=>> "computers that are direct members of specified group" option needs to be changed to 
+"enter the group name" instead of "enter the name of the computer"
+
+=>> "computers that are direct and indirect members of specified group" option needs to be changed to 
+"enter the group name" instead of "enter the name of the computer"
+
+=>> "Users that will expire in next X days" to "Users accounts that will expire in next X days"
+
+=>> "enter the GUID of group" to "enter the group name"
+
+

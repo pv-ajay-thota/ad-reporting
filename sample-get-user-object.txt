@@ -1,0 +1,115 @@
+
+
+AccountExpirationDate                : 
+accountExpires                       : 0
+AccountLockoutTime                   : 
+AccountNotDelegated                  : False
+adminCount                           : 1
+AllowReversiblePasswordEncryption    : False
+AuthenticationPolicy                 : {}
+AuthenticationPolicySilo             : {}
+BadLogonCount                        : 0
+badPasswordTime                      : 132665896521085846
+badPwdCount                          : 0
+CannotChangePassword                 : False
+CanonicalName                        : Contoso.com/Users/testuser1
+Certificates                         : {}
+City                                 : 
+CN                                   : testuser1
+codePage                             : 0
+Company                              : 
+CompoundIdentitySupported            : {}
+Country                              : 
+countryCode                          : 0
+Created                              : 4/29/2021 6:04:17 AM
+createTimeStamp                      : 4/29/2021 6:04:17 AM
+Deleted                              : 
+Department                           : 
+Description                          : 
+DisplayName                          : testuser1
+DistinguishedName                    : CN=testuser1,CN=Users,DC=Contoso,DC=com
+Division                             : 
+DoesNotRequirePreAuth                : False
+dSCorePropagationData                : {4/29/2021 6:07:02 AM, 12/31/1600 4:00:00 PM}
+EmailAddress                         : 
+EmployeeID                           : 
+EmployeeNumber                       : 
+Enabled                              : True
+Fax                                  : 
+GivenName                            : testuser1
+HomeDirectory                        : 
+HomedirRequired                      : False
+HomeDrive                            : 
+HomePage                             : 
+HomePhone                            : 
+Initials                             : 
+instanceType                         : 4
+isDeleted                            : 
+KerberosEncryptionType               : {}
+LastBadPasswordAttempt               : 5/27/2021 4:47:32 AM
+LastKnownParent                      : 
+lastLogoff                           : 0
+lastLogon                            : 132676405075775483
+LastLogonDate                        : 6/8/2021 8:41:47 AM
+lastLogonTimestamp                   : 132676405075775483
+LockedOut                            : False
+logonCount                           : 52
+logonHours                           : {255, 255, 255, 255...}
+LogonWorkstations                    : 
+Manager                              : 
+MemberOf                             : {CN=Group Policy Creator Owners,CN=Users,DC=Contoso,DC=com, 
+                                       CN=Domain Admins,CN=Users,DC=Contoso,DC=com, CN=Enterprise 
+                                       Admins,CN=Users,DC=Contoso,DC=com, CN=Schema 
+                                       Admins,CN=Users,DC=Contoso,DC=com...}
+MNSLogonAccount                      : False
+MobilePhone                          : 
+Modified                             : 6/8/2021 8:41:47 AM
+modifyTimeStamp                      : 6/8/2021 8:41:47 AM
+msDS-User-Account-Control-Computed   : 0
+Name                                 : testuser1
+nTSecurityDescriptor                 : System.DirectoryServices.ActiveDirectorySecurity
+ObjectCategory                       : CN=Person,CN=Schema,CN=Configuration,DC=Contoso,DC=com
+ObjectClass                          : user
+ObjectGUID                           : dd3ab78e-daa5-4800-9bdf-4aa38855873a
+objectSid                            : S-1-5-21-105490012-4149236956-535263456-1108
+Office                               : 
+OfficePhone                          : 
+Organization                         : 
+OtherName                            : 
+PasswordExpired                      : False
+PasswordLastSet                      : 4/29/2021 6:04:19 AM
+PasswordNeverExpires                 : True
+PasswordNotRequired                  : False
+POBox                                : 
+PostalCode                           : 
+PrimaryGroup                         : CN=Domain Users,CN=Users,DC=Contoso,DC=com
+primaryGroupID                       : 513
+PrincipalsAllowedToDelegateToAccount : {}
+ProfilePath                          : 
+ProtectedFromAccidentalDeletion      : False
+pwdLastSet                           : 132641750593773802
+SamAccountName                       : testuser1
+sAMAccountType                       : 805306368
+ScriptPath                           : 
+sDRightsEffective                    : 15
+ServicePrincipalNames                : {}
+SID                                  : S-1-5-21-105490012-4149236956-535263456-1108
+SIDHistory                           : {}
+SmartcardLogonRequired               : False
+State                                : 
+StreetAddress                        : 
+Surname                              : 
+Title                                : 
+TrustedForDelegation                 : False
+TrustedToAuthForDelegation           : False
+UseDESKeyOnly                        : False
+userAccountControl                   : 66048
+userCertificate                      : {}
+UserPrincipalName                    : testuser1@Contoso.com
+uSNChanged                           : 673204
+uSNCreated                           : 402899
+whenChanged                          : 6/8/2021 8:41:47 AM
+whenCreated                          : 4/29/2021 6:04:17 AM
+
+
+
