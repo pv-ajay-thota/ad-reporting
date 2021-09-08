@@ -863,10 +863,84 @@ function getUsrWithLogonScript {
 <# user sub routines end #>
 
 <# will define all the group sub routines here #>
+function getGrpAll {
+    # YTD
+}
+function getGrpDomainLocal {
+    # YTD
+}
+function getGrpGlobal {
+    # YTD
+}
+function getGrpSecurity {
+    # YTD
+}
+function getGrpUniversal {
+    # YTD
+}
+function getGrpWithGUID {
+    # YTD
+}
+function getGrpWithName {
+    # YTD
+}
+function getGrpWithSID {
+    # YTD
+}
+function getGrpCreatedInXdays {
+    # YTD
+}
+function getGrpDeletedInXdays {
+    # YTD
+}
+function getGrpModifiedInXdays {
+    # YTD
+}
+function getGrpDirectMembership {
+    # YTD
+}
+function getGrpNotProtectedDeletion {
+    # YTD
+}
+function getGrpDoNotContainMember {
+    # YTD
+}
+function getGrpContainMember {
+    # YTD
+}
+function getGrpWithNoMembers {
+    # YTD
+}
 <# group sub routines end #>
 
-<# will define all the user sub routines here #>
-<# user sub routines end #>
+<# will define all the GPO sub routines here #>
+
+function getGPOAll {
+
+}
+function getGPOWithUniqueID {
+
+}
+function getGPOCreatedInXdays {
+
+}
+function getGPOModifiedInXdays {
+
+}
+function getGPOallSettingsDisabled {
+
+}
+function getGPOallSettingsEnabled {
+
+}
+function getGPOCmpSettingsDisabled {
+
+}
+function GetGPOUsrSettingsDisabled {
+
+}
+
+<# GPO sub routines end #>
 
 <# section: filter out selected attributes. utility functions #> 
 
@@ -1270,7 +1344,7 @@ function Get-ADCustomUserReport {
                 }
                  
                 Default {
-                    LogMessage "user choice invalid option reveived."
+                    LogMessage "user choice: invalid option received."
                     break;
                 }
             }
@@ -1279,9 +1353,7 @@ function Get-ADCustomUserReport {
         catch {
             LogMessage "[ERROR]:: $($_.Exception.Message)"
         }
-
     }
-
     end {
 
     }
@@ -1295,39 +1367,91 @@ function Get-ADCustomGroupReport {
         $groupOption
     )
 
-    begin{
+    begin {
         $groupOption = [int]$groupOption
     }
-    process{
-        try{
+    process {
+        try {
             switch ($groupOption) {
-                condition { 
+                1 {
                     getGrpAll
+                    break;
+                }
+                2 {
                     getGrpDomainLocal
+                    break;
+                }
+                3 {
                     getGrpGlobal
+                    break;
+                }
+                4 {
                     getGrpSecurity
+                    break;
+                }
+                5 {
                     getGrpUniversal
+                    break;
+                }
+                6 {
                     getGrpWithGUID
+                    break;
+                }
+                7 {
                     getGrpWithName
+                    break;
+                }
+                8 {
                     getGrpWithSID
+                    break;
+                }
+                9 {
                     getGrpCreatedInXdays
+                    break;
+                }
+                10 {
                     getGrpDeletedInXdays
+                    break;
+                }
+                11 {
                     getGrpModifiedInXdays
+                    break;
+                }
+                12 {
                     getGrpDirectMembership
+                    break;
+                }
+                13 {
                     getGrpNotProtectedDeletion
+                    break;
+                }
+                14 {
+                    getGrtProtectedDeletion
+                    break;
+                }
+                15 {
                     getGrpDoNotContainMember
+                    break;
+                }
+                16 {
                     getGrpContainMember
+                    break;
+                }
+                17 {
                     getGrpWithNoMembers
-
-                 }
-                Default {}
+                    break;
+                }
+                Default {
+                    LogMessage "Group Option: invalid option received."
+                    break;
+                }
             }
         }
-        catch{
+        catch {
             LogMessage "[ERROR]:: $($_.Exception.Message)"
         }
     }
-    end{
+    end {
 
     }
 
@@ -1339,6 +1463,59 @@ function Get-ADCustomGPOReport {
         [Parameter(Mandatory = $true)]
         $gpoOption
     )
+
+    begin {
+        $gpoOption = [int]$gpoOption
+    }
+    process {
+        try {
+            switch ($gpoOption) {
+                1 {
+                    getGPOAll
+                    break; 
+                }
+                2 {
+                    getGPOWithUniqueID
+                    break; 
+                }
+                3 {
+                    getGPOCreatedInXdays
+                    break; 
+                }
+                4 {
+                    getGPOModifiedInXdays
+                    break; 
+                }
+                5 {
+                    getGPOallSettingsDisabled
+                    break; 
+                }
+                6 {
+                    getGPOallSettingsEnabled
+                    break; 
+                }
+                7 {
+                    getGPOCmpSettingsDisabled
+                    break; 
+                }
+                8 {
+                    GetGPOUsrSettingsDisabled
+                    break; 
+                }
+                Default {
+                    LogMessage "GPO Option: invalid option received."
+                    break;
+                }
+            }
+        }
+        catch {
+            LogMessage "[ERROR]:: $($_.Exception.Message)"
+        }
+    }
+    end {
+
+    }
+
 }
 
 function Get-ADCustomReport {
