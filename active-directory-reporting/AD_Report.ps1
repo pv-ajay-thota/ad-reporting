@@ -386,7 +386,7 @@ catch { Write-Output "[MSG: ERROR : $($_.Exception.message)]" }
 <#---------------------------------------------------------#>
 
 
-
+$usrProperties = @("*", "msDS-UserPasswordExpiryTimeComputed","ScriptPath")
 
 <#---------------------------------------------------------#>
 <#------------ user defined functions ---------------------#>
@@ -394,7 +394,7 @@ catch { Write-Output "[MSG: ERROR : $($_.Exception.message)]" }
 
 function LogMessage {
     param($str)
-    Write-Output "=>> $str`n"
+    $Global:LogMsgVar += "=>> $str`n"
 }
 
 function Get-WMIInfo {
@@ -720,11 +720,11 @@ function GetUserSelectAttributes {
                 }),
 
             $(if ($userFirstName) {
-                    @{n = "Surname"; e = { $_.Surname } } 
+                    @{n = "Surname"; e = { $_.GivenName } } 
                 }),
 
             $(if ($userLastName) {
-                    @{n = "LastName"; e = { $_.Name } } 
+                    @{n = "LastName"; e = { $_.Surname } } 
                 }),
 
             $(if ($userIsAccountLocked) {
@@ -740,11 +740,18 @@ function GetUserSelectAttributes {
                 }),
 
             $(if ($userPwdChNxtLgn) {
-                    @{n = "pwd_changeNextLogin"; e = { if ($_.PasswordLastSet -eq 0) { $true }else { $false } } } 
+                    @{n = "pwd_changeNextLogin"; e = { if (-not $_.PasswordLastSet) { 
+                                $true 
+                            }
+                            else { 
+                                $false 
+                            } 
+                        } 
+                    } 
                 }),
 
             $(if ($userPassWordAge) {
-                    @{n = "PasswordAge"; e = { if ($_.PasswordLastSet -ne 0) { "$(([timespan]( (Get-Date) - ([datetime]($_.PasswordLastSet)) )).TotalDays) Ago" } } } 
+                    @{n = "PasswordAge"; e = { if ($_.PasswordLastSet) { "$(([timespan]( (Get-Date) - ([datetime]($_.PasswordLastSet)) )).Days) days ago" } } } 
                 }),
 
             $(if ($userPwdExpDate) {
@@ -755,19 +762,28 @@ function GetUserSelectAttributes {
                             }
 
                         } 
-                    } 
+                    }
                 }),
 
             $(if ($userPwdLstCh) {
-                    @{n = "PasswordLastSet"; e = {} } 
+                    @{n = "PasswordLastSet"; e = {
+                            $_.PasswordLastSet
+                        } 
+                    } 
                 }),
 
             $(if ($userPwdNvrExp) {
-                    @{n = "PasswordNeverExpires"; e = {} } 
+                    @{n = "PasswordNeverExpires"; e = {
+                            $_.PasswordNeverExpires
+                        } 
+                    } 
                 }),
 
             $(if ($userCntChPwd) {
-                    @{n = "CannotChangePassword"; e = {} } 
+                    @{n = "CannotChangePassword"; e = {
+                            $_.CannotChangePassword
+                        } 
+                    } 
                 })
 
         ) -ErrorAction Stop
@@ -946,6 +962,7 @@ function getCmpDirectIndirectMembership {
         $GroupName
     )
     try {
+        $adGroup = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue
         $allComputers = Get-ADGroupMember $adGroup -Recursive | 
         Where-Object { $_.objectclass -eq 'computer' } | ForEach-Object { Get-ADComputer $_ -properties * }
     }
@@ -1040,8 +1057,12 @@ function getCmpNotProtectedFromDeletion {
 }
 
 function getCmpNvrLoggedinXdays {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $days
+    )
 
-    param($days)
     try {
         $date = (Get-Date).AddDays(- $days)
         $allComputers = Get-ADComputer -filter { LastLogonDate -lt $date -or LastLogonDate -notlike '*' } -properties "*" -ErrorAction Stop
@@ -1058,7 +1079,7 @@ function getCmpNvrLoggedinXdays {
 function getCmpDisabled {
     try {
 
-        $allComputers = Get-ADComputer -filter "Enabled -eq '$true'" -properties "*" -ErrorAction Stop
+        $allComputers = Get-ADComputer -filter "Enabled -ne '$true'" -properties "*" -ErrorAction Stop
     }
     catch {
         # YTD
@@ -1088,9 +1109,10 @@ function getCmpEnabled {
 
 function getUsrAll {
     try {
-        Get-ADUser -Filter * -Properties * -ErrorAction Stop
+        Get-ADUser -Filter * -Properties $usrProperties -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
         # ytd
 
     }
@@ -1098,162 +1120,241 @@ function getUsrAll {
 function getUsrDeleted {
     # ytd
     try {
-
+        Get-Adobject -includedeletedobjects -filter { objectclass -eq "user" -and isdeleted -eq $true } -Properties *
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrEnabled {
     # ytd
     try {
-
+        Get-AdUser -filter "Enabled -eq '$true'" -properties "*" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrDisabled {
-    # ytd
-    try {
-
-    }
-    catch {
-
-    }
+    Get-AdUser -filter "Enabled -eq '$true'" -properties "*" -ErrorAction Stop
 }
 function getUsrWithEmployeeID {
-    # ytd
-    try {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $guid
+    )
 
+    $employee = Get-ADUser -Filter "EmployeeID -eq '$EmployeeID'" -ErrorAction Stop
+    if ($employee) {
+        $employee
     }
-    catch {
+    else {
+        LogMessage "Employee with employeeID '$EmployeeID' not found."
+    }
 
-    }
 }
-function getUsrWithGUID {
-    # ytd
-    try {
 
+function getUsrWithGUID {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $guid
+    )
+    
+    try {
+        Get-ADUser -Filter "ObjectGUID -eq '$guid'" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrWithName {
-    # ytd
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $Name
+    )
+    
     try {
-
+        Get-ADUser -Filter "Name -eq '$Name'" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrWithSID {
-    # ytd
-    try {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $sid
+    )
 
+    try {
+        Get-ADUser -Filter "Name -eq '$Name'" -ErrorAction Stop 
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrCreatedInXdays {
-    # ytd
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true )]    
+        $days
+    )
     try {
-
+        $date = (Get-Date).AddDays(- $days)
+        Get-ADUser -filter { whenCreated -ge $date } -properties "*" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrModifiedInXdays {
-    # ytd
-    try {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true )]    
+        $days
+    )
 
+    try {
+        $date = (Get-Date).AddDays(- $days)
+        Get-ADUser -filter { Modified -ge $date } -properties "*" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrDirectMembership {
-    # ytd
-    try {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $GroupName
+    )
 
+    try {
+        $adGroup = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue
+        Get-ADGroupMember $adGroup | 
+        Where-Object { $_.objectclass -eq 'computer' } | 
+        ForEach-Object { Get-ADUser $_  -properties * }
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
+
 }
 function getUsrDirectInidrectMembership {
-    # ytd
-    try {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $GroupName
+    )
 
+    try {
+        $adGroup = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue
+        Get-ADGroupMember $adGroup -Recursive | 
+        Where-Object { $_.objectclass -eq 'computer' } | 
+        ForEach-Object { Get-ADComputer $_ -properties $usrProperties }
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrCantChangePwd {
     # ytd
     try {
-
+        Get-ADUser -filter { CannotChangePassword -ge $true } -properties $usrProperties -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrNotLoggedInXdays {
-    # ytd
-    try {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $days
+    )
 
+    try {
+        $date = (Get-Date).AddDays(- $days)
+        Get-ADUser -filter { LastLogonDate -lt $date -or LastLogonDate -notlike '*' } -properties "*" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrExpireInXdays {
-    # ytd
-    try {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $days
+    )
 
+    try {
+        $date = (Get-Date).AddDays($days)
+        Get-ADUser -filter { AccountExpirationDate -lt $date -or AccountExpirationDate -notlike '*' } -properties $usrProperties -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
+
 }
 function getUsrLockedOutAcnts {
-    # ytd
+    
     try {
-
+        Get-ADUser -filter { LockedOut -eq $true } -properties "*" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrPwdNvrExpires {
     # ytd
     try {
-
+        Get-ADUser -filter { PasswordNeverExpires -eq $true } -properties "*" -ErrorAction Stop
     }
     catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
+
+    }
+}
+function getUsrWithLogonScript {
+    # ytd
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $ScriptName
+    )
+    try {
+        Get-ADUser -Filter {scriptpath -like "$ScriptName" -or scriptpath -like "*/$ScriptName" -or scriptpath -like "*\$ScriptName"} -properties $usrProperties -ErrorAction Stop
+    }
+    catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
 function getUsrWithNoLogonScript {
     # ytd
     try {
-
+        Get-ADUser -Filter {scriptpath -notlike "*"} -properties $usrProperties -ErrorAction Stop
     }
     catch {
-
-    }
-}
-function getUsrWithLogonScript {
-    # ytd
-    try {
-
-    }
-    catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
     }
 }
@@ -1901,6 +2002,11 @@ catch {
 # step 8,9,10,11 : Generate Custom AD Report
 
 Get-ADCustomReport -reportType $reportType -ErrorAction Stop
+
+# Display any log message to the technician
+if ($Global:LogMsgVar) {
+    Write-Output $Global:LogMsgVar
+}
 
 # Step 12: Email the report feature
 
