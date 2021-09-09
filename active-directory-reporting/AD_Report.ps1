@@ -1,3 +1,4 @@
+
 <#
 .Synopsis
     Generate AD Report.
@@ -386,7 +387,7 @@ catch { Write-Output "[MSG: ERROR : $($_.Exception.message)]" }
 <#---------------------------------------------------------#>
 
 
-$usrProperties = @("*", "msDS-UserPasswordExpiryTimeComputed","ScriptPath")
+$usrProperties = @("*", "msDS-UserPasswordExpiryTimeComputed", "ScriptPath")
 
 <#---------------------------------------------------------#>
 <#------------ user defined functions ---------------------#>
@@ -581,84 +582,82 @@ function GetComputerSelectAttributes {
     
     }
 
-    $Attributes = @( )
-
     $InputObject | Select-Object @(
 
         $(    if ($cmpName) {
-                @{n = "Name"; e = {} }
+                @{n = "Name"; e = { $_.Name } }
             }
         ),  
 
         $(if ($cmpCreationDate) {
-                @{n = "whenCreated"; e = {} }
+                @{n = "whenCreated"; e = { $_.whenCreated } }
             }),
 
         $(if ($cmpDNShostName) {
-                @{n = "DNSHostName"; e = {} }
+                @{n = "DNSHostName"; e = { $_.DNSHostName } }
             }),
 
         $(if ($cmpOS) {
-                @{n = "OperatingSystem"; e = {} }
+                @{n = "OperatingSystem"; e = { $_.OperatingSystem } }
             }),
 
         $(if ($cmpParentContainer) {
-                @{n = "ParentContainer"; e = {} }
+                @{n = "ParentContainer"; e = { 
+                        $_.distinguishedname -replace '^.+?,(CN|OU.+)', '$1'
+                    } 
+                }
             }),
 
         $(if ($cmpServicePack) {
-                @{n = "OperatingSystemServicePack"; e = {} }
+                @{n = "OperatingSystemServicePack"; e = { $_.OperatingSystemServicePack } }
             }),
 
         $(if ($cmpPwdAge) {
-                @{n = "PasswordLastSet"; e = {} }
+                @{n = "PasswordAge"; e = { 
+
+                        if ($_.PasswordLastSet) { 
+                            "$(([timespan]( (Get-Date) - ([datetime]($_.PasswordLastSet)) )).Days) days ago" 
+                        }
+
+                    } 
+                }
             }),
 
         $(if ($cmpPwdLastCh) {
-                @{n = "PasswordLastSet1"; e = {} }
+                @{n = "PasswordLastSet"; e = { $_.PasswordLastSet } }
             }),
 
         $(if ($cmpLstLgnDt) {
-                @{n = "LastLogonDate"; e = {} }
+                @{n = "LastLogonDate"; e = { $_.LastLogonDate } }
             }),
 
         $(if ($cmpLstLgnDC) {
-                @{n = "LastLogonDate1"; e = {} }
+                @{n = "LastLogonDC"; e = { $_.LastLogonDate } }
             }),
 
         $(if ($cmpGrpMemberShip) {
-                @{n = "MemberOf"; e = {} }
+                @{n = "MemberOf"; e = { $_.MemberOf } }
             }),
 
         $(if ($cmpDistinguishedName) {
-                @{n = "DistinguishedName"; e = {} }
+                @{n = "DistinguishedName"; e = { $_.DistinguishedName } }
             }),
 
         $(if ($cmpGUID) {
-                @{n = "ObjectGUID"; e = {} }
+                @{n = "ObjectGUID"; e = { $_.ObjectGUID } }
             }),
 
         $(if ($cmpSID) {
-                @{n = "objectSid"; e = {} }
+                @{n = "objectSid"; e = { $_.ObjectSid } }
             }),
 
         $(if ($cmpAccidentalDeletionProtection) {
-                @{n = "ProtectedFromAccidentalDeletion"; e = {} }
-            }),
-
-        $(if ($Attributes.Count -eq 0) {
-                @{n = "Name"; e = {} }
+                @{n = "ProtectedFromAccidentalDeletion"; e = {
+                        $_.ProtectedFromAccidentalDeletion
+                    } 
+                }
             })
-    )
-
-
-    try {
-        $computerObj = $InputObject | Select-Object $Attributes -ErrorAction Stop
-        return $computerObj
-    }
-    catch {
-        Write-Error $($_.Exception.Message)
-    }
+    ) -ErrorAction Stop
 
 }
 
@@ -1015,6 +1014,7 @@ function getCmpRunningSpecificOS {
         }
 
         # $allComputers = Get-ADComputer -filter {OperatingSystem -like } -properties "*" -ErrorAction Stop
+
     }
     catch {
         # YTD
@@ -1039,6 +1039,7 @@ function getCmpProtectedFromDeletion {
     if ($allComputers) {
         GetSelectedAttributes -InputObject $allComputers -Computer
     }
+
 }
 
 function getCmpNotProtectedFromDeletion {
@@ -1340,7 +1341,7 @@ function getUsrWithLogonScript {
         $ScriptName
     )
     try {
-        Get-ADUser -Filter {scriptpath -like "$ScriptName" -or scriptpath -like "*/$ScriptName" -or scriptpath -like "*\$ScriptName"} -properties $usrProperties -ErrorAction Stop
+        Get-ADUser -Filter { scriptpath -like "$ScriptName" -or scriptpath -like "*/$ScriptName" -or scriptpath -like "*\$ScriptName" } -properties $usrProperties -ErrorAction Stop
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1350,7 +1351,7 @@ function getUsrWithLogonScript {
 function getUsrWithNoLogonScript {
     # ytd
     try {
-        Get-ADUser -Filter {scriptpath -notlike "*"} -properties $usrProperties -ErrorAction Stop
+        Get-ADUser -Filter { scriptpath -notlike "*" } -properties $usrProperties -ErrorAction Stop
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1999,7 +2000,18 @@ catch {
 
 # step 8,9,10,11 : Generate Custom AD Report
 
-Get-ADCustomReport -reportType $reportType -ErrorAction Stop
+try{
+    $ExportPath = 'C:\Custom_AD_Report.csv'
+    $report = Get-ADCustomReport -reportType $reportType -ErrorAction Stop
+    if($report){
+        $report | Export-Csv $Exportpath -NoTypeInformation -Force
+        LogMessage "report generated and exported to .$Exportpath'."
+    }
+
+}
+catch{
+
+}
 
 # Display any log message to the technician
 if ($Global:LogMsgVar) {
