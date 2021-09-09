@@ -345,8 +345,6 @@ $gpoDistinguishedName1
 $gpoGUID1
 $gpoSYSVOLFilePath1
 
-
-
 #>
 
 # #AD Report Option Type
@@ -2005,7 +2003,7 @@ try{
     $report = Get-ADCustomReport -reportType $reportType -ErrorAction Stop
     if($report){
         $report | Export-Csv $Exportpath -NoTypeInformation -Force
-        LogMessage "report generated and exported to .$Exportpath'."
+        LogMessage "report generated and exported to '$Exportpath'."
     }
 
 }

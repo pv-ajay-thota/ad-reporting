@@ -33,9 +33,15 @@ getCmpCreatedinLastXdays
 
 
 
+1) computer deleted in X days >> computers deleted recently
 
+2) deleted users : display note : will fetch deleted users which are deleted .... to be provided.
 
+3) users functions: 
+    1) 
 
+4) if nothing selected .. selct default attributes .. and export.
 
+5) add GPO functions
 
-
+6) sort Group functions 
