@@ -386,6 +386,9 @@ catch { Write-Output "[MSG: ERROR : $($_.Exception.message)]" }
 
 
 $usrProperties = @("*", "msDS-UserPasswordExpiryTimeComputed", "ScriptPath")
+$cmpProperties = @("*")
+$grpProperties = @("*")
+$gpoProperties = @("*")
 
 <#---------------------------------------------------------#>
 <#------------ user defined functions ---------------------#>
@@ -1155,7 +1158,6 @@ function getUsrWithEmployeeID {
     }
 
 }
-
 function getUsrWithGUID {
     [CmdletBinding()]
     param (
