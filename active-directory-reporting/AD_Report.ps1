@@ -387,9 +387,9 @@ catch { Write-Output "[MSG: ERROR : $($_.Exception.message)]" }
 
 
 $usrProperties = @("*", "msDS-UserPasswordExpiryTimeComputed", "ScriptPath")
-$cmpProperties = @("*")
+# $cmpProperties = @("*")
 $grpProperties = @("*")
-$gpoProperties = @("*")
+# $gpoProperties = @("*")
 
 <#---------------------------------------------------------#>
 <#------------ user defined functions ---------------------#>
@@ -836,7 +836,6 @@ function GetGroupSelectAttributes {
                         }
                     }
                 }
-            
             ),
             $( if ($groupDisplayName) {
                     @{n = "DisplayName"; e = {
@@ -1555,7 +1554,7 @@ function getUsrWithNoLogonScript {
 
 <# will define all the group sub routines here #>
 function getGrpAll {
-    Get-ADGroup -Filter * -Properties * -ErrorAction Stop
+    Get-ADGroup -Filter * -Properties $grpProperties -ErrorAction Stop
 }
 function getGrpDomainLocal {
     # YTD
