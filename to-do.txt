@@ -45,3 +45,16 @@ getCmpCreatedinLastXdays
 5) add GPO functions
 
 6) sort Group functions 
+
+
+
+
+Group membership
+-	Group membership (All)
+-   Group MemberShip Direct
+-   Group Membership Indirect
+-   Group Contains Members from external domain
+-   Group Members all 
+-   Group Members Direct 
+-   Group Critical System Object
+

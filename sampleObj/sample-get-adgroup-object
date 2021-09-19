@@ -1,0 +1,39 @@
+adminCount                      : 1
+CanonicalName                   : Contoso.com/Computers/Chennai computer
+CN                              : Chennai computer
+Created                         : 8/2/2021 3:33:15 AM
+createTimeStamp                 : 8/2/2021 3:33:15 AM
+Deleted                         : 
+Description                     : 
+DisplayName                     : 
+DistinguishedName               : CN=Chennai computer,CN=Computers,DC=Contoso,DC=com
+dSCorePropagationData           : {8/27/2021 3:40:26 AM, 8/2/2021 3:37:12 AM, 12/31/1600 4:00:00 PM}
+GroupCategory                   : Security
+GroupScope                      : Global
+groupType                       : -2147483646
+HomePage                        : 
+instanceType                    : 4
+isDeleted                       : 
+LastKnownParent                 : 
+ManagedBy                       : 
+member                          : {CN=Test-6,CN=Computers,DC=Contoso,DC=com}
+MemberOf                        : {CN=HO Computes,CN=Computers,DC=Contoso,DC=com}
+Members                         : {CN=Test-6,CN=Computers,DC=Contoso,DC=com}
+Modified                        : 8/2/2021 3:37:12 AM
+modifyTimeStamp                 : 8/2/2021 3:37:12 AM
+Name                            : Chennai computer
+nTSecurityDescriptor            : System.DirectoryServices.ActiveDirectorySecurity
+ObjectCategory                  : CN=Group,CN=Schema,CN=Configuration,DC=Contoso,DC=com
+ObjectClass                     : group
+ObjectGUID                      : 6c6326c1-6291-4418-a7e5-9f12720b9b37
+objectSid                       : S-1-5-21-105490012-4149236956-535263456-1615
+ProtectedFromAccidentalDeletion : False
+SamAccountName                  : Chennai computer
+sAMAccountType                  : 268435456
+sDRightsEffective               : 15
+SID                             : S-1-5-21-105490012-4149236956-535263456-1615
+SIDHistory                      : {}
+uSNChanged                      : 828413
+uSNCreated                      : 828364
+whenChanged                     : 8/2/2021 3:37:12 AM
+whenCreated                     : 8/2/2021 3:33:15 AM

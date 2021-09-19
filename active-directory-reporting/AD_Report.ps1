@@ -1,4 +1,5 @@
 
+
 <#
 .Synopsis
     Generate AD Report.
@@ -472,7 +473,6 @@ function ADWSServiceCheckStatus {
         return $null
     }
 
-
 }
 
 function NTDSServiceCheckStatus {
@@ -565,21 +565,21 @@ function GetComputerSelectAttributes {
 
     if ($optionType -eq 'selectAll') {
 
-        $cmpCreationDate = $true # whenCreated
-        $cmpDNShostName = $true # DNSHostName
-        $cmpName = $true # Name
-        $cmpOS = $true # OperatingSystem
-        $cmpParentContainer = $true # Select-Object @{n='ParentContainer';e={$_.distinguishedname -replace '^.+?,(CN|OU.+)','$1'}}
-        $cmpServicePack = $true # OperatingSystemServicePack
-        $cmpPwdAge = $true # 
-        $cmpPwdLastCh = $true
-        $cmpLstLgnDt = $true
-        $cmpLstLgnDC = $true
-        $cmpGrpMemberShip = $true
-        $cmpDistinguishedName = $true
-        $cmpGUID = $true
-        $cmpSID = $true
-        $cmpAccidentalDeletionProtection = $true
+        $cmpCreationDate = `
+            $cmpDNShostName = `
+            $cmpName = `
+            $cmpOS = `
+            $cmpParentContainer = `
+            $cmpServicePack = `
+            $cmpPwdAge = `
+            $cmpPwdLastCh = `
+            $cmpLstLgnDt = `
+            $cmpLstLgnDC = `
+            $cmpGrpMemberShip = `
+            $cmpDistinguishedName = `
+            $cmpGUID = `
+            $cmpSID = `
+            $cmpAccidentalDeletionProtection = $true
     
     }
 
@@ -801,6 +801,199 @@ function GetGroupSelectAttributes {
             ValueFromPipeline = $true)]
         $InputObject
     )
+
+    if ($null -eq $optionType) {
+        $optionType = 'selectAll'
+    }
+
+    if ($optionType -eq 'selectAll') {
+        $groupCreationDate = `
+            $groupDisplayName = `
+            $groupScope = `
+            $groupType = `
+            $groupModificationDate = `
+            $groupParentContainer = `
+            $groupMembershipAll = `
+            $groupMemberShipDirect = `
+            $groupMembershipIndirect = `
+            $groupCntMemFrmExtDomain = `
+            $groupMemAll = `
+            $groupMemDirect = `
+            $groupCriticalSysObj = `
+            $groupIsDeleted = `
+            $groupDistinguishedName = `
+            $groupGUID = `
+            $groupLastKnownLocation = `
+            $groupAccidentalDeletionProtection = `
+            $groupSID = $true
+    }
+
+    try {
+        $InputObject | Select-Object @(
+            $( if ($groupCreationDate) {
+                    @{n = "groupCreationDate"; e = {
+                            $_.whenCreated
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupDisplayName) {
+                    @{n = "DisplayName"; e = {
+                            $_.DisplayName
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupScope) {
+                    @{n = "GroupScope"; e = {
+                            $_.GroupScope
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupType) {
+                    @{n = "groupType"; e = {
+                            $_.groupType
+                        }
+                    }
+                }
+            ),
+            $( if ($groupModificationDate) {
+                    @{n = "Modified"; e = {
+                            $_.Modified
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupParentContainer) {
+                    @{n = "ParentContainer"; e = { 
+                            $_.distinguishedname -replace '^.+?,(CN|OU.+)', '$1'
+                        } 
+                    }
+                }
+            
+            ),
+            $( if ($groupMembershipAll) {
+                    @{n = "PropertyName"; e = {
+
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupMemberShipDirect) {
+                    @{n = "PropertyName"; e = {
+
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupMembershipIndirect) {
+                    @{n = "PropertyName"; e = {
+
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupCntMemFrmExtDomain) {
+                    @{n = "PropertyName"; e = {
+
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupMemAll) {
+                    @{n = "PropertyName"; e = {
+
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupMemDirect) {
+                    @{n = "PropertyName"; e = {
+
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupCriticalSysObj) {
+                    @{n = "isCriticalSystemObject"; e = {
+                            $_.isCriticalSystemObject
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupIsDeleted) {
+                    @{n = "groupIsDeleted"; e = {
+                            $_.isDeleted
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupDistinguishedName) {
+                    @{n = "DistinguishedName"; e = {
+                            $_.DistinguishedName
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupGUID) {
+                    @{n = "ObjectGUID"; e = {
+                            $_.ObjectGUID
+                        }
+                    }
+
+                }
+            
+            ),
+            $( if ($groupLastKnownLocation) {
+                    @{n = "LastKnowParent"; e = {
+                            $_.LastKnownParent
+                        }
+                    }
+                }
+            ),
+            $( if ($groupAccidentalDeletionProtection) {
+                    @{n = "ProtectedFromAccidentalDeletion"; e = {
+                            $_.ProtectedFromAccidentalDeletion
+                        }
+                    }
+                }
+            
+            ),
+            $( if ($groupSID) {
+                    @{n = "SID"; e = {
+                            $_.SID
+                        }
+                    }
+                }
+            
+            )
+        )
+
+
+    }
+    catch {
+        LogMessage "[ERROR]:: $($_.Exception.Message)"
+    }
+
+
+
+
+
+
 }
 
 function GetGPOSelectAttributes {
@@ -1719,71 +1912,71 @@ function Get-ADCustomGroupReport {
         try {
             switch ($groupOption) {
                 1 {
-                    getGrpAll
+                    $resultObj = getGrpAll
                     break;
                 }
                 2 {
-                    getGrpDomainLocal
+                    $resultObj = getGrpDomainLocal
                     break;
                 }
                 3 {
-                    getGrpGlobal
+                    $resultObj = getGrpGlobal
                     break;
                 }
                 4 {
-                    getGrpSecurity
+                    $resultObj = getGrpSecurity
                     break;
                 }
                 5 {
-                    getGrpUniversal
+                    $resultObj = getGrpUniversal
                     break;
                 }
                 6 {
-                    getGrpWithGUID
+                    $resultObj = getGrpWithGUID
                     break;
                 }
                 7 {
-                    getGrpWithName
+                    $resultObj = getGrpWithName
                     break;
                 }
                 8 {
-                    getGrpWithSID
+                    $resultObj = getGrpWithSID
                     break;
                 }
                 9 {
-                    getGrpCreatedInXdays
+                    $resultObj = getGrpCreatedInXdays
                     break;
                 }
                 10 {
-                    getGrpDeletedInXdays
+                    $resultObj = getGrpDeletedInXdays
                     break;
                 }
                 11 {
-                    getGrpModifiedInXdays
+                    $resultObj = getGrpModifiedInXdays
                     break;
                 }
                 12 {
-                    getGrpDirectMembership
+                    $resultObj = getGrpDirectMembership
                     break;
                 }
                 13 {
-                    getGrpNotProtectedDeletion
+                    $resultObj = getGrpNotProtectedDeletion
                     break;
                 }
                 14 {
-                    getGrtProtectedDeletion
+                    $resultObj = getGrtProtectedDeletion
                     break;
                 }
                 15 {
-                    getGrpDoNotContainMember
+                    $resultObj = getGrpDoNotContainMember
                     break;
                 }
                 16 {
-                    getGrpContainMember
+                    $resultObj = getGrpContainMember
                     break;
                 }
                 17 {
-                    getGrpWithNoMembers
+                    $resultObj = getGrpWithNoMembers
                     break;
                 }
                 Default {
@@ -1797,6 +1990,13 @@ function Get-ADCustomGroupReport {
         }
     }
     end {
+
+        if ($ResultObj) {
+            GetSelectedAttributes -InputObject $ResultObj -Group
+        }
+        else {
+            LogMessage "Group Report: Nothing to Export."
+        }
 
     }
 
@@ -2000,16 +2200,16 @@ catch {
 
 # step 8,9,10,11 : Generate Custom AD Report
 
-try{
+try {
     $ExportPath = 'C:\Custom_AD_Report.csv'
     $report = Get-ADCustomReport -reportType $reportType -ErrorAction Stop
-    if($report){
+    if ($report) {
         $report | Export-Csv $Exportpath -NoTypeInformation -Force
         LogMessage "report generated and exported to '$Exportpath'."
     }
 
 }
-catch{
+catch {
 
 }
 
