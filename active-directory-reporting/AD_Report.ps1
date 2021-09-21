@@ -548,7 +548,32 @@ function NetLogonShareCheck {
 
 }
 
+function ConvertFromDN {
+    param (
+        [Parameter(Mandatory, ValueFromPipeline = $True, ValueFromPipelineByPropertyName = $True)]
+        [string[]]$dn
+    )
+    process {
+        if ($dn) {
+            $d = ""; $p = "";
+            $dn -split '(?<!\\),' | ForEach-Object { 
+                if ($_.StartsWith('DC=')) { 
+                    $d += $_.Substring(3) + '.' 
+                } 
+                else { 
+                    $p = $_.Substring(3) + '\' + $p 
+                } 
+            }
+            Write-Output $($d.Trim('.') + '\' + $p.TrimEnd('\'))
+        }
+    }
+}
+
+
 # Process Custom Report Attributes and queries
+
+
+
 
 <# section: filter out selected attributes. utility functions #>
 
@@ -879,7 +904,8 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupMembershipAll) {
                     @{n = "groupMembershipAll"; e = {
-
+                        (Get-ADGroup -Filter { member -RecursiveMatch $_.DistinguishedName } -ErrorAction Stop | 
+                            Select-Object -ExpandProperty DistinguishedName | ConvertFromDN) -join "`n"
                         }
                     }
                 }
@@ -887,7 +913,7 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupMemberShipDirect) {
                     @{n = "groupMemberShipDirect"; e = {
-
+                        ($_.MemberOf | ConvertFromDN) -join "`n"
                         }
                     }
                 }
@@ -895,7 +921,12 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupMembershipIndirect) {
                     @{n = "groupMembershipIndirect"; e = {
-
+                            $dm = $_.MemberOf
+                            ((Get-ADGroup -Filter { member -RecursiveMatch $_.DistinguishedName } -ErrorAction Stop | 
+                                Select-Object -ExpandProperty DistinguishedName) | 
+                            Where-Object { $_ -notin $dm } | 
+                            ConvertFromDN 
+                            ) -join "`n"
                         }
                     }
                 }
@@ -903,7 +934,7 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupCntMemFrmExtDomain) {
                     @{n = "groupCntMemFrmExtDomain"; e = {
-
+                        
                         }
                     }
                 }
@@ -911,7 +942,7 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupMemAll) {
                     @{n = "groupMemAll"; e = {
-
+                        (Get-ADGroupMember $_ -Recursive | Select-Object -ExpandProperty DistinguishedName | ConvertFromDN) -join "`n"
                         }
                     }
                 }
@@ -919,7 +950,7 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupMemDirect) {
                     @{n = "groupMemDirect"; e = {
-
+                        (Get-ADGroupMember $_ | Select-Object -ExpandProperty DistinguishedName | ConvertFromDN) -join "`n"
                         }
                     }
                 }
