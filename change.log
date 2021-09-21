@@ -33,3 +33,22 @@ etc.. many changes ..
 =>> "enter the GUID of group" to "enter the group name"
 
 
+20/09/2021
+
+getGrpAll         -done
+getGrpDomainLocal -done
+getGrpGlobal      -done 
+getGrpSecurity
+getGrpUniversal
+getGrpWithGUID
+getGrpWithName
+getGrpWithSID
+getGrpCreatedInXdays
+getGrpDeletedInXdays
+getGrpModifiedInXdays
+getGrpDirectMembership
+getGrpNotProtectedDeletion
+getGrpDoNotContainMember
+getGrpContainMember
+getGrpWithNoMembers
+

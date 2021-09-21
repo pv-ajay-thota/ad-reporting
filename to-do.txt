@@ -58,3 +58,7 @@ Group membership
 -   Group Members Direct 
 -   Group Critical System Object
 
+
+
+samaccountName / UPN while group search for members
+

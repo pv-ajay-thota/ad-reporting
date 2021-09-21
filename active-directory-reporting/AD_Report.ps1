@@ -387,7 +387,7 @@ catch { Write-Output "[MSG: ERROR : $($_.Exception.message)]" }
 
 
 $usrProperties = @("*", "msDS-UserPasswordExpiryTimeComputed", "ScriptPath")
-# $cmpProperties = @("*")
+$cmpProperties = @("*")
 $grpProperties = @("*")
 # $gpoProperties = @("*")
 
@@ -877,7 +877,7 @@ function GetGroupSelectAttributes {
             
             ),
             $( if ($groupMembershipAll) {
-                    @{n = "PropertyName"; e = {
+                    @{n = "groupMembershipAll"; e = {
 
                         }
                     }
@@ -885,7 +885,7 @@ function GetGroupSelectAttributes {
             
             ),
             $( if ($groupMemberShipDirect) {
-                    @{n = "PropertyName"; e = {
+                    @{n = "groupMemberShipDirect"; e = {
 
                         }
                     }
@@ -893,7 +893,7 @@ function GetGroupSelectAttributes {
             
             ),
             $( if ($groupMembershipIndirect) {
-                    @{n = "PropertyName"; e = {
+                    @{n = "groupMembershipIndirect"; e = {
 
                         }
                     }
@@ -901,7 +901,7 @@ function GetGroupSelectAttributes {
             
             ),
             $( if ($groupCntMemFrmExtDomain) {
-                    @{n = "PropertyName"; e = {
+                    @{n = "groupCntMemFrmExtDomain"; e = {
 
                         }
                     }
@@ -909,7 +909,7 @@ function GetGroupSelectAttributes {
             
             ),
             $( if ($groupMemAll) {
-                    @{n = "PropertyName"; e = {
+                    @{n = "groupMemAll"; e = {
 
                         }
                     }
@@ -917,7 +917,7 @@ function GetGroupSelectAttributes {
             
             ),
             $( if ($groupMemDirect) {
-                    @{n = "PropertyName"; e = {
+                    @{n = "groupMemDirect"; e = {
 
                         }
                     }
@@ -1001,7 +1001,7 @@ function GetGPOSelectAttributes {
         [Parameter(Mandatory = $true)]
         $InputObject
     )
-
+    
 
 }
 
@@ -1116,11 +1116,11 @@ function getCmpDeletedinLastXdays {
 
     try {
 
-        $allComputers = Get-ADComputer -filter "*" -properties "*" -ErrorAction Stop
+        $allComputers = Get-ADObject -Filter { isDeleted -eq $true -and ObjectClass -eq 'computer' } -IncludeDeletedObjects -Properties $cmpProperties -ErrorAction Stop
     }
     catch {
         # YTD
-        Write-Error $_
+        LogMessage  "[ERROR]:: $($_.Exception.Message)"
     }
     
     GetSelectedAttributes -InputObject $allComputers -Computer
@@ -1226,9 +1226,9 @@ function getCmpProtectedFromDeletion {
 
     }
     catch {
-        # YTD
-        Write-Error $_
+        LogMessage "[ERROR]:: $($_.Exception.Message)"
     }
+
     if ($allComputers) {
         GetSelectedAttributes -InputObject $allComputers -Computer
     }
@@ -1243,7 +1243,7 @@ function getCmpNotProtectedFromDeletion {
     }
     catch {
         # YTD
-        Write-Error $_
+        LogMessage "[ERROR]:: $($_.Exception.Message)"
     }
     if ($allComputers) {
         GetSelectedAttributes -InputObject $allComputers -Computer
@@ -1407,7 +1407,6 @@ function getUsrCreatedInXdays {
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
-
     }
 }
 function getUsrModifiedInXdays {
@@ -1436,12 +1435,11 @@ function getUsrDirectMembership {
     try {
         $adGroup = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue
         Get-ADGroupMember $adGroup | 
-        Where-Object { $_.objectclass -eq 'computer' } | 
+        Where-Object { $_.objectclass -eq 'user' } | 
         ForEach-Object { Get-ADUser $_  -properties * }
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
-
     }
 
 }
@@ -1557,76 +1555,161 @@ function getGrpAll {
     Get-ADGroup -Filter * -Properties $grpProperties -ErrorAction Stop
 }
 function getGrpDomainLocal {
-    # YTD
+    Get-ADGroup -Filter { GroupScope -eq "DomainLocal" } -ErrorAction Stop
 }
+
 function getGrpGlobal {
     # YTD
+    Get-ADGroup -Filter { GroupScope -eq "Global" } -ErrorAction Stop
 }
 function getGrpSecurity {
-    # YTD
+    Get-ADGroup -Filter { GroupCategory -eq "Security" } -ErrorAction Stop
 }
 function getGrpUniversal {
     # YTD
+    Get-ADGroup -Filter { GroupScope -eq "Universal" } -ErrorAction Stop
 }
 function getGrpWithGUID {
     # YTD
+    Get-ADGroup -Filter { ObjectGUID -eq "$guid" } -ErrorAction Stop
 }
+
 function getGrpWithName {
     # YTD
+    Get-ADGroup -Filter { Name -eq "$name" }  -ErrorAction Stop
 }
 function getGrpWithSID {
     # YTD
+    Get-ADGroup -Filter { ObjectSID -eq "$SID" }  -ErrorAction Stop
 }
 function getGrpCreatedInXdays {
-    # YTD
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true )]    
+        $days
+    )
+    try {
+        $date = (Get-Date).AddDays(- $days)
+        Get-ADGroup -filter { whenCreated -ge $date } -properties "*" -ErrorAction Stop
+    }
+    catch {
+        LogMessage "[ERROR]:: Group Report : Internal : $($_.Exception.Message)"
+    }
 }
 function getGrpDeletedInXdays {
     # YTD
+    Get-ADObject -Filter { isDeleted -eq $true -and ObjectClass -eq 'group' } -IncludeDeletedObjects -Properties $cmpProperties -ErrorAction Stop
 }
 function getGrpModifiedInXdays {
-    # YTD
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true )]    
+        $days
+    )
+
+    try {
+        $date = (Get-Date).AddDays(- $days)
+        Get-ADUser -filter { Modified -ge $date } -properties "*" -ErrorAction Stop
+    }
+    catch {
+        LogMessage "[ERROR]:: Group Report : Internal : $($_.Exception.Message)"
+    }
+    
 }
 function getGrpDirectMembership {
-    # YTD
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $GroupName
+    )
+
+    try {
+        $adGroup = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction Stop
+        Get-ADGroupMember $adGroup | 
+        Where-Object { $_.objectclass -eq 'group' } | 
+        ForEach-Object { Get-ADGroup $_  -properties * }
+    }
+    catch {
+        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
+    }
 }
 function getGrpNotProtectedDeletion {
-    # YTD
+    try {
+
+        Get-ADGroup -Filter * -Properties $grpProperties | Where-Object { $_.ProtectedFromAccidentalDeletion -ne $true }
+    }
+    catch {
+        LogMessage "[ERROR]:: $($_.Exception.Message)"
+    }
 }
 function getGrpDoNotContainMember {
-    # YTD
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $memberName
+    )
+    Get-ADGroup -Filter { Members -notlike "*" } -Properties $grpProperties -ErrorAction Stop
 }
 function getGrpContainMember {
-    # YTD
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $memberName
+    )
+    Get-ADGroup -Filter { Members -like "*" } -Properties $grpProperties -ErrorAction Stop
 }
 function getGrpWithNoMembers {
-    # YTD
+    Get-ADGroup -Filter { Members -notlike "*" } -Properties $grpProperties -ErrorAction Stop
 }
 <# group sub routines end #>
 
 <# will define all the GPO sub routines here #>
 
 function getGPOAll {
-
+    Get-GPO -All -ErrorAction Stop
 }
-function getGPOWithUniqueID {
 
+function getGPOWithUniqueID {
+[CmdletBinding()]
+param (
+    [Parameter(Mandatory = $true )]
+    $guid
+)
+Get-GPO -Guid $guid -ErrorAction Stop
 }
 function getGPOCreatedInXdays {
-
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        $days
+    )
+    $date = (Get-Date).AddDays(- $days)
+    Get-GPO -All | Where-Object { $_.CreationTime -gt $date }
 }
 function getGPOModifiedInXdays {
-
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        $days
+    )
+    $date = (Get-Date).AddDays(- $days)
+    Get-GPO -All | Where-Object { $_.ModificationTime -gt $date }
+    
 }
 function getGPOallSettingsDisabled {
-
+    Get-GPO -All | Where-Object { $_.GPOStatus -eq 'AllSettingsDisabled' }
 }
 function getGPOallSettingsEnabled {
-
+    Get-GPO -All | Where-Object { $_.GPOStatus -eq 'AllSettingsEnabled' }
 }
+
 function getGPOCmpSettingsDisabled {
-
+    Get-GPO -All | Where-Object { $_.GPOStatus -eq 'ComputerSettingsDisabled' }
+    
 }
+
 function GetGPOUsrSettingsDisabled {
+    Get-GPO -All | Where-Object { $_.GPOStatus -eq 'UserSettingsDisabled' }
 
 }
 
@@ -1864,8 +1947,7 @@ function Get-ADCustomUserReport {
                     $ResultObj = getUsrWithNoLogonScript 
                     break;
                 }
-                    
-                
+
                 19 {
 
                     $ResultObj = getUsrWithLogonScript 
@@ -2079,6 +2161,7 @@ function Get-ADCustomReport {
 
     }
     process {
+
         try {
             switch ($reportType) {
     
@@ -2136,19 +2219,17 @@ function Get-ADCustomReport {
 
 }
 
-
 #####################################################################
 # user defined functions end ########################################
 #####################################################################
 
 
 
-
-
-
 #####################################################################
 # controller logic main #############################################
 #####################################################################
+
+$Global:LogMsgVar = ''
 
 # step 1,2,3 : check if the machine has legacy os
 
