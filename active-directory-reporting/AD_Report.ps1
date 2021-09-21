@@ -527,6 +527,7 @@ function SysVolShareCheck {
     $netShare = Invoke-Expression "net share 2>&1"
     $SysVolShare = $netShare | Where-Object { "$_".trim() -like "SYSVOL*" }
     if ($SysVolShare) {
+        $script:SysVolFilePath = ($SysVolShare -split " " | Where-Object { "$_".trim() -ne "" })[1]
         return $true
     }
     else {
@@ -1001,7 +1002,108 @@ function GetGPOSelectAttributes {
         [Parameter(Mandatory = $true)]
         $InputObject
     )
-    
+
+    if ($null -eq $optionType) {
+        $optionType = 'selectAll'
+    }
+
+    if ($optionType -eq 'selectAll') {
+        $gpoCreationDate = `
+            $gpoDisplayName = `
+            $gpoModificationDate = `
+            $gpoParentContainer = `
+            $gpoStatus = `
+            $gpoComputerVersion = `
+            $gpoUserVersion = `
+            $gpoDistinguishedName = `
+            $gpoGUID = `
+            $gpoSYSVOLFilePath = $true
+    }
+
+
+
+    $InputObject | Select-Object @(
+        $( if ($gpoCreationDate) {
+                @{
+                    n = "CreationTime";
+                    e = {
+                        $_.CreationTime
+                    }
+                }
+            }),
+        $( if ($gpoDisplayName) {
+                @{
+                    n = "DisplayName";
+                    e = {
+                        $_.DisplayName
+                    }
+                }
+            }),
+        $( if ($gpoModificationDate) {
+                @{
+                    n = "ModificationTime";
+                    e = {
+                        $_.ModificationTime
+                    }
+                }
+            }),
+        $( if ($gpoParentContainer) {
+                @{
+                    n = "ParentContainer";
+                    e = {
+                        "$($_.Path -replace '^.+?,(CN|OU.+)', '$1')"
+                    }
+                }
+            }),
+        $( if ($gpoStatus) {
+                @{
+                    n = "GpoStatus";
+                    e = {
+                        $_.GpoStatus
+                    }
+                }
+            }),
+        $( if ($gpoComputerVersion) {
+                @{
+                    n = "ComputerVersion";
+                    e = {
+                        "AD Version $($_.Computer.DSVersion) ; SysVolVersion $($_.Computer.SysVolVersion)"
+                    }
+                }
+            }),
+        $( if ($gpoUserVersion) {
+                @{
+                    n = "UserVersion";
+                    e = {
+                        "AD Version $($_.User.DSVersion) ; SysVolVersion $($_.User.SysVolVersion)"
+                    }
+                }
+            }),
+        $( if ($gpoDistinguishedName) {
+                @{
+                    n = "DistinguishedName";
+                    e = {
+                        $_.Path
+                    }
+                }
+            }),
+        $( if ($gpoGUID) {
+                @{
+                    n = "GUID";
+                    e = {
+                        $_.id
+                    }
+                }
+            }),
+        $( if ($gpoSYSVOLFilePath) {
+                @{
+                    n = "SysVolFilePath";
+                    e = {
+                        $script:SysVolFilePath
+                    }
+                }
+            })
+    )
 
 }
 
@@ -1666,16 +1768,18 @@ function getGrpWithNoMembers {
 <# will define all the GPO sub routines here #>
 
 function getGPOAll {
+    [CmdletBinding()]
+    param ()
     Get-GPO -All -ErrorAction Stop
 }
 
 function getGPOWithUniqueID {
-[CmdletBinding()]
-param (
-    [Parameter(Mandatory = $true )]
-    $guid
-)
-Get-GPO -Guid $guid -ErrorAction Stop
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true )]
+        $guid
+    )
+    Get-GPO -Guid $guid -ErrorAction Stop
 }
 function getGPOCreatedInXdays {
     [CmdletBinding()]
@@ -1697,18 +1801,26 @@ function getGPOModifiedInXdays {
     
 }
 function getGPOallSettingsDisabled {
+    [CmdletBinding()]
+    param ()
     Get-GPO -All | Where-Object { $_.GPOStatus -eq 'AllSettingsDisabled' }
 }
 function getGPOallSettingsEnabled {
+    [CmdletBinding()]
+    param ()
     Get-GPO -All | Where-Object { $_.GPOStatus -eq 'AllSettingsEnabled' }
 }
 
 function getGPOCmpSettingsDisabled {
+    [CmdletBinding()]
+    param ()
     Get-GPO -All | Where-Object { $_.GPOStatus -eq 'ComputerSettingsDisabled' }
     
 }
 
 function GetGPOUsrSettingsDisabled {
+    [CmdletBinding()]
+    param ()
     Get-GPO -All | Where-Object { $_.GPOStatus -eq 'UserSettingsDisabled' }
 
 }
@@ -2097,35 +2209,35 @@ function Get-ADCustomGPOReport {
         try {
             switch ($gpoOption) {
                 1 {
-                    getGPOAll
+                    $ResultObj = getGPOAll -ErrorAction Stop
                     break; 
                 }
                 2 {
-                    getGPOWithUniqueID
+                    $ResultObj = getGPOWithUniqueID -ErrorAction Stop
                     break; 
                 }
                 3 {
-                    getGPOCreatedInXdays
+                    $ResultObj = getGPOCreatedInXdays -ErrorAction Stop
                     break; 
                 }
                 4 {
-                    getGPOModifiedInXdays
+                    $ResultObj = getGPOModifiedInXdays -ErrorAction Stop
                     break; 
                 }
                 5 {
-                    getGPOallSettingsDisabled
+                    $ResultObj = getGPOallSettingsDisabled -ErrorAction Stop
                     break; 
                 }
                 6 {
-                    getGPOallSettingsEnabled
+                    $ResultObj = getGPOallSettingsEnabled -ErrorAction Stop
                     break; 
                 }
                 7 {
-                    getGPOCmpSettingsDisabled
+                    $ResultObj = getGPOCmpSettingsDisabled -ErrorAction Stop
                     break; 
                 }
                 8 {
-                    GetGPOUsrSettingsDisabled
+                    $ResultObj = GetGPOUsrSettingsDisabled -ErrorAction Stop
                     break; 
                 }
                 Default {
@@ -2139,7 +2251,12 @@ function Get-ADCustomGPOReport {
         }
     }
     end {
-
+        if ($ResultObj) {
+            GetSelectedAttributes -InputObject $ResultObj -GPO
+        }
+        else {
+            LogMessage "GPO Report: Nothing to Export."
+        }
     }
 
 }
@@ -2286,6 +2403,7 @@ try {
     if ($report) {
         $report | Export-Csv $Exportpath -NoTypeInformation -Force
         LogMessage "report generated and exported to '$Exportpath'."
+        $report # testing purpose
     }
 
 }

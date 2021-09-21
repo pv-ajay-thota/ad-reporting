@@ -1575,7 +1575,7 @@
                             ],
                             "enumNames": [
                                 "1. All GPOs",
-                                "2. GPO with specified Unique ID (window to enter the Unique ID which needs to be searched)",
+                                "2. GPO with specified Unique ID",
                                 "3. GPOs created in last 30 days",
                                 "4. GPOs modified in last 30 days",
                                 "5. GPOs with all settings disabled",
