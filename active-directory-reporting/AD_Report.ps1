@@ -391,6 +391,7 @@ $cmpProperties = @("*")
 $grpProperties = @("*")
 # $gpoProperties = @("*")
 
+
 <#---------------------------------------------------------#>
 <#------------ user defined functions ---------------------#>
 <#---------------------------------------------------------#>
@@ -934,7 +935,7 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupCntMemFrmExtDomain) {
                     @{n = "groupCntMemFrmExtDomain"; e = {
-                        
+
                         }
                     }
                 }
@@ -1130,7 +1131,10 @@ function GetGPOSelectAttributes {
                 @{
                     n = "SysVolFilePath";
                     e = {
-                        $script:SysVolFilePath
+                        $path = "$($script:SysVolFilePath)\Contoso.com\Policies\{$($_.ID)}"
+                        if(Test-Path $path){
+                            $path
+                        }
                     }
                 }
             })
@@ -2378,6 +2382,7 @@ function Get-ADCustomReport {
 #####################################################################
 
 $Global:LogMsgVar = ''
+$stopWatch = [System.Diagnostics.Stopwatch]::StartNew()
 
 # step 1,2,3 : check if the machine has legacy os
 
@@ -2439,14 +2444,27 @@ try {
 
 }
 catch {
-
+    LogMessage "[ERROR]:: $($_.Exception.Message)"
 }
+
+
+# Step 12: Email the report feature
+
+<# ---  To be tested and implemented. --- #>
+
+
+
+# StopWatch terminate
+
+if($stopWatch.IsRunning){
+    $stopWatch.Stop()
+}
+
+LogMessage "Elapsed Time : $($stopWatch.Elapsed.Hours) h $($stopWatch.Elapsed.Minutes) m $($stopWatch.Elapsed.Seconds) s."
+
+
 
 # Display any log message to the technician
 if ($Global:LogMsgVar) {
     Write-Output $Global:LogMsgVar
 }
-
-# Step 12: Email the report feature
-
-<# ---  To be tested and implemented. --- #>

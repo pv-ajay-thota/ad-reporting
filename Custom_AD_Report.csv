@@ -1,11 +1,142 @@
-"Name","whenCreated","DisplayName","EmailAddress","EmployeeID","Surname","LastName","LockedOut","Disabled","AccountExpirationDate","pwd_changeNextLogin","PasswordAge","PasswordExpiresOn","PasswordLastSet","PasswordNeverExpires","CannotChangePassword"
-"Administrator","3/5/2021 1:21:42 AM",,,,,,"False","False",,"False","188 days ago","","3/5/2021 1:55:48 AM","True","False"
-"Guest","3/5/2021 1:21:42 AM",,,,,,"False","True",,"True","","",,"True","True"
-"krbtgt","3/5/2021 1:27:33 AM",,,,,,"False","True",,"False","188 days ago","","3/5/2021 1:27:33 AM","False","False"
-"CHILD$","3/12/2021 8:17:54 AM",,,,,,"False","False",,"False","26 days ago",,"8/13/2021 8:10:46 AM","False","False"
-"sweety gorai","3/19/2021 6:36:20 AM",,,,"sweety","gorai","False","False",,"False","173 days ago","4/30/2021 6:36:24 AM","3/19/2021 6:36:24 AM","False","False"
-"sweety gorai1","3/19/2021 6:39:04 AM",,,,"sweety","gorai1","False","False",,"False","173 days ago","4/30/2021 6:39:04 AM","3/19/2021 6:39:04 AM","False","False"
-"testuser1","4/29/2021 6:04:17 AM","testuser1",,,"testuser1",,"False","False",,"True","","12/31/1600 4:00:00 PM",,"False","False"
-"ADsecure","8/31/2021 6:54:29 AM","ADsecure",,,"ADsecure",,"False","False",,"False","8 days ago","","8/31/2021 6:54:29 AM","True","True"
-"test user3","9/8/2021 3:04:51 PM","test user3",,,"test","user3","False","False","1/9/2022 12:00:00 AM","False","0 days ago","10/20/2021 3:04:51 PM","9/8/2021 3:04:51 PM","False","False"
-"test user 4","9/8/2021 3:11:00 PM","test user 4",,,"test","user 4","False","True",,"False","0 days ago","","9/8/2021 3:11:00 PM","False","False"
+"groupCreationDate","DisplayName","GroupScope","groupType","Modified","ParentContainer","groupMembershipAll","groupMemberShipDirect","groupMembershipIndirect","groupCntMemFrmExtDomain","groupMemAll","groupMemDirect","isCriticalSystemObject","groupIsDeleted","DistinguishedName","ObjectGUID","LastKnowParent","ProtectedFromAccidentalDeletion","SID"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483644","3/5/2021 1:21:42 AM","CN=Users,DC=Contoso,DC=com","","","","","","",,,"CN=WinRMRemoteWMIUsers__,CN=Users,DC=Contoso,DC=com","ab7b0198-5b0c-4f6b-880f-aadf02d74585",,"False","S-1-5-21-105490012-4149236956-535263456-1000"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","9/3/2021 6:21:57 AM","CN=Builtin,DC=Contoso,DC=com","","","","","Contoso.com\Users\Administrator","Contoso.com\Users\Administrator","True",,"CN=Administrators,CN=Builtin,DC=Contoso,DC=com","dc614870-875c-4c26-9057-c95c770c2fd7",,"False","S-1-5-32-544"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:27:33 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","Contoso.com\Users\Domain Users","True",,"CN=Users,CN=Builtin,DC=Contoso,DC=com","b5803041-afdc-4a4e-87ac-c46e2d6ea8ca",,"False","S-1-5-32-545"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:27:33 AM","CN=Builtin,DC=Contoso,DC=com","","","","","Contoso.com\Users\Guest","Contoso.com\Users\Domain Guests
+Contoso.com\Users\Guest","True",,"CN=Guests,CN=Builtin,DC=Contoso,DC=com","2f43a114-dfc2-42ab-a712-72060c1f9aa5",,"False","S-1-5-32-546"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:42:46 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Print Operators,CN=Builtin,DC=Contoso,DC=com","9eda2990-1a62-46dd-822c-cddb041adceb",,"False","S-1-5-32-550"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:42:46 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Backup Operators,CN=Builtin,DC=Contoso,DC=com","02154738-1ab3-49ca-9212-400328090444",,"False","S-1-5-32-551"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:42:46 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Replicator,CN=Builtin,DC=Contoso,DC=com","9a7f77d2-d036-48b7-9ee7-449cce2fa0ca",,"False","S-1-5-32-552"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","9/1/2021 4:28:29 AM","CN=Builtin,DC=Contoso,DC=com","","","","","Contoso.com\Users\ADsecure
+Contoso.com\Users\Administrator","Contoso.com\Users\ADsecure
+Contoso.com\Users\Administrator","True",,"CN=Remote Desktop Users,CN=Builtin,DC=Contoso,DC=com","fd03c2ef-44fb-4307-b44c-b41d4a07d697",,"False","S-1-5-32-555"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Network Configuration Operators,CN=Builtin,DC=Contoso,DC=com","bda5d918-8007-40ce-8438-a11966bb9240",,"False","S-1-5-32-556"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Performance Monitor Users,CN=Builtin,DC=Contoso,DC=com","4cf77632-f653-4a26-b5ec-7b56dcc16c4d",,"False","S-1-5-32-558"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","5/14/2021 3:07:48 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Performance Log Users,CN=Builtin,DC=Contoso,DC=com","93032910-a09b-4c74-b835-4ac66aa22814",,"False","S-1-5-32-559"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Distributed COM Users,CN=Builtin,DC=Contoso,DC=com","664ee639-1aa1-4210-8596-0b4cd2d4d938",,"False","S-1-5-32-562"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=IIS_IUSRS,CN=Builtin,DC=Contoso,DC=com","54a59dd6-ad96-4230-9e68-d0e2d3ecb166",,"False","S-1-5-32-568"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Cryptographic Operators,CN=Builtin,DC=Contoso,DC=com","716ed70d-88d6-47de-850d-bc5f18fc47d5",,"False","S-1-5-32-569"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Event Log Readers,CN=Builtin,DC=Contoso,DC=com","f83ebca3-3f80-45d6-92ea-6c5c56eb0f6f",,"False","S-1-5-32-573"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Certificate Service DCOM Access,CN=Builtin,DC=Contoso,DC=com","0f5c9d24-ea03-4e08-904f-292f84b4ca0e",,"False","S-1-5-32-574"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=RDS Remote Access Servers,CN=Builtin,DC=Contoso,DC=com","f0c2db3a-3195-4e66-aa76-3b92d050ec31",,"False","S-1-5-32-575"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=RDS Endpoint Servers,CN=Builtin,DC=Contoso,DC=com","0d7bb9bc-7688-4663-adcc-676c90319368",,"False","S-1-5-32-576"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=RDS Management Servers,CN=Builtin,DC=Contoso,DC=com","725aa121-27e6-4e0d-87d8-5b6c8b75144b",,"False","S-1-5-32-577"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Hyper-V Administrators,CN=Builtin,DC=Contoso,DC=com","db1991c5-e8f3-4ba6-a3e8-2af0da0b16cd",,"False","S-1-5-32-578"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Access Control Assistance Operators,CN=Builtin,DC=Contoso,DC=com","9430db8b-bd8a-461b-bab7-739e9222c0b9",,"False","S-1-5-32-579"
+"3/5/2021 1:21:42 AM",,"DomainLocal","-2147483643","3/5/2021 1:21:42 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Remote Management Users,CN=Builtin,DC=Contoso,DC=com","3a46e824-4c55-4e9e-ab6c-57601f5d1a2c",,"False","S-1-5-32-580"
+"3/5/2021 1:27:33 AM",,"Global","-2147483646","8/2/2021 3:37:17 AM","CN=Users,DC=Contoso,DC=com","","","","","Contoso.com\Computers\Test-2
+Contoso.com\Computers\Test-3
+Contoso.com\Computers\Test-4
+Contoso.com\Computers\Test-5
+Contoso.com\Computers\Test-6
+Contoso.com\Computers\Test-2
+Contoso.com\Computers\Test-3
+Contoso.com\Computers\Test-4
+Contoso.com\Computers\Test-5
+Contoso.com\Computers\Test-6","Contoso.com\Computers\HO Computes
+Contoso.com\Computers\Test-2
+Contoso.com\Computers\Test-3
+Contoso.com\Computers\Test-4
+Contoso.com\Computers\Test-5
+Contoso.com\Computers\Test-6","True",,"CN=Domain Computers,CN=Users,DC=Contoso,DC=com","606d3394-deb1-4531-a927-1189435ff699",,"False","S-1-5-21-105490012-4149236956-535263456-515"
+"3/5/2021 1:27:33 AM",,"Global","-2147483646","3/5/2021 1:42:46 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Denied RODC Password Replication Group","","","Contoso.com\Domain Controllers\SAURABH-SRV
+Contoso.com\Domain Controllers\SARANG-SRV","Contoso.com\Domain Controllers\SAURABH-SRV
+Contoso.com\Domain Controllers\SARANG-SRV","True",,"CN=Domain Controllers,CN=Users,DC=Contoso,DC=com","1298177a-1b25-48b5-b37f-cf66dcca30a8",,"False","S-1-5-21-105490012-4149236956-535263456-516"
+"3/5/2021 1:27:33 AM",,"Universal","-2147483640","4/29/2021 6:04:19 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Denied RODC Password Replication Group","","","Contoso.com\Users\testuser1
+Contoso.com\Users\Administrator","Contoso.com\Users\testuser1
+Contoso.com\Users\Administrator","True",,"CN=Schema Admins,CN=Users,DC=Contoso,DC=com","ad524d44-72e4-4dcd-b957-cefcce87bca4",,"False","S-1-5-21-105490012-4149236956-535263456-518"
+"3/5/2021 1:27:33 AM",,"Universal","-2147483640","4/29/2021 6:04:19 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Denied RODC Password Replication Group","","","Contoso.com\Users\testuser1
+Contoso.com\Users\Administrator","Contoso.com\Users\testuser1
+Contoso.com\Users\Administrator","True",,"CN=Enterprise Admins,CN=Users,DC=Contoso,DC=com","c8a0da80-f48f-4903-9094-659d1397d530",,"False","S-1-5-21-105490012-4149236956-535263456-519"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483644","3/5/2021 1:27:33 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Denied RODC Password Replication Group","","","","","True",,"CN=Cert Publishers,CN=Users,DC=Contoso,DC=com","83fe496c-31e5-4337-a864-bd56f13506f4",,"False","S-1-5-21-105490012-4149236956-535263456-517"
+"3/5/2021 1:27:33 AM",,"Global","-2147483646","8/2/2021 3:36:26 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Denied RODC Password Replication Group","","","Contoso.com\Users\Administrator
+Contoso.com\Users\testuser1
+Contoso.com\Computers\Test-2
+Contoso.com\Computers\Test-3
+Contoso.com\Computers\Test-4
+Contoso.com\Computers\Test-5
+Contoso.com\Computers\Test-6","Contoso.com\Users\Administrator
+Contoso.com\Users\testuser1
+Contoso.com\Computers\HO Computes","True",,"CN=Domain Admins,CN=Users,DC=Contoso,DC=com","04af198d-bc86-4fdb-a6a1-2af0945b6bbb",,"False","S-1-5-21-105490012-4149236956-535263456-512"
+"3/5/2021 1:27:33 AM",,"Global","-2147483646","3/5/2021 1:27:33 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Builtin\Users","Contoso.com\Builtin\Users","","","Contoso.com\Users\Administrator
+Contoso.com\Users\krbtgt
+Contoso.com\Users\CHILD$
+Contoso.com\Users\sweety gorai
+Contoso.com\Users\sweety gorai1
+Contoso.com\Users\testuser1
+Contoso.com\Users\ADsecure
+Contoso.com\Users\test user3
+Contoso.com\Users\test user 4","Contoso.com\Users\Administrator
+Contoso.com\Users\krbtgt
+Contoso.com\Users\CHILD$
+Contoso.com\Users\sweety gorai
+Contoso.com\Users\sweety gorai1
+Contoso.com\Users\testuser1
+Contoso.com\Users\ADsecure
+Contoso.com\Users\test user3
+Contoso.com\Users\test user 4","True",,"CN=Domain Users,CN=Users,DC=Contoso,DC=com","b4677f5e-163e-49db-a04c-06d98ae2d83b",,"False","S-1-5-21-105490012-4149236956-535263456-513"
+"3/5/2021 1:27:33 AM",,"Global","-2147483646","3/5/2021 1:27:33 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Builtin\Guests","Contoso.com\Builtin\Guests","","","Contoso.com\Users\Guest","Contoso.com\Users\Guest","True",,"CN=Domain Guests,CN=Users,DC=Contoso,DC=com","33f55e9f-657a-4272-b721-c2b15518ce37",,"False","S-1-5-21-105490012-4149236956-535263456-514"
+"3/5/2021 1:27:33 AM",,"Global","-2147483646","4/29/2021 6:04:19 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Denied RODC Password Replication Group","","","Contoso.com\Users\Administrator
+Contoso.com\Users\testuser1","Contoso.com\Users\Administrator
+Contoso.com\Users\testuser1","True",,"CN=Group Policy Creator Owners,CN=Users,DC=Contoso,DC=com","4c59c093-a154-4edb-92ff-a5dcd99d961a",,"False","S-1-5-21-105490012-4149236956-535263456-520"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483644","3/5/2021 1:27:33 AM","CN=Users,DC=Contoso,DC=com","","","","","","","True",,"CN=RAS and IAS Servers,CN=Users,DC=Contoso,DC=com","bd499ebd-8475-4f06-8acf-162ec018cf17",,"False","S-1-5-21-105490012-4149236956-535263456-553"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483643","3/5/2021 1:42:46 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Server Operators,CN=Builtin,DC=Contoso,DC=com","645363f7-cb45-4360-bcfd-78a70389f671",,"False","S-1-5-32-549"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483643","3/5/2021 1:42:46 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Account Operators,CN=Builtin,DC=Contoso,DC=com","c6b197c9-4f57-4d72-8eaa-58f91e222b9e",,"False","S-1-5-32-548"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483643","3/5/2021 1:27:33 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Pre-Windows 2000 Compatible Access,CN=Builtin,DC=Contoso,DC=com","7903b815-6061-4971-b313-41420aa65da6",,"False","S-1-5-32-554"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483643","3/5/2021 1:27:33 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Incoming Forest Trust Builders,CN=Builtin,DC=Contoso,DC=com","ccbd65ca-6be8-4aba-882b-72290dcb1f2c",,"False","S-1-5-32-557"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483643","3/5/2021 1:27:33 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Windows Authorization Access Group,CN=Builtin,DC=Contoso,DC=com","23fe9b50-9d73-4a04-843c-2af869dc985d",,"False","S-1-5-32-560"
+"3/5/2021 1:27:33 AM",,"DomainLocal","-2147483643","3/5/2021 1:27:33 AM","CN=Builtin,DC=Contoso,DC=com","","","","","","","True",,"CN=Terminal Server License Servers,CN=Builtin,DC=Contoso,DC=com","b1249c5e-5c3b-456f-a213-d015994ff169",,"False","S-1-5-32-561"
+"3/5/2021 1:27:34 AM",,"DomainLocal","-2147483644","3/5/2021 1:27:34 AM","CN=Users,DC=Contoso,DC=com","","","","","","","True",,"CN=Allowed RODC Password Replication Group,CN=Users,DC=Contoso,DC=com","855142cf-5f59-47f5-b718-fe55f3ae7854",,"False","S-1-5-21-105490012-4149236956-535263456-571"
+"3/5/2021 1:27:34 AM",,"DomainLocal","-2147483644","3/5/2021 1:27:34 AM","CN=Users,DC=Contoso,DC=com","","","","","Contoso.com\Users\krbtgt
+Contoso.com\Users\testuser1
+Contoso.com\Users\Administrator
+Contoso.com\Computers\Test-3
+Contoso.com\Computers\Test-2
+Contoso.com\Computers\Test-6
+Contoso.com\Computers\Test-5
+Contoso.com\Computers\Test-4","Contoso.com\Users\Read-only Domain Controllers
+Contoso.com\Users\Group Policy Creator Owners
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Cert Publishers
+Contoso.com\Users\Enterprise Admins
+Contoso.com\Users\Schema Admins
+Contoso.com\Users\Domain Controllers
+Contoso.com\Users\krbtgt","True",,"CN=Denied RODC Password Replication Group,CN=Users,DC=Contoso,DC=com","288daaf5-8eca-4c34-accf-3d33f928f149",,"False","S-1-5-21-105490012-4149236956-535263456-572"
+"3/5/2021 1:27:34 AM",,"Global","-2147483646","3/5/2021 1:42:46 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Denied RODC Password Replication Group","","","","","True",,"CN=Read-only Domain Controllers,CN=Users,DC=Contoso,DC=com","914746eb-4e3a-4856-89d0-d8d769ac1722",,"False","S-1-5-21-105490012-4149236956-535263456-521"
+"3/5/2021 1:27:34 AM",,"Universal","-2147483640","3/5/2021 1:27:34 AM","CN=Users,DC=Contoso,DC=com","","","","","","","True",,"CN=Enterprise Read-only Domain Controllers,CN=Users,DC=Contoso,DC=com","ba13501a-db35-4c24-8e86-c5af2848392e",,"False","S-1-5-21-105490012-4149236956-535263456-498"
+"3/5/2021 1:27:34 AM",,"Global","-2147483646","3/5/2021 1:27:34 AM","CN=Users,DC=Contoso,DC=com","","","","","","","True",,"CN=Cloneable Domain Controllers,CN=Users,DC=Contoso,DC=com","8f43550f-87a0-4dd0-a910-05dc56dfd247",,"False","S-1-5-21-105490012-4149236956-535263456-522"
+"3/5/2021 1:27:34 AM",,"Global","-2147483646","3/5/2021 1:27:34 AM","CN=Users,DC=Contoso,DC=com","","","","","","","True",,"CN=Protected Users,CN=Users,DC=Contoso,DC=com","bcfa16bb-e610-47cc-a9a4-f23a7c7d853d",,"False","S-1-5-21-105490012-4149236956-535263456-525"
+"3/5/2021 1:28:30 AM",,"DomainLocal","-2147483644","3/5/2021 1:28:30 AM","CN=Users,DC=Contoso,DC=com","","","","","","",,,"CN=DnsAdmins,CN=Users,DC=Contoso,DC=com","1d9b68ac-7718-4f93-84b5-3cd65bd64728",,"False","S-1-5-21-105490012-4149236956-535263456-1102"
+"3/5/2021 1:28:30 AM",,"Global","-2147483646","3/5/2021 1:28:30 AM","CN=Users,DC=Contoso,DC=com","","","","","","",,,"CN=DnsUpdateProxy,CN=Users,DC=Contoso,DC=com","edec20ea-66ca-4a20-b2d6-cb3529b1f831",,"False","S-1-5-21-105490012-4149236956-535263456-1103"
+"4/14/2021 7:11:32 AM",,"DomainLocal","-2147483644","4/14/2021 7:11:33 AM","CN=Users,DC=Contoso,DC=com","","","","","","",,,"CN=DHCP Users,CN=Users,DC=Contoso,DC=com","80156504-b82e-4cd2-985c-1fc87ad1b949",,"False","S-1-5-21-105490012-4149236956-535263456-1106"
+"4/14/2021 7:11:33 AM",,"DomainLocal","-2147483644","4/14/2021 7:11:33 AM","CN=Users,DC=Contoso,DC=com","","","","","","",,,"CN=DHCP Administrators,CN=Users,DC=Contoso,DC=com","211107ac-16ec-417e-9d8e-ca28cdf635ac",,"False","S-1-5-21-105490012-4149236956-535263456-1107"
+"8/2/2021 3:31:18 AM",,"Global","-2147483646","8/2/2021 3:37:12 AM","CN=Computers,DC=Contoso,DC=com","Contoso.com\Users\Domain Computers
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Denied RODC Password Replication Group","Contoso.com\Users\Domain Admins
+Contoso.com\Users\Domain Computers","Contoso.com\Users\Denied RODC Password Replication Group","","Contoso.com\Computers\Test-2
+Contoso.com\Computers\Test-3
+Contoso.com\Computers\Test-4
+Contoso.com\Computers\Test-5
+Contoso.com\Computers\Test-6","Contoso.com\Computers\Test-2
+Contoso.com\Computers\Test-3
+Contoso.com\Users\Pune computer
+Contoso.com\Computers\Bangalore computer
+Contoso.com\Computers\Chennai computer",,,"CN=HO Computes,CN=Computers,DC=Contoso,DC=com","ab41a61d-b7c1-415a-9b48-cf4ab4efac43",,"False","S-1-5-21-105490012-4149236956-535263456-1612"
+"8/2/2021 3:32:35 AM",,"Global","-2147483646","9/17/2021 6:46:09 AM","CN=Users,DC=Contoso,DC=com","Contoso.com\Users\Domain Computers
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Denied RODC Password Replication Group
+Contoso.com\Computers\HO Computes","Contoso.com\Computers\HO Computes","Contoso.com\Users\Domain Computers
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Denied RODC Password Replication Group","","Contoso.com\Computers\Test-4","Contoso.com\Computers\Test-4",,,"CN=Pune computer,CN=Users,DC=Contoso,DC=com","cddb804b-0fef-42d4-acc4-c001d49d503e",,"False","S-1-5-21-105490012-4149236956-535263456-1613"
+"8/2/2021 3:33:00 AM",,"Global","-2147483646","8/2/2021 3:37:12 AM","CN=Computers,DC=Contoso,DC=com","Contoso.com\Users\Domain Computers
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Denied RODC Password Replication Group
+Contoso.com\Computers\HO Computes","Contoso.com\Computers\HO Computes","Contoso.com\Users\Domain Computers
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Denied RODC Password Replication Group","","Contoso.com\Computers\Test-5","Contoso.com\Computers\Test-5",,,"CN=Bangalore computer,CN=Computers,DC=Contoso,DC=com","c2bdd03e-a0d8-4342-af09-0438033e54b8",,"False","S-1-5-21-105490012-4149236956-535263456-1614"
+"8/2/2021 3:33:15 AM",,"Global","-2147483646","8/2/2021 3:37:12 AM","CN=Computers,DC=Contoso,DC=com","Contoso.com\Users\Domain Computers
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Denied RODC Password Replication Group
+Contoso.com\Computers\HO Computes","Contoso.com\Computers\HO Computes","Contoso.com\Users\Domain Computers
+Contoso.com\Users\Domain Admins
+Contoso.com\Users\Denied RODC Password Replication Group","","Contoso.com\Computers\Test-6","Contoso.com\Computers\Test-6",,,"CN=Chennai computer,CN=Computers,DC=Contoso,DC=com","6c6326c1-6291-4418-a7e5-9f12720b9b37",,"False","S-1-5-21-105490012-4149236956-535263456-1615"
