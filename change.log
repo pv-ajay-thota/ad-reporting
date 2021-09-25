@@ -35,20 +35,22 @@ etc.. many changes ..
 
 20/09/2021
 
-getGrpAll         -done
-getGrpDomainLocal -done
-getGrpGlobal      -done 
-getGrpSecurity
-getGrpUniversal
-getGrpWithGUID
-getGrpWithName
-getGrpWithSID
-getGrpCreatedInXdays
-getGrpDeletedInXdays
-getGrpModifiedInXdays
-getGrpDirectMembership
-getGrpNotProtectedDeletion
-getGrpDoNotContainMember
-getGrpContainMember
-getGrpWithNoMembers
+getGrpAll                   - done
+getGrpDomainLocal           - done
+getGrpGlobal                - done 
+getGrpSecurity              - done 
+getGrpUniversal             - done 
+getGrpWithGUID              - done
+getGrpWithName              - done
+getGrpWithSID               - done
+getGrpCreatedInXdays        - done
+getGrpDeletedInXdays        - done
+getGrpModifiedInXdays       - done
+getGrpDirectMembership      - done
+getGrpNotProtectedDeletion  - done
+getGrpDoNotContainMember    - done
+getGrpContainMember         - done
+getGrpWithNoMembers         - done
 
+
+## to do 

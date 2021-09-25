@@ -26,9 +26,6 @@
     "cmpCreatedNoOfDays": {
         "classNames": "col-sm-7"
     },
-    "cmpDeletedNoOfDays": {
-        "classNames": "col-sm-7"
-    },
     "cmpSearchWithGroupName": {
         "classNames": "col-sm-7"
     },
@@ -94,9 +91,6 @@
         "classNames": "col-sm-7"
     },
     "groupCreatedDays": {
-        "classNames": "col-sm-7"
-    },
-    "groupDeletedDays": {
         "classNames": "col-sm-7"
     },
     "groupModifiedDays": {
@@ -487,7 +481,6 @@
         "cmpSearchWithGuid",
         "cmpSearchWithName",
         "cmpCreatedNoOfDays",
-        "cmpDeletedNoOfDays",
         "cmpSearchWithGroupName",
         "cmpWin10",
         "cmpWin2k8r2",
@@ -510,7 +503,6 @@
         "groupSearchWithName",
         "groupSearchWithSID",
         "groupCreatedDays",
-        "groupDeletedDays",
         "groupModifiedDays",
         "groupDirectMemship",
         "groupSearchForMemberExclude",

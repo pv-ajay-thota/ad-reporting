@@ -66,7 +66,7 @@
                                 "2. Computer with specified GUID",
                                 "3. Computer with specified Name",
                                 "4. Computers created in last X days.",
-                                "5. Computers deleted in last X days.",
+                                "5. Computers deleted recently",
                                 "6. Computers that are direct members of specified groups",
                                 "7. Computers that are direct or indirect members of specified groups",
                                 "8. Computers running specific operating system",
@@ -359,12 +359,6 @@
                                             "enum": [
                                                 "5"
                                             ]
-                                        },
-                                        "cmpDeletedNoOfDays": {
-                                            "title": "enter the number of days",
-                                            "type": "number",
-                                            "minimum": 1,
-                                            "default": "30"
                                         }
                                     }
                                 },
@@ -518,7 +512,7 @@
                             ],
                             "enumNames": [
                                 "1. All users",
-                                "2. Deleted users",
+                                "2. Recently Deleted users",
                                 "3. Enabled users",
                                 "4. Disabled users",
                                 "5. User with specified employee ID",
@@ -1045,26 +1039,28 @@
                                 "14",
                                 "15",
                                 "16",
-                                "17"
+                                "17",
+                                "18"
                             ],
                             "enumNames": [
-                                "1. All Groups",
-                                "2. Domain Local Groups",
-                                "3. Global Groups",
-                                "4. Security groups",
-                                "5. Universal groups",
-                                "6. Group with specified GUID",
-                                "7. Group with specified name",
-                                "8. Group with specified SID",
-                                "9. Group created in last X days",
-                                "10. Groups deleted in last X days",
-                                "11. Groups modified in last X days",
-                                "12. Groups that are direct members of specified group",
-                                "13. Groups that are not protected from deletion ",
-                                "14. Groups that are protected from deletion",
-                                "15. Groups that do not contains specified member",
-                                "16. Groups with specified member",
-                                "17. Groups with no members"
+                                "1. List all Groups",
+                                "2. List all Security groups",
+                                "3. List all Distribution Groups",
+                                "4. List all Domain Local Groups",
+                                "5. List all Global Groups",
+                                "6. List all Universal groups",
+                                "7. Group with specified GUID",
+                                "8. Group with specified name",
+                                "9. Group with specified SID",
+                                "10. Group created in last X days",
+                                "11. Groups deleted recently",
+                                "12. Groups modified in last X days",
+                                "13. Groups that are direct members of specified group",
+                                "14. Groups that are not protected from deletion ",
+                                "15. Groups that are protected from deletion",
+                                "16. Groups that do not contains specified member",
+                                "17. Groups with specified member",
+                                "18. Groups with no members"
                             ],
                             "default": "1",
                             "title" : "Please select the category from the drop down"
@@ -1448,11 +1444,6 @@
                                             "enum": [
                                                 "10"
                                             ]
-                                        },
-                                        "groupDeletedDays": {
-                                            "title": "Enter the number of days",
-                                            "minimum": 1,
-                                            "type": "number"
                                         }
                                     }
                                 },

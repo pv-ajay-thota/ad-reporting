@@ -33,7 +33,20 @@ getCmpCreatedinLastXdays
 
 
 
-1) computer deleted in X days >> computers deleted recently
+# 1) JSON FILE UPDATES
+
+    computer deleted in X days >> computers deleted recently
+    deleted users >> recently deleted users 
+    groups deleted in X days >> groups deleted recently
+
+    delete input variables in UI section
+    cmpDeletedNoofDays
+    groupDeletedDays
+
+    # script delete corresponding script input variables $numberOfdays
+    cmpDeletedNoofDays
+    groupDeletedDays
+
 
 2) deleted users : display note : will fetch deleted users which are deleted .... to be provided.
 
@@ -42,9 +55,10 @@ getCmpCreatedinLastXdays
 
 4) if nothing selected .. selct default attributes .. and export.
 
-5) add GPO functions
+5) add GPO functions -- done 
 
-6) sort Group functions 
+6) sort Group functions -- done
+
 
 
 

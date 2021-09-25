@@ -24,8 +24,7 @@
 # $computerOption = 4  # =>> "Computers created in last 30 days.",
     $cmpCreatedNoOfDays = 30
 
-# $computerOption = 5  # =>> "Computers deleted in last 30 days.",
-    $cmpDeletedNoOfDays = 30
+# $computerOption = 5  # =>> "Computers deleted recently.",
 
 # $computerOption = 6  # =>> "Computers that are direct members of specified groups",
     $cmpSearchWithGroupName = "group Name"
@@ -194,14 +193,12 @@ $gpoSYSVOLFilePath = $false # $true | $false
 $cmpSearchWithGuid
 $cmpSearchWithName
 $cmpCreatedNoOfDays
-$cmpDeletedNoOfDays
 $cmpSearchWithGroupName
 $cmpWin10
 $cmpWin2k8r2
 $cmpWin2012r2
 $cmpWin2016
 $cmpWin2019
-
 $cmpNvrLoggedOnDays
 $userSearchWithEmployeeID
 $userSearchWithGuid
@@ -218,7 +215,6 @@ $groupSearchWithGUID
 $groupSearchWithName
 $groupSearchWithSID
 $groupCreatedDays
-$groupDeletedDays
 $groupModifiedDays
 $groupDirectMemship
 $groupSearchForMemberExclude
@@ -1702,6 +1698,11 @@ function getGrpGlobal {
 function getGrpSecurity {
     Get-ADGroup -Filter { GroupCategory -eq "Security" } -ErrorAction Stop
 }
+
+function getGrpDistribution{
+    Get-ADGroup -Filter { GroupCategory -eq "Distribution" } -ErrorAction Stop
+}
+
 function getGrpUniversal {
     # YTD
     Get-ADGroup -Filter { GroupScope -eq "Universal" } -ErrorAction Stop
@@ -1715,10 +1716,12 @@ function getGrpWithName {
     # YTD
     Get-ADGroup -Filter { Name -eq "$name" }  -ErrorAction Stop
 }
+
 function getGrpWithSID {
     # YTD
     Get-ADGroup -Filter { ObjectSID -eq "$SID" }  -ErrorAction Stop
 }
+
 function getGrpCreatedInXdays {
     [CmdletBinding()]
     param(
@@ -2144,66 +2147,70 @@ function Get-ADCustomGroupReport {
                     break;
                 }
                 2 {
-                    $resultObj = getGrpDomainLocal
-                    break;
-                }
-                3 {
-                    $resultObj = getGrpGlobal
-                    break;
-                }
-                4 {
                     $resultObj = getGrpSecurity
                     break;
                 }
-                5 {
+                3{
+                    $resultObj = getGrpDistribution
+                    break;
+                }
+                4{
+                    $resultObj = getGrpGlobal
+                    break;
+                }
+                5{
+                    $resultObj = getGrpDomainLocal
+                    break;
+                }
+                6{
                     $resultObj = getGrpUniversal
                     break;
                 }
-                6 {
+                7{
                     $resultObj = getGrpWithGUID
                     break;
                 }
-                7 {
+                8{
                     $resultObj = getGrpWithName
                     break;
                 }
-                8 {
+                9{
                     $resultObj = getGrpWithSID
                     break;
                 }
-                9 {
+                10{
                     $resultObj = getGrpCreatedInXdays
                     break;
                 }
-                10 {
+                11{
                     $resultObj = getGrpDeletedInXdays
                     break;
                 }
-                11 {
+                12{
                     $resultObj = getGrpModifiedInXdays
                     break;
                 }
-                12 {
+                13{
                     $resultObj = getGrpDirectMembership
                     break;
                 }
-                13 {
+                14{
                     $resultObj = getGrpNotProtectedDeletion
                     break;
                 }
-                14 {
+                15{
                     $resultObj = getGrtProtectedDeletion
                     break;
                 }
-                15 {
+                16{
                     $resultObj = getGrpDoNotContainMember
                     break;
                 }
-                16 {
+                17{
                     $resultObj = getGrpContainMember
                     break;
                 }
-                17 {
+                18{
                     $resultObj = getGrpWithNoMembers
                     break;
                 }
