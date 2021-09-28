@@ -566,6 +566,26 @@ function ConvertFromDN {
     }
 }
 
+function filterCSVInput {
+    [CmdletBinding()]
+    param($inputStr)
+    $items = $inputStr -split ",(?=(?:[^\`"]*\`"[^\`"]*\`")*[^\`"]*$)" 
+    $List = foreach ( $item in $items ) {
+        $i = "$item".trim("`"", "'")
+        if ($i -ne "") {
+            $i
+        }
+    }
+
+    $List = @($List)
+    if ($List.Count -gt 0) {
+        $List
+    }
+    else {
+        LogMessage "[ERROR]:: invalid input. please provide valid input. `n`n$inputStr"
+    }
+
+}
 
 # Process Custom Report Attributes and queries
 
@@ -808,7 +828,7 @@ function GetUserSelectAttributes {
                         } 
                     } 
                 })
-
+                
         ) -ErrorAction Stop
     }
     catch {
@@ -901,7 +921,7 @@ function GetGroupSelectAttributes {
             ),
             $( if ($groupMembershipAll) {
                     @{n = "groupMembershipAll"; e = {
-                        (Get-ADGroup -Filter { member -RecursiveMatch $_.DistinguishedName } -ErrorAction Stop | 
+                        (Get-ADGroup -Filter "member -RecursiveMatch '$($_.DistinguishedName)'" -ErrorAction Stop | 
                             Select-Object -ExpandProperty DistinguishedName | ConvertFromDN) -join "`n"
                         }
                     }
@@ -919,7 +939,7 @@ function GetGroupSelectAttributes {
             $( if ($groupMembershipIndirect) {
                     @{n = "groupMembershipIndirect"; e = {
                             $dm = $_.MemberOf
-                            ((Get-ADGroup -Filter { member -RecursiveMatch $_.DistinguishedName } -ErrorAction Stop | 
+                            ((Get-ADGroup -Filter "member -RecursiveMatch '$($_.DistinguishedName)'" -ErrorAction Stop | 
                                 Select-Object -ExpandProperty DistinguishedName) | 
                             Where-Object { $_ -notin $dm } | 
                             ConvertFromDN 
@@ -927,7 +947,6 @@ function GetGroupSelectAttributes {
                         }
                     }
                 }
-            
             ),
             $( if ($groupCntMemFrmExtDomain) {
                     @{n = "groupCntMemFrmExtDomain"; e = {
@@ -1128,7 +1147,7 @@ function GetGPOSelectAttributes {
                     n = "SysVolFilePath";
                     e = {
                         $path = "$($script:SysVolFilePath)\Contoso.com\Policies\{$($_.ID)}"
-                        if(Test-Path $path){
+                        if (Test-Path $path) {
                             $path
                         }
                     }
@@ -1197,13 +1216,19 @@ function getCmpwithGUID {
         [Parameter(Mandatory = $true)]
         $guid
     )
-    
-    try {
-        
-        $allComputers = Get-ADComputer -Filter "ObjectGUID -eq '$guid'" -ErrorAction Stop
+    $guids = filterCSVInput -inputStr $guid
+    $erStr = ""
+    $allComputers = foreach ($guid in $guids) {
+        try {
+            Get-ADComputer -Filter "ObjectGUID -eq '$guid'" -ErrorAction Stop
+        }
+        catch {
+            $erStr += "`n[ERROR]:: $_.Exception.Message" 
+        }
     }
-    catch {
-        #YTD
+
+    if ($erStr -ne "" ) {
+        LogMessage $erStr
     }
     
     GetSelectedAttributes -InputObject $allComputers -Computer
@@ -1216,29 +1241,33 @@ function getCmpWithName {
         $name
     )
 
-    try {
+    $Names = filterCSVInput -inputStr $name
 
-        $allComputers = Get-ADComputer -filter "Name -eq '$name'" -properties "*" -ErrorAction Stop
+    $allComputers = foreach ($name in $Names) {
+
+        try {
+
+            Get-ADComputer -filter "Name -eq '$name'" -properties "*" -ErrorAction Stop
+        }
+        catch {
+            LogMessage "[ERROR]:: $($_.Exception.Message)"
+        }
     }
-    catch {
-        # YTD
-        Write-Error $_
-    }
-    
+
     GetSelectedAttributes -InputObject $allComputers -Computer
 
 }
 
 function getCmpCreatedinLastXdays {
     param($days)
-    try {
 
+    try {
         $date = (Get-Date).AddDays(- $days)
         $allComputers = Get-ADComputer -filter { whenCreated -ge $date } -properties "*" -ErrorAction Stop
     }
     catch {
         # YTD
-        Write-Error $_
+        LogMessage "[ERROR]:: $($_.Exception.Message)"
     }
     
     GetSelectedAttributes -InputObject $allComputers -Computer
@@ -1344,7 +1373,7 @@ function getCmpRunningSpecificOS {
     }
     catch {
         # YTD
-        Write-Error $_
+        LogMessage "[ERROR]:: $($_.Exception.Message)"
     }
     
     GetSelectedAttributes -InputObject $allComputers -Computer
@@ -1355,7 +1384,7 @@ function getCmpProtectedFromDeletion {
 
     try {
 
-        $allComputers = Get-ADComputer -Filter * -Properties * | Where-Object { $_.ProtectedFromAccidentalDeletion -eq $true }
+        $allComputers = Get-ADobject -IncludeDeletedObjects -Filter { isDeleted -eq $true -and ObjectClass -eq "computer" } -Properties * -ErrorAction Stop
 
     }
     catch {
@@ -1369,6 +1398,7 @@ function getCmpProtectedFromDeletion {
 }
 
 function getCmpNotProtectedFromDeletion {
+
     try {
 
         $allComputers = Get-ADComputer -Filter * -Properties * | Where-Object { $_.ProtectedFromAccidentalDeletion -ne $true }
@@ -1471,16 +1501,25 @@ function getUsrWithEmployeeID {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
-        $guid
+        $EmployeeID
     )
+    $EmployeeIDs = filterCSVInput -inputStr $EmployeeID
+    foreach ($EmployeeID in $EmployeeIDs) {
+        try {
+            $employee = Get-ADUser -Filter "EmployeeID -eq '$EmployeeID'" -ErrorAction Stop
+            if ($employee) {
+                $employee
+            }
+            else {
+                LogMessage "Employee with employeeID '$EmployeeID' not found."
+            }
+        }
+        catch {
+            LogMessage "[ERROR]:: $($_.Exception.Message)"
+        }
 
-    $employee = Get-ADUser -Filter "EmployeeID -eq '$EmployeeID'" -ErrorAction Stop
-    if ($employee) {
-        $employee
     }
-    else {
-        LogMessage "Employee with employeeID '$EmployeeID' not found."
-    }
+
 
 }
 function getUsrWithGUID {
@@ -1489,14 +1528,20 @@ function getUsrWithGUID {
         [Parameter(Mandatory = $true)]
         $guid
     )
-    
-    try {
-        Get-ADUser -Filter "ObjectGUID -eq '$guid'" -ErrorAction Stop
-    }
-    catch {
-        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
+    $guids = filterCSVInput -inputStr $guid
+
+    foreach($guid in $guids){
+        
+        try {
+            Get-ADUser -Filter "ObjectGUID -eq '$guid'" -ErrorAction Stop
+        }
+        catch {
+            LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
+        }
 
     }
+
+
 }
 function getUsrWithName {
     [CmdletBinding()]
@@ -1504,14 +1549,16 @@ function getUsrWithName {
         [Parameter(Mandatory = $true)]
         $Name
     )
-    
-    try {
-        Get-ADUser -Filter "Name -eq '$Name'" -ErrorAction Stop
+    $Names = filterCSVInput -inputStr $name
+    foreach($name in $Names){
+        try {
+            Get-ADUser -Filter "Name -eq '$Name'" -ErrorAction Stop
+        }
+        catch {
+            LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
+        }
     }
-    catch {
-        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
 
-    }
 }
 function getUsrWithSID {
     [CmdletBinding()]
@@ -1520,13 +1567,18 @@ function getUsrWithSID {
         $sid
     )
 
-    try {
-        Get-ADUser -Filter "Name -eq '$Name'" -ErrorAction Stop 
-    }
-    catch {
-        LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
+    $sids = filterCSVInput -inputStr $sid
 
+    foreach($sid in $sids){
+        try {
+            Get-ADUser -Filter "ObjectSID -eq '$sid'" -ErrorAction Stop 
+        }
+        catch {
+            LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
+    
+        }
     }
+    
 }
 function getUsrCreatedInXdays {
     [CmdletBinding()]
@@ -1535,7 +1587,7 @@ function getUsrCreatedInXdays {
         $days
     )
     try {
-        $date = (Get-Date).AddDays(- $days)
+        $date = (Get-Date -ErrorAction Stop).AddDays(- $days)
         Get-ADUser -filter { whenCreated -ge $date } -properties "*" -ErrorAction Stop
     }
     catch {
@@ -1699,7 +1751,7 @@ function getGrpSecurity {
     Get-ADGroup -Filter { GroupCategory -eq "Security" } -ErrorAction Stop
 }
 
-function getGrpDistribution{
+function getGrpDistribution {
     Get-ADGroup -Filter { GroupCategory -eq "Distribution" } -ErrorAction Stop
 }
 
@@ -1708,18 +1760,59 @@ function getGrpUniversal {
     Get-ADGroup -Filter { GroupScope -eq "Universal" } -ErrorAction Stop
 }
 function getGrpWithGUID {
-    # YTD
-    Get-ADGroup -Filter { ObjectGUID -eq "$guid" } -ErrorAction Stop
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $guid
+    )
+
+    $guids = filterCSVInput -inputStr $guid
+
+    foreach($guid in $guids){
+        try{
+            Get-ADGroup -Filter { ObjectGUID -eq "$guid" } -ErrorAction Stop
+        }
+        catch{
+            LogMessage "[ERROR]:: $($_.Exception.Message)"
+        }
+
+    }
+
 }
 
 function getGrpWithName {
-    # YTD
-    Get-ADGroup -Filter { Name -eq "$name" }  -ErrorAction Stop
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $name
+    )
+    $names = filterCSVInput -inputStr $name 
+    foreach($name in $names){
+        try{
+            Get-ADGroup -Filter { Name -eq "$name" }  -ErrorAction Stop
+        }
+        catch{
+            LogMessage "[ERROR]:: $($_.Exception.Message)"
+        }     
+    }
 }
 
 function getGrpWithSID {
-    # YTD
-    Get-ADGroup -Filter { ObjectSID -eq "$SID" }  -ErrorAction Stop
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        $sid
+    )
+    $sids = filterCSVInput -inputStr $sid
+
+    foreach($sid in $sids){
+        try{
+            Get-ADGroup -Filter { ObjectSID -eq "$SID" }  -ErrorAction Stop
+        }
+        catch{
+            LogMessage "[ERROR]:: $($_.Exception.Message)"
+        }
+    }
 }
 
 function getGrpCreatedInXdays {
@@ -2150,67 +2243,67 @@ function Get-ADCustomGroupReport {
                     $resultObj = getGrpSecurity
                     break;
                 }
-                3{
+                3 {
                     $resultObj = getGrpDistribution
                     break;
                 }
-                4{
+                4 {
                     $resultObj = getGrpGlobal
                     break;
                 }
-                5{
+                5 {
                     $resultObj = getGrpDomainLocal
                     break;
                 }
-                6{
+                6 {
                     $resultObj = getGrpUniversal
                     break;
                 }
-                7{
+                7 {
                     $resultObj = getGrpWithGUID
                     break;
                 }
-                8{
+                8 {
                     $resultObj = getGrpWithName
                     break;
                 }
-                9{
+                9 {
                     $resultObj = getGrpWithSID
                     break;
                 }
-                10{
+                10 {
                     $resultObj = getGrpCreatedInXdays
                     break;
                 }
-                11{
+                11 {
                     $resultObj = getGrpDeletedInXdays
                     break;
                 }
-                12{
+                12 {
                     $resultObj = getGrpModifiedInXdays
                     break;
                 }
-                13{
+                13 {
                     $resultObj = getGrpDirectMembership
                     break;
                 }
-                14{
+                14 {
                     $resultObj = getGrpNotProtectedDeletion
                     break;
                 }
-                15{
+                15 {
                     $resultObj = getGrtProtectedDeletion
                     break;
                 }
-                16{
+                16 {
                     $resultObj = getGrpDoNotContainMember
                     break;
                 }
-                17{
+                17 {
                     $resultObj = getGrpContainMember
                     break;
                 }
-                18{
+                18 {
                     $resultObj = getGrpWithNoMembers
                     break;
                 }
@@ -2463,7 +2556,7 @@ catch {
 
 # StopWatch terminate
 
-if($stopWatch.IsRunning){
+if ($stopWatch.IsRunning) {
     $stopWatch.Stop()
 }
 
