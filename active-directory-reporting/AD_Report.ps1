@@ -626,6 +626,45 @@ function GetComputerSelectAttributes {
     
     }
 
+    if (         
+    ($cmpCreationDate -eq $false) -and
+    ($cmpDNShostName -eq $false) -and
+    ($cmpName -eq $false) -and
+    ($cmpOS -eq $false) -and
+    ($cmpParentContainer -eq $false) -and
+    ($cmpServicePack -eq $false) -and
+    ($cmpPwdAge -eq $false) -and
+    ($cmpPwdLastCh -eq $false) -and
+    ($cmpLstLgnDt -eq $false) -and
+    ($cmpLstLgnDC -eq $false) -and
+    ($cmpGrpMemberShip -eq $false) -and
+    ($cmpDistinguishedName -eq $false) -and
+    ($cmpGUID -eq $false) -and
+    ($cmpSID -eq $false) -and
+    ($cmpAccidentalDeletionProtection -eq $false)
+    ) {
+        # set default options to $true
+
+
+        $cmpCreationDate = `
+        $cmpDNShostName = `
+        $cmpName = `
+        $cmpOS = `
+        $cmpLstLgnDt = `
+        $cmpLstLgnDC = `
+        $cmpGrpMemberShip = `
+        $cmpDistinguishedName = `
+        $cmpAccidentalDeletionProtection = $true
+        
+        # $cmpParentContainer = `
+        # $cmpServicePack = `
+        # $cmpPwdAge = `
+        # $cmpPwdLastCh = `
+        # $cmpGUID = `
+        # $cmpSID = `
+
+    }
+
     $InputObject | Select-Object @(
 
         $(    if ($cmpName) {
@@ -737,6 +776,45 @@ function GetUserSelectAttributes {
             $userCntChPwd = `
             $userNm = $true
 
+    }
+
+    if (
+            ($userCreationDate -eq $false) -and
+            ($userDisplayName -eq $false) -and
+            ($userEmailAddress -eq $false) -and
+            ($userEmployeeID -eq $false) -and
+            ($userFirstName -eq $false) -and
+            ($userLastName -eq $false) -and
+            ($userIsAccountLocked -eq $false) -and
+            ($userIsAccountDisabled -eq $false) -and
+            ($userExpirationDate -eq $false) -and
+            ($userPwdChNxtLgn -eq $false) -and
+            ($userPassWordAge -eq $false) -and
+            ($userPwdExpDate -eq $false) -and
+            ($userPwdLstCh -eq $false) -and
+            ($userPwdNvrExp -eq $false) -and
+            ($userCntChPwd -eq $false) -and
+            ($userNm -eq $false)
+    ) {
+        # set the default options to $true
+
+        $userCreationDate = `
+        $userDisplayName = `
+        $userEmailAddress = `
+        $userEmployeeID = `
+        $userFirstName = `
+        $userLastName = `
+        $userIsAccountLocked = `
+        $userIsAccountDisabled = `
+        $userPwdChNxtLgn = `
+        $userPwdExpDate = `
+        $userPwdLstCh = `
+        $userNm = $true
+        
+        # $userExpirationDate = `
+        # $userPassWordAge = `
+        # $userPwdNvrExp = `
+        # $userCntChPwd = `
     }
 
     try {
@@ -869,6 +947,53 @@ function GetGroupSelectAttributes {
             $groupLastKnownLocation = `
             $groupAccidentalDeletionProtection = `
             $groupSID = $true
+    }
+
+    if (
+        ($groupCreationDate = $false) -and
+        ($groupDisplayName = $false) -and
+        ($groupScope = $false) -and
+        ($groupType = $false) -and
+        ($groupModificationDate = $false) -and
+        ($groupParentContainer = $false) -and
+        ($groupMembershipAll = $false) -and
+        ($groupMemberShipDirect = $false) -and
+        ($groupMembershipIndirect = $false) -and
+        ($groupCntMemFrmExtDomain = $false) -and
+        ($groupMemAll = $false) -and
+        ($groupMemDirect = $false) -and
+        ($groupCriticalSysObj = $false) -and
+        ($groupIsDeleted = $false) -and
+        ($groupDistinguishedName = $false) -and
+        ($groupGUID = $false) -and
+        ($groupLastKnownLocation = $false) -and
+        ($groupAccidentalDeletionProtection = $false) -and
+        ($groupSID = $false)
+    ) {
+        # set the default options to $true
+
+        $groupCreationDate = `
+        $groupDisplayName = `
+        $groupScope = `
+        $groupType = `
+        $groupMembershipAll = `
+        $groupMemberShipDirect = `
+        $groupMembershipIndirect = `
+        $groupCntMemFrmExtDomain = `
+        $groupDistinguishedName = `
+        $groupAccidentalDeletionProtection = `
+        $groupSID = $true
+
+        
+        # $groupModificationDate = `
+        # $groupParentContainer = `
+        # $groupMemAll = `
+        # $groupMemDirect = `
+        # $groupCriticalSysObj = `
+        # $groupIsDeleted = `
+        # $groupGUID = `
+        # $groupLastKnownLocation = `
+
     }
 
     try {
@@ -1067,6 +1192,31 @@ function GetGPOSelectAttributes {
             $gpoSYSVOLFilePath = $true
     }
 
+    if (
+        ($gpoCreationDate -eq $false) -and
+        ($gpoDisplayName -eq $false) -and
+        ($gpoModificationDate -eq $false) -and
+        ($gpoParentContainer -eq $false) -and
+        ($gpoStatus -eq $false) -and
+        ($gpoComputerVersion -eq $false) -and
+        ($gpoUserVersion -eq $false) -and
+        ($gpoDistinguishedName -eq $false) -and
+        ($gpoGUID -eq $false) -and
+        ($gpoSYSVOLFilePath -eq $false)
+    ) {
+        # Set the default options to $true
+        $gpoCreationDate = `
+        $gpoDisplayName = `
+        $gpoModificationDate = `
+        $gpoParentContainer = `
+        $gpoStatus = `
+        $gpoComputerVersion = `
+        $gpoUserVersion = `
+        $gpoDistinguishedName = `
+        $gpoGUID = `
+        $gpoSYSVOLFilePath = $true
+
+    }
 
 
     $InputObject | Select-Object @(
@@ -1530,7 +1680,7 @@ function getUsrWithGUID {
     )
     $guids = filterCSVInput -inputStr $guid
 
-    foreach($guid in $guids){
+    foreach ($guid in $guids) {
         
         try {
             Get-ADUser -Filter "ObjectGUID -eq '$guid'" -ErrorAction Stop
@@ -1550,7 +1700,7 @@ function getUsrWithName {
         $Name
     )
     $Names = filterCSVInput -inputStr $name
-    foreach($name in $Names){
+    foreach ($name in $Names) {
         try {
             Get-ADUser -Filter "Name -eq '$Name'" -ErrorAction Stop
         }
@@ -1569,7 +1719,7 @@ function getUsrWithSID {
 
     $sids = filterCSVInput -inputStr $sid
 
-    foreach($sid in $sids){
+    foreach ($sid in $sids) {
         try {
             Get-ADUser -Filter "ObjectSID -eq '$sid'" -ErrorAction Stop 
         }
@@ -1768,11 +1918,11 @@ function getGrpWithGUID {
 
     $guids = filterCSVInput -inputStr $guid
 
-    foreach($guid in $guids){
-        try{
+    foreach ($guid in $guids) {
+        try {
             Get-ADGroup -Filter { ObjectGUID -eq "$guid" } -ErrorAction Stop
         }
-        catch{
+        catch {
             LogMessage "[ERROR]:: $($_.Exception.Message)"
         }
 
@@ -1787,11 +1937,11 @@ function getGrpWithName {
         $name
     )
     $names = filterCSVInput -inputStr $name 
-    foreach($name in $names){
-        try{
+    foreach ($name in $names) {
+        try {
             Get-ADGroup -Filter { Name -eq "$name" }  -ErrorAction Stop
         }
-        catch{
+        catch {
             LogMessage "[ERROR]:: $($_.Exception.Message)"
         }     
     }
@@ -1805,11 +1955,11 @@ function getGrpWithSID {
     )
     $sids = filterCSVInput -inputStr $sid
 
-    foreach($sid in $sids){
-        try{
+    foreach ($sid in $sids) {
+        try {
             Get-ADGroup -Filter { ObjectSID -eq "$SID" }  -ErrorAction Stop
         }
-        catch{
+        catch {
             LogMessage "[ERROR]:: $($_.Exception.Message)"
         }
     }
