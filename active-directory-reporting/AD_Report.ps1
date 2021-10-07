@@ -43,6 +43,7 @@
 # $computerOption = 9  # =>> "Computers that are not protected from deletion"
 # $computerOption = 10 # =>> "Computers that are protected from deletion"
 # $computerOption = 11 # =>> "Computers that have never logged on for 60 days"
+    $cmpNvrLoggedOnDays = 60 # for eaxample
 # $computerOption = 12 # =>> "Disabled computers"
 # $computerOption = 13 # =>> "Enabled computers"
 # $computerOption = 14 # =>> 
@@ -719,7 +720,7 @@ function GetComputerSelectAttributes {
             }),
 
         $(if ($cmpGrpMemberShip) {
-                @{n = "MemberOf"; e = { $_.MemberOf } }
+                @{n = "MemberOf"; e = { $_.MemberOf -join ";`n" } }
             }),
 
         $(if ($cmpDistinguishedName) {
@@ -1479,11 +1480,11 @@ function getCmpDirectIndirectMembership {
 }
 
 function getCmpRunningSpecificOS {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true)]
-        $os
-    )
+    # [CmdletBinding()]
+    # param (
+    #     [Parameter(Mandatory = $true)]
+    #     $os
+    # )
 
     $allComputers = @()
 
@@ -1534,7 +1535,7 @@ function getCmpProtectedFromDeletion {
 
     try {
 
-        $allComputers = Get-ADobject -IncludeDeletedObjects -Filter { isDeleted -eq $true -and ObjectClass -eq "computer" } -Properties * -ErrorAction Stop
+        $allComputers = Get-ADComputer -Filter * -Properties * | Where-Object { $_.ProtectedFromAccidentalDeletion -eq $true }
 
     }
     catch {
@@ -1627,11 +1628,11 @@ function getUsrAll {
 function getUsrDeleted {
     # ytd
     try {
-        Get-Adobject -includedeletedobjects -filter { objectclass -eq "user" -and isdeleted -eq $true } -Properties *
+        Get-Adobject -includedeletedobjects -filter { ObjectClass -eq "user" -and isdeleted -eq $true } -Properties $cmpProperties | 
+        Where-Object { $_.ObjectClass -eq "user" }
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
-
     }
 }
 function getUsrEnabled {
@@ -1645,7 +1646,7 @@ function getUsrEnabled {
     }
 }
 function getUsrDisabled {
-    Get-AdUser -filter "Enabled -eq '$true'" -properties "*" -ErrorAction Stop
+    Get-AdUser -filter "Enabled -eq '$false'" -properties "*" -ErrorAction Stop
 }
 function getUsrWithEmployeeID {
     [CmdletBinding()]
@@ -2133,19 +2134,19 @@ function Get-ADCustomComputerReport {
     
                 # 2. "Computer with specified GUID"
                 2 {
-                    getCmpwithGUID -ErrorAction Stop
+                    getCmpwithGUID -guid $cmpSearchWithGuid -ErrorAction Stop
                     break;
                 }
     
                 # 3. "Computer with specified name"
                 3 {
-                    getCmpWithName -ErrorAction Stop
+                    getCmpWithName -name $cmpSearchWithName -ErrorAction Stop
                     break;
                 }
     
                 # 4. "Computer created in last 30 days"
                 4 {
-                    getCmpCreatedinLastXdays -ErrorAction Stop
+                    getCmpCreatedinLastXdays -days $cmpCreatedNoOfDays -ErrorAction Stop
                     break;
                 }
     
@@ -2157,13 +2158,13 @@ function Get-ADCustomComputerReport {
     
                 # 6. computers that are direct members of specified groups
                 6 {
-                    getCmpDirectMemberShip -ErrorAction Stop
+                    getCmpDirectMemberShip -GroupName $cmpSearchWithGroupName -ErrorAction Stop
                     break;
                 }
                 
                 # 7. computers that are direct and indirect members of specified groups
                 7 {
-                    getCmpDirectIndirectMembership -ErrorAction Stop
+                    getCmpDirectIndirectMembership -GroupName $cmpSearchWithGroupName -ErrorAction Stop
                     break;
                 }
     
@@ -2187,7 +2188,7 @@ function Get-ADCustomComputerReport {
     
                 # 11. computers that are never logged on for 60 days
                 11 {
-                    getCmpNvrLoggedinXdays -ErrorAction Stop
+                    getCmpNvrLoggedinXdays -days $cmpNvrLoggedOnDays -ErrorAction Stop
                     break;
                 }
     
