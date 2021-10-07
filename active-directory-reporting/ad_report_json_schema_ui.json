@@ -63,7 +63,7 @@
     "userCreatedNoDays": {
         "classNames": "col-sm-7"
     },
-    "userDeletedNoDays": {
+    "userModifiedNoDays": {
         "classNames": "col-sm-7"
     },
     "userDirectGroupMemShip": {
@@ -493,7 +493,7 @@
         "userSearchWithName",
         "userSearchWithSID",
         "userCreatedNoDays",
-        "userDeletedNoDays",
+        "userModifiedNoDays",
         "userDirectGroupMemShip",
         "userInDirectGroupMemship",
         "userNotloggedonDays",

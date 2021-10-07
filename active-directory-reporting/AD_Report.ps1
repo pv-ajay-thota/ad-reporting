@@ -190,7 +190,6 @@ $gpoSYSVOLFilePath = $false # $true | $false
 
 
 
-
 $cmpSearchWithGuid
 $cmpSearchWithName
 $cmpCreatedNoOfDays
@@ -206,7 +205,7 @@ $userSearchWithGuid
 $userSearchWithName
 $userSearchWithSID
 $userCreatedNoDays
-$userDeletedNoDays
+$userModifiedNoDays
 $userDirectGroupMemShip
 $userInDirectGroupMemship
 $userNotloggedonDays
@@ -1657,7 +1656,7 @@ function getUsrWithEmployeeID {
     $EmployeeIDs = filterCSVInput -inputStr $EmployeeID
     foreach ($EmployeeID in $EmployeeIDs) {
         try {
-            $employee = Get-ADUser -Filter "EmployeeID -eq '$EmployeeID'" -ErrorAction Stop
+            $employee = Get-ADUser -Filter "EmployeeID -eq '$EmployeeID'" -Properties $usrProperties -ErrorAction Stop
             if ($employee) {
                 $employee
             }
@@ -1684,7 +1683,7 @@ function getUsrWithGUID {
     foreach ($guid in $guids) {
         
         try {
-            Get-ADUser -Filter "ObjectGUID -eq '$guid'" -ErrorAction Stop
+            Get-ADUser -Filter "ObjectGUID -eq '$guid'"  -Properties $usrProperties  -ErrorAction Stop
         }
         catch {
             LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1703,7 +1702,7 @@ function getUsrWithName {
     $Names = filterCSVInput -inputStr $name
     foreach ($name in $Names) {
         try {
-            Get-ADUser -Filter "Name -eq '$Name'" -ErrorAction Stop
+            Get-ADUser -Filter "Name -eq '$Name'"  -Properties $usrProperties  -ErrorAction Stop
         }
         catch {
             LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1722,7 +1721,7 @@ function getUsrWithSID {
 
     foreach ($sid in $sids) {
         try {
-            Get-ADUser -Filter "ObjectSID -eq '$sid'" -ErrorAction Stop 
+            Get-ADUser -Filter "ObjectSID -eq '$sid'"  -Properties $usrProperties  -ErrorAction Stop 
         }
         catch {
             LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1739,7 +1738,7 @@ function getUsrCreatedInXdays {
     )
     try {
         $date = (Get-Date -ErrorAction Stop).AddDays(- $days)
-        Get-ADUser -filter { whenCreated -ge $date } -properties "*" -ErrorAction Stop
+        Get-ADUser -filter { whenCreated -ge $date } -properties $usrProperties -ErrorAction Stop
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1754,7 +1753,7 @@ function getUsrModifiedInXdays {
 
     try {
         $date = (Get-Date).AddDays(- $days)
-        Get-ADUser -filter { Modified -ge $date } -properties "*" -ErrorAction Stop
+        Get-ADUser -filter { Modified -ge $date } -properties $usrProperties -ErrorAction Stop
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1772,7 +1771,7 @@ function getUsrDirectMembership {
         $adGroup = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue
         Get-ADGroupMember $adGroup | 
         Where-Object { $_.objectclass -eq 'user' } | 
-        ForEach-Object { Get-ADUser $_  -properties * }
+        ForEach-Object { Get-ADUser $_  -properties $usrProperties }
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1789,8 +1788,8 @@ function getUsrDirectInidrectMembership {
     try {
         $adGroup = Get-ADGroup -Filter { Name -eq $groupName } -ErrorAction SilentlyContinue
         Get-ADGroupMember $adGroup -Recursive | 
-        Where-Object { $_.objectclass -eq 'computer' } | 
-        ForEach-Object { Get-ADComputer $_ -properties $usrProperties }
+        Where-Object { $_.objectclass -eq 'user' } | 
+        ForEach-Object { Get-ADUser $_ -properties $usrProperties }
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1800,7 +1799,7 @@ function getUsrDirectInidrectMembership {
 function getUsrCantChangePwd {
     # ytd
     try {
-        Get-ADUser -filter { CannotChangePassword -ge $true } -properties $usrProperties -ErrorAction Stop
+        Get-ADUser -filter * -properties $usrProperties -ErrorAction Stop | Where-Object {$_.CannotChangePassword}
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1816,7 +1815,7 @@ function getUsrNotLoggedInXdays {
 
     try {
         $date = (Get-Date).AddDays(- $days)
-        Get-ADUser -filter { LastLogonDate -lt $date -or LastLogonDate -notlike '*' } -properties "*" -ErrorAction Stop
+        Get-ADUser -filter { LastLogonDate -lt $date -or LastLogonDate -notlike '*' } -properties $usrProperties -ErrorAction Stop
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1843,7 +1842,7 @@ function getUsrExpireInXdays {
 function getUsrLockedOutAcnts {
     
     try {
-        Get-ADUser -filter { LockedOut -eq $true } -properties "*" -ErrorAction Stop
+        Get-ADUser -filter { LockedOut -eq $true } -properties $usrProperties -ErrorAction Stop
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1852,7 +1851,7 @@ function getUsrLockedOutAcnts {
 function getUsrPwdNvrExpires {
     # ytd
     try {
-        Get-ADUser -filter { PasswordNeverExpires -eq $true } -properties "*" -ErrorAction Stop
+        Get-ADUser -filter { PasswordNeverExpires -eq $true } -properties $usrProperties -ErrorAction Stop
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -2257,77 +2256,77 @@ function Get-ADCustomUserReport {
                 
                 4 {
 
-                    $ResultObj = getUsrDisabled 
+                    $ResultObj = getUsrDisabled
                     break;
                 }
                 
                 5 {
 
-                    $ResultObj = getUsrWithEmployeeID 
+                    $ResultObj = getUsrWithEmployeeID -EmployeeID $userSearchWithEmployeeID -ErrorAction Stop
                     break;
                 }
                 
                 6 {
 
-                    $ResultObj = getUsrWithGUID 
+                    $ResultObj = getUsrWithGUID -guid $userSearchWithGuid -ErrorAction Stop
                     break;
                 }   
                 
                 7 {
 
-                    $ResultObj = getUsrWithName 
+                    $ResultObj = getUsrWithName -Name $userSearchWithName -ErrorAction Stop
                     break;
                 }
                 
                 8 {
 
-                    $ResultObj = getUsrWithSID 
+                    $ResultObj = getUsrWithSID -sid $userSearchWithSID -ErrorAction Stop
                     break;
                 }
                 
                 9 {
 
-                    $ResultObj = getUsrCreatedInXdays 
+                    $ResultObj = getUsrCreatedInXdays -days $userCreatedNoDays -ErrorAction Stop
                     break;
                 }
                 
                 10 {
 
-                    $ResultObj = getUsrModifiedInXdays    
+                    $ResultObj = getUsrModifiedInXdays -days $userModifiedNoDays -ErrorAction Stop  
                     break;
                 }
 
                 11 {
 
-                    $ResultObj = getUsrDirectMembership 
+                    $ResultObj = getUsrDirectMembership -GroupName $userDirectGroupMemShip -ErrorAction Stop
                     break;
                 }
                 
                 12 {
 
-                    $ResultObj = getUsrDirectInidrectMembership    
+                    $ResultObj = getUsrDirectInidrectMembership -GroupName $userInDirectGroupMemship -ErrorAction Stop
                     break;
                 }
                 13 {
 
-                    $ResultObj = getUsrCantChangePwd 
+                    $ResultObj = getUsrCantChangePwd
                     break;
                 }
                 
                 14 {
 
-                    $ResultObj = getUsrNotLoggedInXdays 
+                    $ResultObj = getUsrNotLoggedInXdays -days $userNotloggedonDays -ErrorAction Stop
                     break;
                 }
                 15 {
 
-                    $ResultObj = getUsrExpireInXdays 
+                    $ResultObj = getUsrExpireInXdays -days $userExpiryOnDays -ErrorAction Stop
                     break;
                 }
                 
                 16 {
 
-                    $ResultObj = getUsrLockedOutAcnts    
+                    $ResultObj = getUsrLockedOutAcnts
                     break;
                 }
                 17 {

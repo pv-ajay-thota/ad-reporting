@@ -876,7 +876,7 @@
                                 },
                                 {
                                     "required": [
-                                        "userDeletedNoDays"
+                                        "userModifiedNoDays"
                                     ],
                                     "properties": {
                                         "userOption": {
@@ -884,7 +884,7 @@
                                                 "10"
                                             ]
                                         },
-                                        "userDeletedNoDays": {
+                                        "userModifiedNoDays": {
                                             "type": "number",
                                             "minimum": 1,
                                             "title": "enter the number of days"
