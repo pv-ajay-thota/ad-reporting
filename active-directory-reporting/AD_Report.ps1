@@ -1842,7 +1842,7 @@ function getUsrExpireInXdays {
 function getUsrLockedOutAcnts {
     
     try {
-        Get-ADUser -filter { LockedOut -eq $true } -properties $usrProperties -ErrorAction Stop
+        Get-ADUser -filter * -properties $usrProperties -ErrorAction Stop | Where-Object { $_.LockedOut -eq $true }
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -1866,7 +1866,8 @@ function getUsrWithLogonScript {
         $ScriptName
     )
     try {
-        Get-ADUser -Filter { scriptpath -like "$ScriptName" -or scriptpath -like "*/$ScriptName" -or scriptpath -like "*\$ScriptName" } -properties $usrProperties -ErrorAction Stop
+        Get-ADUser -Filter { ScriptPath -like "*$ScriptName*" } -properties $usrProperties -ErrorAction Stop
+        # -or ScriptPath -like */$ScriptName -or ScriptPath -like *\$ScriptName
     }
     catch {
         LogMessage "[ERROR]:: User Report : Internal : $($_.Exception.Message)"
@@ -2343,7 +2344,7 @@ function Get-ADCustomUserReport {
 
                 19 {
 
-                    $ResultObj = getUsrWithLogonScript 
+                    $ResultObj = getUsrWithLogonScript -ScriptName $userSearchwithLogonScriptName -ErrorAction Stop
                     break;
 
                 }
